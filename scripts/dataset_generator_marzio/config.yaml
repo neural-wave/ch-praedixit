@@ -1,0 +1,33 @@
+# Data factory settings. Paths are relative to generation_folder/.
+patients_dir: ../hackathon-virtuoso-release/patients
+examples_md: ../hackathon-virtuoso-release/queries-example.md
+endpoint: http://localhost:8891/sparql   # the virtuoso-S container that s0_subset.py tells you to start
+query_timeout_s: 30
+
+# Local models served by Ollama (both fit together in 64 GB).
+ollama: http://localhost:11434
+teacher: {model: "qwen3.6:35b-a3b", think: false, temperature: 0.8}   # writes questions, twins, free-form, translations
+judge:   {model: "gpt-oss:20b", think: "low", temperature: 0.2}   # checks wordings, writes the independent query, T3
+embedder: nomic-embed-text                                        # near-duplicate removal
+workers: 4                                                        # parallel calls; start Ollama with OLLAMA_NUM_PARALLEL=4
+
+seed: 42
+subset_size: 2000
+min_patients: 20          # a class/code must occur in at least this many patients of S
+
+# Pilot sizes (DATA_FACTORY.md §10, layers 2-5). Full run: fills_per_recipe 300, freeform_calls 600, hard_per_category 170.
+fills_per_recipe: 12
+code_mix: {common: 0.60, rare: 0.35, absent: 0.05}
+wordings_per_base: 3
+twin_edits: {E1: 0.15, E2: 0.10, E3: 0.25, E4: 0.20, E5: 0.10, E6: 0.15}
+freeform_calls: 20        # each call asks for 5 question+query pairs
+hard_per_category: 10
+whole_graph_wordings: 40
+
+# Splits
+held_out_classes: [sphn:VariantDescriptor, sphn:AdverseEvent, sphn:Birth]   # test_t2
+t3_share: 0.08            # bases worded by the judge model instead, test_t3
+dev_share: 0.08
+dedup_cosine: 0.85
+review_random: 50
+review_flagged: 100

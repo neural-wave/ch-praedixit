@@ -1,0 +1,9 @@
+# question: As part of my ongoing epidemiological study on end-of-life care trends and patient autonomy in critical settings, I am looking to understand the prevalence of documented resuscitation preferences over time. I need a long-term view that shows, for each calendar year, how many unique individuals and clinical notes explicitly recorded a decision regarding CPR or life-sustaining treatment. Please focus on findings indicating whether resuscitation is desired or being assessed, using standard medical terminologies for these status findings.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT ?year (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:ResuscitationDirective ; sphn:hasCode ?r_c . { ?r_c rdf:type snomed:304252001 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type snomed:365870005 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } ?r sphn:hasRecordDateTime ?date . } BIND(YEAR(?date) AS ?year) } GROUP BY ?year ORDER BY ?year
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?year (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:ResuscitationDirective ; sphn:hasCode ?r_c . { ?r_c rdf:type snomed:304252001 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type snomed:365870005 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } ?r sphn:hasRecordDateTime ?date . } BIND(YEAR(?date) AS ?year) } GROUP BY ?year ORDER BY ?year

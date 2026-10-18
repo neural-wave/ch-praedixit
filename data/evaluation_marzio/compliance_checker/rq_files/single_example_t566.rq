@@ -1,0 +1,19 @@
+# question: What are the most frequent reasons for stopping drug administrations?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set T3 (worded by the other model)
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT ?stopReasonLabel (COUNT(DISTINCT ?g) AS ?eventCount) WHERE { GRAPH ?g { ?r a sphn:DrugAdministrationEvent . ?r sphn:hasReasonToStopCode ?c } GRAPH <https://biomedit.ch/rdf/sphn-resource/global> { ?c rdfs:label ?stopReasonLabel } } GROUP BY ?stopReasonLabel ORDER BY DESC(?eventCount) LIMIT 10
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?stopReasonLabel (COUNT(DISTINCT ?g) AS ?eventCount) WHERE {
+  GRAPH ?g {
+    ?r a sphn:DrugAdministrationEvent .
+    ?r sphn:hasReasonToStopCode ?c
+  }
+  GRAPH <https://biomedit.ch/rdf/sphn-resource/global> {
+    ?c rdfs:label ?stopReasonLabel
+  }
+}
+GROUP BY ?stopReasonLabel
+ORDER BY DESC(?eventCount)
+LIMIT 10

@@ -1,0 +1,15 @@
+# question: How many billed diagnoses are there, and when was each one recorded?
+# expected_compliant: false
+# expected_rules: not_aggregated
+# origin: bypass
+# notes: GROUP_CONCAT returns every row-level value in one string.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (COUNT(?diagnosis) AS ?billed_diagnoses)
+       (GROUP_CONCAT(STR(?recorded); separator=",") AS ?all_record_dates)
+WHERE {
+  GRAPH ?g {
+    ?diagnosis a sphn:BilledDiagnosis ;
+               sphn:hasRecordDateTime ?recorded .
+  }
+}

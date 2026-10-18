@@ -1,0 +1,15 @@
+# question: How many time series data files are there per file location?
+# expected_compliant: false
+# expected_rules: exposes_identifier, not_aggregated
+# origin: bypass
+# notes: sphn:hasUniformResourceIdentifier is an identifier property other than hasIdentifier.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?file_uri (COUNT(?file) AS ?files)
+WHERE {
+  GRAPH ?g {
+    ?file a sphn:TimeSeriesDataFile ;
+          sphn:hasUniformResourceIdentifier ?file_uri .
+  }
+}
+GROUP BY ?file_uri

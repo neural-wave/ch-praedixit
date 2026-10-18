@@ -1,0 +1,9 @@
+# question: We are conducting an audit on rare infectious disease coding accuracy. Could you generate a report that counts distinct patients and their records diagnosed with Cholera durch Vibrio cholerae O:1, Biovar cholerae (ICD-10-GM A00.0), aggregated by year? This context helps us verify if sub-codes are being captured correctly in our oncology-related infectious disease tracking.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT ?year (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:OncologyDiagnosis ; sphn:hasCode ?r_c . ?r_c isa icd-10-gm:A00.0 . ?r sphn:hasRecordDateTime ?date . } BIND(YEAR(?date) AS ?year) } GROUP BY ?year ORDER BY ?year
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?year (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:OncologyDiagnosis ; sphn:hasCode ?r_c . ?r_c rdf:type icd-10-gm:A00.0 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?r sphn:hasRecordDateTime ?date . } BIND(YEAR(?date) AS ?year) } GROUP BY ?year ORDER BY ?year

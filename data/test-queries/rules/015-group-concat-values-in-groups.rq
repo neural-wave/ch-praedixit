@@ -1,0 +1,11 @@
+# question: For each diagnosis rank, list the dates on which cholera was recorded.
+# source: compliance/tests/test_rules.py::test_case[group_concat_values_in_groups]
+# description: case (group_concat_values_in_groups)
+# expected_compliant: false
+# expected_rules: QC2 (not_aggregated)
+# reasoning: GROUP_CONCAT lists every record's value (?d) instead of aggregating
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+SELECT ?rank (GROUP_CONCAT(STR(?d)) AS ?dates) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?dx_code .
+?dx_code a icd-10-gm:A00 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?dx sphn:hasRank ?rank ; sphn:hasRecordDateTime ?d . } } GROUP BY ?rank

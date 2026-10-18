@@ -1,0 +1,9 @@
+# question: Is there at least one patient for C91?
+# expected_compliant: ambiguous
+# expected_rules: not_select
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> ASK { GRAPH ?g { ?r a sphn:ImagingProcedure ; sphn:hasCode ?r_c . { ?r_c rdf:type snomed:445863004 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type snomed:16431351000119104 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type snomed:138875005 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } ?s a sphn:AdministrativeSex ; sphn:hasCode ?sc . ?sc a ?sex_concept . } } | ASK: Query_Compliance.md allows only SELECT; API_specification.md lists ASK as read-only and valid.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+ASK { GRAPH ?g { ?r a sphn:ImagingProcedure ; sphn:hasCode ?r_c . { ?r_c rdf:type snomed:445863004 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type snomed:16431351000119104 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type snomed:138875005 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } ?s a sphn:AdministrativeSex ; sphn:hasCode ?sc . ?sc a ?sex_concept . } }

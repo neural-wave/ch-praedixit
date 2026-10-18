@@ -1,0 +1,7 @@
+# question: I am currently conducting a detailed audit of our respiratory monitoring logs to identify specific anomalies in patient vitals, and I need raw data rather than summary statistics. Could you please provide a complete list of every single Respiratory Rate entry recorded in the system? For each record, I specifically require the individual timestamp associated with the measurement, along with the exact value for that specific instance, so we can trace the chronological progression for each patient without any aggregation or averaging.
+# expected_compliant: false
+# expected_rules: not_aggregated
+# origin: train
+# notes: SELECT ?when WHERE { GRAPH ?g { ?r a sphn:RespiratoryRate . ?r sphn:hasDateTime ?when . } } ORDER BY ?when
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?when WHERE { GRAPH ?g { ?r a sphn:RespiratoryRate . ?r sphn:hasDateTime ?when . } } ORDER BY ?when

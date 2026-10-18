@@ -1,0 +1,10 @@
+# question: How many patients are there for each exact body mass index value, split by sex?
+# source: compliance/tests/test_rules.py::test_group_by_raw_fine_value_is_row_level[value_and_sex]
+# description: group by raw fine value is row level (value_and_sex)
+# expected_compliant: false
+# expected_rules: QC2 (not_aggregated)
+# reasoning: groups by the exact measurement value ?v: almost every group is one record, so the result is row-level data (group by a range instead, e.g. YEAR() or FLOOR())
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+SELECT ?v ?sex (COUNT(DISTINCT ?g) AS ?n) WHERE { GRAPH ?g { ?m a sphn:BodyMassIndex ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v . ?s a sphn:AdministrativeSex ; sphn:hasCode ?sc . ?sc a ?sex . } } GROUP BY ?v ?sex

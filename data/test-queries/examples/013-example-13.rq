@@ -1,0 +1,10 @@
+# question: How much data do we have in total, and across how many patients?
+# source: compliance/tests/test_rules.py::test_seed[example-13]
+# expected_compliant: false
+# expected_rules: QC3 (unrestricted_match)
+# reasoning: pattern not tied to any class or property restriction (?s ?p ?o)
+SELECT (COUNT(*) AS ?triples)
+       (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g { ?s ?p ?o }
+}

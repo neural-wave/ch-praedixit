@@ -1,0 +1,12 @@
+# question: How many statements are there about typed nodes?
+# expected_compliant: false
+# expected_rules: unrestricted_match
+# origin: bypass
+# notes: The type pattern restricts nothing: every node has a type.
+SELECT (COUNT(*) AS ?triples)
+WHERE {
+  GRAPH ?g {
+    ?s a ?type .
+    ?s ?p ?o .
+  }
+}

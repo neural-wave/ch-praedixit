@@ -1,0 +1,20 @@
+# question: How many patients had oncology surgery, radiotherapy, or either of the two?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (COUNT(DISTINCT ?surgery_patient) AS ?patients_with_surgery)
+       (COUNT(DISTINCT ?radiotherapy_patient) AS ?patients_with_radiotherapy)
+       (COUNT(DISTINCT ?g) AS ?patients_with_either)
+WHERE {
+  {
+    GRAPH ?g { ?surgery a sphn:OncologySurgery . }
+    BIND (?g AS ?surgery_patient)
+  }
+  UNION
+  {
+    GRAPH ?g { ?radiotherapy a sphn:RadiotherapyProcedure . }
+    BIND (?g AS ?radiotherapy_patient)
+  }
+}

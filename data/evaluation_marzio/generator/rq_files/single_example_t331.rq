@@ -1,0 +1,7 @@
+# question: Can you pull the full patient graphs for everyone with body height measurements, specifically looking at code C91? I need to see each indivual record rather than just the aggregate stats.
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: SELECT DISTINCT ?g WHERE { GRAPH ?g { ?r a sphn:BodyHeightMeasurement . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT DISTINCT ?g WHERE { GRAPH ?g { ?r a sphn:BodyHeightMeasurement . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } }

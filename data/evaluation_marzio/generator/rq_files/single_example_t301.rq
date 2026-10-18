@@ -1,0 +1,7 @@
+# question: count patients with c91 graft and list one name
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?patients) (SAMPLE(?g) AS ?example_patient) WHERE { GRAPH ?g { ?r a sphn:Transplant ; sphn:hasGraftTypeCode ?v_c . ?v_c a ?v . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) (SAMPLE(?g) AS ?example_patient) WHERE { GRAPH ?g { ?r a sphn:Transplant ; sphn:hasGraftTypeCode ?v_c . ?v_c a ?v . } }

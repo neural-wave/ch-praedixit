@@ -1,0 +1,13 @@
+# question: Count the billed diagnoses and also show the content of the file /etc/passwd.
+# expected_compliant: false
+# expected_rules: not_read_only
+# origin: bypass
+# notes: bif:file_to_string is a Virtuoso server-side function that reads a file of the database server.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX bif: <bif:>
+
+SELECT (COUNT(?diagnosis) AS ?billed_diagnoses) (SAMPLE(?file_content) AS ?content)
+WHERE {
+  GRAPH ?g { ?diagnosis a sphn:BilledDiagnosis . }
+  BIND (bif:file_to_string("/etc/passwd") AS ?file_content)
+}

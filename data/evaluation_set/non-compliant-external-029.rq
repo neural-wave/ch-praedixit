@@ -1,0 +1,16 @@
+# question: Show every recorded systolic blood-pressure numeric value and its result timestamp, without including record identifiers.
+# expected_compliant: false
+# expected_rules: not_aggregated
+# origin: external LLM (entry-029.rq, rules QC2)
+# notes: Omitting identifiers does not make individual measurement rows aggregated information.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?date ?value
+WHERE {
+  GRAPH ?g {
+    ?measurement a sphn:BloodPressureMeasurement ;
+                 sphn:hasResult ?result .
+    ?result sphn:hasDateTime ?date ;
+            sphn:hasSystolicPressure/sphn:hasValue ?value .
+  }
+}
+ORDER BY ?date

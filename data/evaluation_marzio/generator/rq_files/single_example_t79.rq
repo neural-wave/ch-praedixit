@@ -1,0 +1,9 @@
+# question: As an epidemiologist studying family-based genetic transmission patterns, I need to isolate a specific cohort of pediatric patients for our longitudinal study. Specifically, what is the total count of distinct individuals who are recorded as either a natural child or a female child in the system? However, we must exclude any records where the patient is simultaneously noted to be in a resting state or undergoing cardiac stress recovery, as these physiologic states indicate a level of acuity or observation that differs from our standard baseline pediatric population. We need this precise number to ensure our sample size accurately reflects the active, non-resting pediatric demographic involved in familial inheritance analysis.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:Performer ; sphn:hasCode ?a_c . { ?a_c isa snomed:75226009 } UNION { ?a_c isa snomed:431549007 } } FILTER NOT EXISTS { GRAPH ?g { ?b a sphn:PhysiologicState ; sphn:hasCode ?b_c . { ?b_c isa snomed:128975004 } UNION { ?b_c isa snomed:432554001 } } } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:Performer ; sphn:hasCode ?a_c . { ?a_c rdf:type snomed:75226009 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?a_c rdf:type snomed:431549007 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } } FILTER NOT EXISTS { GRAPH ?g { ?b a sphn:PhysiologicState ; sphn:hasCode ?b_c . { ?b_c rdf:type snomed:128975004 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?b_c rdf:type snomed:432554001 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } } } }

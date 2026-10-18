@@ -1,0 +1,9 @@
+# question: Distinct patients with SNOMED CT 87820001 and 33553000?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:Chromosome ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:87820001 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?b a sphn:CivilStatus ; sphn:hasCode ?b_c . ?b_c rdf:type snomed:33553000 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:Chromosome ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:87820001 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?b a sphn:CivilStatus ; sphn:hasCode ?b_c . ?b_c rdf:type snomed:33553000 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

@@ -1,0 +1,10 @@
+# question: I am conducting a demographic analysis of our genomic sequencing pipeline to assess sex-specific participation rates; specifically, I need the total count of distinct patients who have undergone library preparation associated with EFO codes 0700011 or 0011025, stratified by their recorded administrative sex.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT ?sex (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?r a sphn:LibraryPreparation ; sphn:hasCode ?r_c . { ?r_c isa efo:0700011 } UNION { ?r_c isa efo:0011025 } ?s a sphn:AdministrativeSex ; sphn:hasCode ?sc . ?sc a ?sex_concept . } VALUES (?sex_concept ?sex) { (snomed:248153007 "male") (snomed:248152002 "female") (snomed:32570681000036106 "indeterminate") } } GROUP BY ?sex ORDER BY DESC(?patients)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX efo: <http://www.ebi.ac.uk/efo/EFO_>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?sex (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?r a sphn:LibraryPreparation ; sphn:hasCode ?r_c . { ?r_c rdf:type efo:0700011 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type efo:0011025 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } ?s a sphn:AdministrativeSex ; sphn:hasCode ?sc . ?sc a ?sex_concept . } VALUES (?sex_concept ?sex) { (snomed:248153007 "male") (snomed:248152002 "female") (snomed:32570681000036106 "indeterminate") } } GROUP BY ?sex ORDER BY DESC(?patients)

@@ -1,0 +1,18 @@
+# question: How many billed diagnoses of each rank are there, and in how many patients?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set
+# notes: Schema 2026.1 form: the rank is a SNOMED CT code reached through sphn:hasRankCode. The mock data uses sphn:hasRank with named individuals (schema 2024.2), so this query returns no rows locally.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?rank (COUNT(?diagnosis) AS ?billed_diagnoses) (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?diagnosis a sphn:BilledDiagnosis ;
+               sphn:hasRankCode ?rank_code .
+    ?rank_code a ?rank .
+  }
+  FILTER (STRSTARTS(STR(?rank), "http://snomed.info/id/"))
+}
+GROUP BY ?rank
+ORDER BY DESC(?billed_diagnoses)

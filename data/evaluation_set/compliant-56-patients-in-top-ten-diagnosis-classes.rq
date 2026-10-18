@@ -1,0 +1,17 @@
+# question: How many patient-diagnosis pairs fall in the ten most frequent diagnosis classes?
+# expected_compliant: true
+# expected_rules: none
+# origin: bypass
+# notes: The subquery is aggregated before LIMIT: it picks groups, not records.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (SUM(?patients) AS ?total)
+WHERE {
+  {
+    SELECT ?class (COUNT(DISTINCT ?g) AS ?patients)
+    WHERE { GRAPH ?g { ?diagnosis a sphn:Diagnosis ; sphn:hasCode ?code . ?code a ?class . } }
+    GROUP BY ?class
+    ORDER BY DESC(?patients)
+    LIMIT 10
+  }
+}

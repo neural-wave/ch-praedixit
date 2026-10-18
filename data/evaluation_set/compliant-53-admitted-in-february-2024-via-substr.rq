@@ -1,0 +1,12 @@
+# question: How many patients were admitted in February 2024?
+# expected_compliant: true
+# expected_rules: none
+# origin: bypass
+# notes: SUBSTR to year and month: a month, not a full date.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g { ?case a sphn:AdministrativeCase ; sphn:hasAdmissionDateTime ?admission . }
+  FILTER (SUBSTR(STR(?admission), 1, 7) = "2024-02")
+}

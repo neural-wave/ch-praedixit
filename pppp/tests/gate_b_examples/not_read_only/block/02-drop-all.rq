@@ -1,0 +1,2 @@
+# why: a SPARQL update: it removes every graph
+DROP ALL

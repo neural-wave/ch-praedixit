@@ -1,0 +1,8 @@
+# question: What is the count of patients with Leukemia, code C91, and what are the mean, min, and max lab values in thousands?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/> SELECT (COUNT(DISTINCT ?g) AS ?patients) (ROUND(10 * AVG(?v)) / 10 AS ?avg) (MIN(?v) AS ?min) (MAX(?v) AS ?max) WHERE { GRAPH ?g { ?r a sphn:LabResult ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:10exp3 . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) (ROUND(10 * AVG(?v)) / 10 AS ?avg) (MIN(?v) AS ?min) (MAX(?v) AS ?max) WHERE { GRAPH ?g { ?r a sphn:LabResult ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:10exp3 . } }

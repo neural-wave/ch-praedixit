@@ -1,0 +1,14 @@
+# question: Which patient has had the most lab tests?
+# expected_compliant: false
+# expected_rules: exposes_identifier, not_aggregated
+# origin: test set
+# notes: LIMIT 1 over a per-patient grouping returns one patient.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?g (COUNT(?event) AS ?lab_test_events)
+WHERE {
+  GRAPH ?g { ?event a sphn:LabTestEvent . }
+}
+GROUP BY ?g
+ORDER BY DESC(?lab_test_events)
+LIMIT 1

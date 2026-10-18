@@ -1,0 +1,13 @@
+# question: How many patients have each BMI value, to three decimals?
+# expected_compliant: false
+# expected_rules: not_aggregated
+# origin: bypass
+# notes: ROUND of the value scaled by 1000 keeps three decimals: grouping by the exact value. ROUND, FLOOR and CEIL only count as buckets when they do not scale the value up first.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?bmi (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g { ?measurement a sphn:BodyMassIndex ; sphn:hasQuantity/sphn:hasValue ?value . }
+  BIND (ROUND(?value * 1000) AS ?bmi)
+}
+GROUP BY ?bmi

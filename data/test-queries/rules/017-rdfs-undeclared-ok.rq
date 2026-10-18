@@ -1,0 +1,9 @@
+# question: How many patients have type 2 diabetes or any of its subtypes?
+# source: compliance/tests/test_rules.py::test_case[rdfs_undeclared_ok]
+# description: case (rdfs_undeclared_ok)
+# expected_compliant: true
+# expected_rules: none
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+SELECT (COUNT(DISTINCT ?g) AS ?n) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?k . ?k a ?c } GRAPH <https://biomedit.ch/rdf/sphn-resource/global> { ?c rdfs:subClassOf* icd-10-gm:E11 } }

@@ -1,0 +1,14 @@
+# question: What is the total number of days between admission and discharge for administrative cases?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX bif: <bif:> SELECT (SUM(bif:datediff("day", ?start, ?end)) AS ?totalDays) WHERE { GRAPH ?g { ?adm a sphn:AdministrativeCase . ?adm sphn:hasAdmissionDateTime ?start . ?adm sphn:hasDischargeDateTime ?end } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX bif: <bif:>
+SELECT (SUM(bif:datediff("day", ?start, ?end)) AS ?totalDays) WHERE {
+  GRAPH ?g {
+    ?adm a sphn:AdministrativeCase .
+    ?adm sphn:hasAdmissionDateTime ?start .
+    ?adm sphn:hasDischargeDateTime ?end
+  }
+}

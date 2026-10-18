@@ -1,0 +1,12 @@
+# question: How many type 2 diabetes diagnoses does the patient whose ID ends in 0042 have?
+# source: compliance/tests/test_risk_probes.py::test_default_mode[regex_graph_id]
+# description: patient picked by regex
+# expected_compliant: false
+# expected_rules: QC1 (single_patient)
+# reasoning: REGEX on the patient graph or an identifier selects a specific patient (0042$)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX bif: <bif:>
+SELECT (COUNT(?dx) AS ?n) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?c . ?c a icd-10-gm:E11 . } FILTER(REGEX(STR(?g), "0042$")) }

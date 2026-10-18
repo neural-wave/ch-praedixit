@@ -1,0 +1,8 @@
+# question: Zählen Sie Leukozyten unter 3400, zwischen 3400 und 6600 sowie ab 6600 Zellen/µl
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (SUM(IF(?v < 3400.0, 1, 0)) AS ?low) (SUM(IF(?v >= 3400.0 && ?v < 6600.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 6600.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:QualityControlMetric ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:10exp6peruL . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT (SUM(IF(?v < 3400.0, 1, 0)) AS ?low) (SUM(IF(?v >= 3400.0 && ?v < 6600.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 6600.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:QualityControlMetric ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:10exp6peruL . } }

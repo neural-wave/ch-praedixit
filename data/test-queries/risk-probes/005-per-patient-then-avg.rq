@@ -1,0 +1,11 @@
+# question: On average, how many type 2 diabetes diagnoses does a patient with that diagnosis have?
+# source: compliance/tests/test_risk_probes.py::test_default_mode[per_patient_then_avg]
+# description: per-patient subquery, aggregated outside (like seed 1)
+# expected_compliant: true
+# expected_rules: none
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX bif: <bif:>
+SELECT (AVG(?k) AS ?avg_dx_per_patient) WHERE { { SELECT ?g (COUNT(?dx) AS ?k) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?c . ?c a icd-10-gm:E11 . } } GROUP BY ?g } }

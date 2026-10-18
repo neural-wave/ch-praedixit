@@ -1,0 +1,9 @@
+# question: I am currently conducting a longitudinal analysis of hematological malignancies to identify patterns in procedural coding over time. To validate our data lineage, I need to move beyond the aggregate statistics and see the granular details. Could you please provide a detailed list of every individual patient record that utilizes unclassified procedures? For each record, I specifically need the end date/time of the procedure so I can map them against discharge dates. This level of detail is crucial for my audit trail regarding code C91 usage.
+# expected_compliant: false
+# expected_rules: not_aggregated
+# origin: dev
+# notes: SELECT ?when WHERE { GRAPH ?g { ?r a sphn:BilledProcedure ; sphn:hasCode ?r_c . ?r_c isa chop:00 . ?r sphn:hasEndDateTime ?when . } } ORDER BY ?when
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX chop: <https://biomedit.ch/rdf/sphn-resource/chop/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?when WHERE { GRAPH ?g { ?r a sphn:BilledProcedure ; sphn:hasCode ?r_c . ?r_c rdf:type chop:00 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?r sphn:hasEndDateTime ?when . } } ORDER BY ?when

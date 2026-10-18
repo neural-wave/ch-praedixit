@@ -1,0 +1,9 @@
+# question: en tant que responsable des données je dois générer un rapport annuel sur l'incidence des cancers des organes génitaux masculins veuillez calculer le nombre moyen de patients distincts et d'enregistrements pour chaque année civile en filtrant uniquement les diagnostics classés selon la classification c60-c63 du codage icd-10-gm correspondant aux néoplasmes malins
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT ?year (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:OncologyDiagnosis ; sphn:hasCode ?r_c . ?r_c isa icd-10-gm:C60-C63 . ?r sphn:hasRecordDateTime ?date . } BIND(YEAR(?date) AS ?year) } GROUP BY ?year ORDER BY ?year
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?year (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:OncologyDiagnosis ; sphn:hasCode ?r_c . ?r_c rdf:type icd-10-gm:C60-C63 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?r sphn:hasRecordDateTime ?date . } BIND(YEAR(?date) AS ?year) } GROUP BY ?year ORDER BY ?year

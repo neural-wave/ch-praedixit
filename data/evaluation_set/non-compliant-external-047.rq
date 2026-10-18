@@ -1,0 +1,19 @@
+# question: Count patients with a consent record and write that count into a research-summary graph.
+# expected_compliant: false
+# expected_rules: not_read_only, not_select, not_aggregated
+# origin: external LLM (entry-047.rq, rules API-read-only, QC4, QC2)
+# notes: An aggregate subquery does not make an INSERT read-only or cause it to return aggregate information.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+INSERT {
+  GRAPH <http://example.org/research-summary> {
+    <http://example.org/research-summary/consent-cohort> sphn:hasValue ?patients .
+  }
+}
+WHERE {
+  {
+    SELECT (COUNT(DISTINCT ?g) AS ?patients)
+    WHERE {
+      GRAPH ?g { ?consent a sphn:Consent . }
+    }
+  }
+}

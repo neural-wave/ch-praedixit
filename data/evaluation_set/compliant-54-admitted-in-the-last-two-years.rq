@@ -1,0 +1,13 @@
+# question: How many patients were admitted in the two years before 2026?
+# expected_compliant: true
+# expected_rules: none
+# origin: bypass
+# notes: bif:datediff in years compared with a range: not a fixed day.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g { ?case a sphn:AdministrativeCase ; sphn:hasAdmissionDateTime ?admission . }
+  FILTER (bif:datediff("year", ?admission, "2026-01-01T00:00:00"^^xsd:dateTime) <= 2)
+}

@@ -1,0 +1,10 @@
+# question: To assess the overlap between specific post-operative positioning interventions and advanced genomic profiling techniques in our electronic health records, please calculate the number of unique individuals who satisfy both criteria: having a documented body position classified under Vertical float support (SNOMED CT 272591001) and undergoing at least one Hi-C assay (OBI 0002440). This metric will help us understand the integration of physical therapy modalities with precision medicine workflows.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:BodyPosition ; sphn:hasCode ?a_c . ?a_c isa snomed:272591001 . ?b a sphn:SequencingAssay ; sphn:hasCode ?b_c . ?b_c isa obi:0002440 . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX obi: <http://purl.obolibrary.org/obo/OBI_>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:BodyPosition ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:272591001 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?b a sphn:SequencingAssay ; sphn:hasCode ?b_c . ?b_c rdf:type obi:0002440 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

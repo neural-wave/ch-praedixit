@@ -1,0 +1,13 @@
+# question: Which properties are used on type 2 diabetes diagnoses, and in how many patients?
+# source: compliance/tests/test_adversarial.py::test_adversarial[decoy_optional_spo_joined]
+# description: OPTIONAL { ?dx ?p ?o } joined to an anchored record
+# expected_compliant: true
+# expected_rules: none
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX bif: <bif:>
+SELECT ?p (COUNT(DISTINCT ?g) AS ?n) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?c . ?c a icd-10-gm:E11 . OPTIONAL { ?dx ?p ?o } } } GROUP BY ?p

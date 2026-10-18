@@ -1,0 +1,9 @@
+# question: What % of SNOMED CT 410607006 cases include SNOMED CT 13808002?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?patients_b) (COUNT(DISTINCT ?ab) AS ?patients_a_and_b) (ROUND(1000.0 * COUNT(DISTINCT ?ab) / COUNT(DISTINCT ?g)) / 10 AS ?pct) WHERE { GRAPH ?g { ?b a sphn:Organism ; sphn:hasCode ?b_c . ?b_c isa snomed:410607006 . } OPTIONAL { GRAPH ?g { ?a a sphn:TumorStageAssessment ; sphn:hasCode ?a_c . ?a_c isa snomed:13808002 . } BIND(?g AS ?ab) } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients_b) (COUNT(DISTINCT ?ab) AS ?patients_a_and_b) (ROUND(1000.0 * COUNT(DISTINCT ?ab) / COUNT(DISTINCT ?g)) / 10 AS ?pct) WHERE { GRAPH ?g { ?b a sphn:Organism ; sphn:hasCode ?b_c . ?b_c rdf:type snomed:410607006 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } OPTIONAL { GRAPH ?g { ?a a sphn:TumorStageAssessment ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:13808002 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } BIND(?g AS ?ab) } }

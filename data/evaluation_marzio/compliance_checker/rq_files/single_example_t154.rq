@@ -1,0 +1,8 @@
+# question: as a medical student preparing for my respiratory physiology exam i need to understand the temporal variability of vital sign monitoring so please calculate the mean min and max duration in hours for all respiratory rate measurement records to help me benchmark expected clinical workflows
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX bif: <bif:> SELECT (COUNT(DISTINCT ?r) AS ?records) (COUNT(DISTINCT ?g) AS ?patients) (ROUND(AVG(?d)) AS ?avg_hours) (MIN(?d) AS ?min_hours) (MAX(?d) AS ?max_hours) WHERE { GRAPH ?g { ?r a sphn:RespiratoryRateMeasurement . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } FILTER(?end >= ?start) BIND(bif:datediff("hour", ?start, ?end) AS ?d) }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX bif: <bif:>
+SELECT (COUNT(DISTINCT ?r) AS ?records) (COUNT(DISTINCT ?g) AS ?patients) (ROUND(AVG(?d)) AS ?avg_hours) (MIN(?d) AS ?min_hours) (MAX(?d) AS ?max_hours) WHERE { GRAPH ?g { ?r a sphn:RespiratoryRateMeasurement . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } FILTER(?end >= ?start) BIND(bif:datediff("hour", ?start, ?end) AS ?d) }

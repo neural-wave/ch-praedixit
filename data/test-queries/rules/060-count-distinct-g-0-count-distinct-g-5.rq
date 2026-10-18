@@ -1,0 +1,10 @@
+# question: Which diagnosis codes are found in fewer than 5 patients?
+# source: compliance/tests/test_rules.py::test_having_small_cells_is_single_patient[(COUNT(DISTINCT ?g) > 0 && COUNT(DISTINCT ?g) < 5)]
+# description: having small cells is single patient ((COUNT(DISTINCT ?g) > 0 && COUNT(DISTINCT ?g) < 5))
+# expected_compliant: false
+# expected_rules: QC1 (single_patient)
+# reasoning: HAVING keeps only groups of at most 4 (small cells): each result row points at a handful of patients
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+SELECT ?cls (COUNT(DISTINCT ?g) AS ?n) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasRecordDateTime ?d ; sphn:hasCode ?c . ?c a ?cls . } } GROUP BY ?cls HAVING (COUNT(DISTINCT ?g) > 0 && COUNT(DISTINCT ?g) < 5)

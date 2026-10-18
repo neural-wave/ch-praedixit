@@ -1,0 +1,9 @@
+# question: I am investigating the epidemiological distribution of specific diagnoses within our inpatient population to better understand resource allocation and clinical prevalence. Could you please generate a report that lists the ten most frequently occurring ICD-10-GM codes associated with the primary diagnostic category 'Chronic ischaemic heart disease' (ICD-10-GM I25), including all relevant sub-codes? For each of these top ten codes, I require the total count of distinct patients diagnosed and the total number of billed diagnosis records associated with each code.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT ?code (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:BilledDiagnosis ; sphn:hasCode ?c . ?c isa icd-10-gm:I25 . ?c a ?concept . } FILTER(STRSTARTS(STR(?concept), STR(icd-10-gm:))) BIND(REPLACE(STR(?concept), "^.*/", "") AS ?code) } GROUP BY ?code ORDER BY DESC(?patients) LIMIT 10
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?code (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:BilledDiagnosis ; sphn:hasCode ?c . ?c rdf:type icd-10-gm:I25 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?c a ?concept . } FILTER(STRSTARTS(STR(?concept), STR(icd-10-gm:))) BIND(REPLACE(STR(?concept), "^.*/", "") AS ?code) } GROUP BY ?code ORDER BY DESC(?patients) LIMIT 10

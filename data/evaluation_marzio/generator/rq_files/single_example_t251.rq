@@ -1,0 +1,9 @@
+# question: I need to check how many times patient 4817 was called on the phone while they were in the hospital. Can you count just the records for this one person instead of all patients? I am looking at their specific follow-up calls.
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/mock_data-1_4817> { ?r a sphn:FollowUp ; sphn:hasCode ?r_c . ?r_c isa snomed:386473003 . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/mock_data-1_4817> { ?r a sphn:FollowUp ; sphn:hasCode ?r_c . ?r_c rdf:type snomed:386473003 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

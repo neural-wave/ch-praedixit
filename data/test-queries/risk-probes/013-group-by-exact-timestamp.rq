@@ -1,0 +1,12 @@
+# question: How many patients had a type 2 diabetes diagnosis recorded at each exact date and time?
+# source: compliance/tests/test_risk_probes.py::test_default_mode[group_by_exact_timestamp]
+# description: groups are ~1 patient: row-level by default (2026-10-17); a quasi-identifier in quasi mode
+# expected_compliant: false
+# expected_rules: QC2 (not_aggregated)
+# reasoning: groups by the exact date-time ?d: almost every group is one record, so the result is row-level data (group by a range instead, e.g. YEAR() or FLOOR())
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX bif: <bif:>
+SELECT ?d (COUNT(DISTINCT ?g) AS ?n) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?c . ?c a icd-10-gm:E11 . ?dx sphn:hasRecordDateTime ?d . } } GROUP BY ?d

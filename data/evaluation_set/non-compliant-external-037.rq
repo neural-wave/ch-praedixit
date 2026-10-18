@@ -1,0 +1,13 @@
+# question: What is the alphabetically smallest sequencing-assay identifier in the database?
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: external LLM (entry-037.rq, rules QC5)
+# notes: MIN is an aggregate function but its returned value is still a sequencing-assay identifier.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (MIN(?identifier) AS ?first_assay_identifier)
+WHERE {
+  GRAPH ?g {
+    ?assay a sphn:SequencingAssay ;
+           sphn:hasIdentifier ?identifier .
+  }
+}

@@ -1,0 +1,10 @@
+# question: How many patients were born in March 1975?
+# source: compliance/tests/test_rules.py::test_date_ranges_and_partial_dates_stay_compliant[year_and_month]
+# description: date ranges and partial dates stay compliant (year_and_month)
+# expected_compliant: true
+# expected_rules: none
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT (COUNT(DISTINCT ?g) AS ?n) WHERE { GRAPH ?g { ?b a sphn:BirthDate ; sphn:hasYear ?y ; sphn:hasMonth ?m } FILTER(?y = 1975 && ?m = 3) }

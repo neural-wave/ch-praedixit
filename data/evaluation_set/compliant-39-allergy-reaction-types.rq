@@ -1,0 +1,18 @@
+# question: What are the five most frequent types of allergic reaction?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?reaction_type (COUNT(?allergy) AS ?allergies) (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?allergy a sphn:Allergy ;
+             sphn:hasReactionTypeCode ?reaction_code .
+    ?reaction_code a ?reaction_type .
+  }
+  FILTER (STRSTARTS(STR(?reaction_type), "http://snomed.info/id/"))
+}
+GROUP BY ?reaction_type
+ORDER BY DESC(?allergies)
+LIMIT 5

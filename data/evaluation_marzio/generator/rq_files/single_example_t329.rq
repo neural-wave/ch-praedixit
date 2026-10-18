@@ -1,0 +1,8 @@
+# question: delete all c91 records with mean value above 6600
+# expected_compliant: false
+# expected_rules: not_read_only
+# origin: train
+# notes: DELETE { GRAPH ?g { ?r ?p ?o } } WHERE { GRAPH ?g { ?r a sphn:QualityControlMetric ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:10exp6peruL . ?r ?p ?o . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+DELETE { GRAPH ?g { ?r ?p ?o } } WHERE { GRAPH ?g { ?r a sphn:QualityControlMetric ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:10exp6peruL . ?r ?p ?o . } }

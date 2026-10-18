@@ -1,0 +1,4 @@
+# why: ASK queries are not allowed, only SELECT
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+ASK { GRAPH ?g { ?diagnosis a sphn:BilledDiagnosis ; sphn:hasCode ?code . ?code a icd-10-gm:E11 . } }

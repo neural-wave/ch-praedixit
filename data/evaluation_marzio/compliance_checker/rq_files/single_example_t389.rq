@@ -1,0 +1,6 @@
+# question: Pourriez-vous générer un dénombrement exhaustif de toutes les entités enregistrées dans la base de données, en regroupant chaque nœud par son type de données respectif, sans appliquer aucun filtre restrictif ?
+# expected_compliant: false
+# expected_rules: unrestricted_match
+# origin: train
+# notes: SELECT ?type (COUNT(DISTINCT ?s) AS ?n) WHERE { GRAPH ?g { ?s ?p ?o . OPTIONAL { ?s a ?type } } } GROUP BY ?type
+SELECT ?type (COUNT(DISTINCT ?s) AS ?n) WHERE { GRAPH ?g { ?s ?p ?o . OPTIONAL { ?s a ?type } } } GROUP BY ?type

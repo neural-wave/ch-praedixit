@@ -1,0 +1,9 @@
+# question: For patient ID 5873, can you tell me how many records match the criteria of having a relationship identified as 'Younger sister' (SNOMED CT 19686009) while ensuring that none of the sequencing assays performed were patch clamp assays (OBI 0002177), reporter gene assays for epitope-specific interleukin-2 production by T cells (OBI 0001402), or 24-hour urine protein assays (OBI 2100262)?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT (COUNT(DISTINCT ?a) AS ?records) WHERE { GRAPH <http://example.org/graph/mock_data-1_5873> { ?a a sphn:Performer ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:19686009 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?a) AS ?records) WHERE { GRAPH <http://example.org/graph/mock_data-1_5873> { ?a a sphn:Performer ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:19686009 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

@@ -1,0 +1,13 @@
+# question: How many patients are there in each age decade?
+# expected_compliant: true
+# expected_rules: none
+# origin: bypass
+# notes: FLOOR of the value divided by 10: a bucket.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?decade (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g { ?age a sphn:Age ; sphn:hasQuantity/sphn:hasValue ?years . }
+  BIND (FLOOR(?years / 10) * 10 AS ?decade)
+}
+GROUP BY ?decade

@@ -1,0 +1,8 @@
+# question: Please retrieve the specific record count for C91 diagnostic codes associated exclusively with patient ID 81046.
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/> SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/patient-81046> { ?r a sphn:QualityControlMetric ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:10exp3 . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/patient-81046> { ?r a sphn:QualityControlMetric ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:10exp3 . } }

@@ -1,0 +1,7 @@
+# question: Is there any patient with a genomic position recorded?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> SELECT (COUNT(DISTINCT ?g) AS ?count) WHERE { GRAPH ?g { ?r a sphn:GenomicPosition } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?g) AS ?count) WHERE { GRAPH ?g { ?r a sphn:GenomicPosition } }

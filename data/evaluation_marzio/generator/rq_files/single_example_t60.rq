@@ -1,0 +1,9 @@
+# question: Count the distinct patients who have at least one lab test coded with Ingredient qualitative strength (SNOMED CT 1149484003) and at least one laterality coded as SNOMED CT Concept (SNOMED CT 138875005), Unilateral (SNOMED CT 66459002), or Right (SNOMED CT 24028007).
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:LabTest ; sphn:hasCode ?a_c . ?a_c isa snomed:1149484003 . ?b a sphn:Laterality ; sphn:hasCode ?b_c . { ?b_c isa snomed:138875005 } UNION { ?b_c isa snomed:66459002 } UNION { ?b_c isa snomed:24028007 } } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:LabTest ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:1149484003 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?b a sphn:Laterality ; sphn:hasCode ?b_c . { ?b_c rdf:type snomed:138875005 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?b_c rdf:type snomed:66459002 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?b_c rdf:type snomed:24028007 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } } }

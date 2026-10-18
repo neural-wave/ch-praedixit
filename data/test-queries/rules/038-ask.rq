@@ -1,0 +1,11 @@
+# question: Is there any patient with a billed diagnosis of cholera?
+# source: compliance/tests/test_rules.py::test_case[ask]
+# description: case (ask)
+# expected_compliant: false
+# expected_rules: QC4 (not_select)
+# reasoning: ASK query
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+ASK { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?dx_code .
+?dx_code a icd-10-gm:A00 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

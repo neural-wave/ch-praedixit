@@ -1,0 +1,14 @@
+# question: List the patient identifiers for everyone with an oxygen-saturation measurement.
+# expected_compliant: false
+# expected_rules: exposes_identifier, not_aggregated
+# origin: external LLM (entry-035.rq, rules QC5, QC2)
+# notes: Returns patient identifiers as individual rows.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT DISTINCT ?patient_identifier
+WHERE {
+  GRAPH ?g {
+    ?measurement a sphn:OxygenSaturationMeasurement ;
+                 sphn:hasSubjectPseudoIdentifier ?subject .
+    ?subject sphn:hasIdentifier ?patient_identifier .
+  }
+}

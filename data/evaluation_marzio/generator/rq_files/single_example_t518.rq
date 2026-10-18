@@ -1,0 +1,7 @@
+# question: Count birth records and distinct patients per date comparator value.
+# expected_compliant: true
+# expected_rules: none
+# origin: test set T2 (held-out concept)
+# notes: SELECT ?value (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:BirthDate ; sphn:hasComparator ?v . } BIND(STRAFTER(STR(?v), "#") AS ?value) } GROUP BY ?value ORDER BY DESC(?records)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?value (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:BirthDate ; sphn:hasComparator ?v . } BIND(STRAFTER(STR(?v), "#") AS ?value) } GROUP BY ?value ORDER BY DESC(?records)

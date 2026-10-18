@@ -1,0 +1,7 @@
+# question: How many unique patients have a body height measurement recorded each year? Please provide the count of these patients along with the number of measurement records for every year.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> SELECT ?year (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:BodyHeightMeasurement . ?r sphn:hasStartDateTime ?date . } BIND(YEAR(?date) AS ?year) } GROUP BY ?year ORDER BY ?year
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?year (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:BodyHeightMeasurement . ?r sphn:hasStartDateTime ?date . } BIND(YEAR(?date) AS ?year) } GROUP BY ?year ORDER BY ?year

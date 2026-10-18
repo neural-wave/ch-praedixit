@@ -1,0 +1,13 @@
+# question: How many patients have both a resuscitation directive and a tobacco-exposure record?
+# expected_compliant: true
+# expected_rules: none
+# origin: external LLM (entry-013.rq, rules none)
+# notes: Joins records within each patient graph and exposes only the aggregate cohort size.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?directive a sphn:ResuscitationDirective .
+    ?exposure a sphn:TobaccoExposure .
+  }
+}

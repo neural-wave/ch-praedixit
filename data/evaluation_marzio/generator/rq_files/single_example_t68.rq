@@ -1,0 +1,9 @@
+# question: Count patients with nanosecond allergen and chromosomes 3 or 17.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:Allergen ; sphn:hasCode ?a_c . ?a_c isa snomed:258699004 . ?b a sphn:Chromosome ; sphn:hasCode ?b_c . { ?b_c isa snomed:113355002 } UNION { ?b_c isa snomed:45201007 } } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:Allergen ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:258699004 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?b a sphn:Chromosome ; sphn:hasCode ?b_c . { ?b_c rdf:type snomed:113355002 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?b_c rdf:type snomed:45201007 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } } }

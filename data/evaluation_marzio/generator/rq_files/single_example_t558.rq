@@ -1,0 +1,7 @@
+# question: I am preparing for an offline analysis of patient mobility patterns within our facility. Could you please export all the underlying access device presence records, including every associated clinical attribute and timestamp, as a complete RDF graph? I need the raw data dump to perform detailed network analysis on my local workstation.
+# expected_compliant: false
+# expected_rules: not_select
+# origin: test set T3 (worded by the other model)
+# notes: CONSTRUCT { ?r ?p ?o } WHERE { GRAPH ?g { ?r a sphn:AccessDevicePresence . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . ?r ?p ?o . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+CONSTRUCT { ?r ?p ?o } WHERE { GRAPH ?g { ?r a sphn:AccessDevicePresence . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . ?r ?p ?o . } }

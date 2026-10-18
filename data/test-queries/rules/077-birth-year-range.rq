@@ -1,0 +1,9 @@
+# question: How many men of nationality 223369002, born in the 1970s, have type 2 diabetes?
+# source: compliance/tests/test_rules.py::test_fewer_or_unfixed_quasi_identifiers_stay_compliant[birth_year_range]
+# description: fewer or unfixed quasi identifiers stay compliant (birth_year_range)
+# expected_compliant: true
+# expected_rules: none
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+SELECT (COUNT(DISTINCT ?g) AS ?n) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?c . ?c a <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/E11> . ?s a sphn:AdministrativeSex ; sphn:hasCode ?sc . ?sc a <http://snomed.info/id/248153007> . ?n a sphn:Nationality ; sphn:hasAssociatedCountry/sphn:hasCode ?nc . ?nc a <http://snomed.info/id/223369002> . ?b a sphn:BirthDate ; sphn:hasYear ?y . } FILTER(?y >= 1970 && ?y < 1980) }

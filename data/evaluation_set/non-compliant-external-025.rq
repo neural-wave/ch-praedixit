@@ -1,0 +1,12 @@
+# question: For the patient in graph gen_mock_data-1_1001921, how many tumour specimens are recorded?
+# expected_compliant: false
+# expected_rules: single_patient, not_aggregated
+# origin: external LLM (entry-025.rq, rules QC1, QC2)
+# notes: An aggregate restricted to one explicitly identified patient still violates the patient-targeting and population-aggregation rules.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?specimen) AS ?tumour_specimens)
+WHERE {
+  GRAPH <http://example.org/graph/gen_mock_data-1_1001921> {
+    ?specimen a sphn:TumorSpecimen .
+  }
+}

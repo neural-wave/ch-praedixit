@@ -1,0 +1,3 @@
+# why: counting the rare groups still selects them
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(*) AS ?rare_classes) WHERE { { SELECT ?class WHERE { GRAPH ?g { ?diagnosis a sphn:BilledDiagnosis ; sphn:hasCode ?code . ?code a ?class . } } GROUP BY ?class HAVING (COUNT(DISTINCT ?g) = 1) } }

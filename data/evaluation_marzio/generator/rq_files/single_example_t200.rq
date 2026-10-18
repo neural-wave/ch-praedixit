@@ -1,0 +1,9 @@
+# question: I am auditing our clinical documentation practices to ensure compliance with current resuscitation status coding standards. Could you please generate a yearly breakdown that counts the number of distinct patients and individual records associated with specific SNOMED CT codes for resuscitation directives? Specifically, I need data linked to 'For resuscitation (finding)' (SNOMED CT 304252001) or 'Finding of resuscitation status (finding)' (SNOMED CT 365870005), including any sub-codes, aggregated by the year of the record date.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT ?year (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:ResuscitationDirective ; sphn:hasCode ?r_c . { ?r_c isa snomed:304252001 } UNION { ?r_c isa snomed:365870005 } ?r sphn:hasRecordDateTime ?date . } BIND(YEAR(?date) AS ?year) } GROUP BY ?year ORDER BY ?year
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?year (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:ResuscitationDirective ; sphn:hasCode ?r_c . { ?r_c rdf:type snomed:304252001 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type snomed:365870005 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } ?r sphn:hasRecordDateTime ?date . } BIND(YEAR(?date) AS ?year) } GROUP BY ?year ORDER BY ?year

@@ -1,0 +1,9 @@
+# question: Calculate the count of unique patient entities who possess at least one instance of an imaging procedure coded as Therapeutic barium enema (SNOMED CT 240959006) and simultaneously have at least one record in a healthcare primary information system coded as Radiation therapy treatment record/verify system (SNOMED CT 462645004).
+# expected_compliant: true
+# expected_rules: none
+# origin: dev
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:ImagingProcedure ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:240959006 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?b a sphn:HealthcarePrimaryInformationSystem ; sphn:hasCode ?b_c . ?b_c rdf:type snomed:462645004 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:ImagingProcedure ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:240959006 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?b a sphn:HealthcarePrimaryInformationSystem ; sphn:hasCode ?b_c . ?b_c rdf:type snomed:462645004 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

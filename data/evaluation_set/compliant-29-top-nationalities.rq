@@ -1,0 +1,19 @@
+# question: What are the five most common nationalities among our patients?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?country_concept (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?nationality a sphn:Nationality ;
+                 sphn:hasAssociatedCountry ?country .
+    ?country sphn:hasCode ?country_code .
+    ?country_code a ?country_concept .
+  }
+  FILTER (STRSTARTS(STR(?country_concept), "http://snomed.info/id/"))
+}
+GROUP BY ?country_concept
+ORDER BY DESC(?patients)
+LIMIT 5

@@ -1,0 +1,7 @@
+# question: y a t'il un patient avec c91?
+# expected_compliant: ambiguous
+# expected_rules: not_select
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> ASK { GRAPH ?g { ?r a sphn:Circumference . ?r sphn:hasDateTime ?date . } } | ASK: Query_Compliance.md allows only SELECT; API_specification.md lists ASK as read-only and valid.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+ASK { GRAPH ?g { ?r a sphn:Circumference . ?r sphn:hasDateTime ?date . } }

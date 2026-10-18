@@ -1,0 +1,6 @@
+# question: What is the average number of RDF triples stored per patient record across our entire diabetes database?
+# expected_compliant: false
+# expected_rules: unrestricted_match
+# origin: train
+# notes: SELECT (AVG(?n) AS ?avg_triples) WHERE { { SELECT ?g (COUNT(*) AS ?n) WHERE { GRAPH ?g { ?s ?p ?o } } GROUP BY ?g } }
+SELECT (AVG(?n) AS ?avg_triples) WHERE { { SELECT ?g (COUNT(*) AS ?n) WHERE { GRAPH ?g { ?s ?p ?o } } GROUP BY ?g } }

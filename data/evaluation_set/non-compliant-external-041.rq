@@ -1,0 +1,10 @@
+# question: Return one field containing all patient graph addresses for patients with a birth record.
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: external LLM (entry-041.rq, rules QC5)
+# notes: Aggregating patient graph addresses into one string still exposes patient identifiers.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (GROUP_CONCAT(DISTINCT STR(?g); separator=" | ") AS ?patient_graphs)
+WHERE {
+  GRAPH ?g { ?birth a sphn:Birth . }
+}

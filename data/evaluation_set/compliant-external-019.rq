@@ -1,0 +1,22 @@
+# question: Across hospital cases with discharge no earlier than admission, what is the average stay length in whole hours?
+# expected_compliant: true
+# expected_rules: none
+# origin: external LLM (entry-019.rq, rules none)
+# notes: Virtuoso's date-difference function produces an aggregate duration without disclosing individual stays.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX bif: <bif:>
+SELECT (AVG(?hours) AS ?mean_stay_hours)
+WHERE {
+  {
+    SELECT DISTINCT ?g ?case ?admission ?discharge
+    WHERE {
+      GRAPH ?g {
+        ?case a sphn:AdministrativeCase ;
+              sphn:hasAdmissionDateTime ?admission ;
+              sphn:hasDischargeDateTime ?discharge .
+      }
+      FILTER(?discharge >= ?admission)
+    }
+  }
+  BIND(bif:datediff("hour", ?admission, ?discharge) AS ?hours)
+}

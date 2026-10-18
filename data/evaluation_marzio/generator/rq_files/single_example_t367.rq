@@ -1,0 +1,7 @@
+# question: Can you give me the list of all patient IDs who have had more than 5 healthcare encounters?
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: SELECT DISTINCT ?id WHERE { GRAPH ?g { ?r a sphn:HealthcareEncounter . ?r sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier ?id . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT DISTINCT ?id WHERE { GRAPH ?g { ?r a sphn:HealthcareEncounter . ?r sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier ?id . } }

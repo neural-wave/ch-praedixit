@@ -1,0 +1,17 @@
+# question: Count the billed diagnoses of every patient, labelled by their pseudo identifier as text.
+# expected_compliant: false
+# expected_rules: exposes_identifier, not_aggregated
+# origin: bypass
+# notes: The identifier is copied with BIND and STR before grouping.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?who (COUNT(?diagnosis) AS ?billed_diagnoses)
+WHERE {
+  GRAPH ?g {
+    ?diagnosis a sphn:BilledDiagnosis ;
+               sphn:hasSubjectPseudoIdentifier ?subject .
+    ?subject sphn:hasIdentifier ?pseudo_id .
+  }
+  BIND (STR(?pseudo_id) AS ?who)
+}
+GROUP BY ?who

@@ -1,0 +1,17 @@
+# question: How many patients have at least one sequencing run with no linked quality-control metric?
+# expected_compliant: true
+# expected_rules: none
+# origin: external LLM (entry-010.rq, rules none)
+# notes: The missing-metric test applies internally and the result contains only a patient count.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?assay a sphn:SequencingAssay ;
+           sphn:hasSequencingRun ?run .
+    ?run a sphn:SequencingRun .
+  }
+  FILTER NOT EXISTS {
+    GRAPH ?g { ?run sphn:hasQualityControlMetric ?metric . }
+  }
+}

@@ -1,0 +1,7 @@
+# question: Wie viele verschiedene Patienten und Aufzeichnungen mit mindestens einem Blutdruckmesswert gibt es pro Jahr des Startdatums?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT ?year (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:BloodPressureMeasurement . ?r sphn:hasStartDateTime ?date . } BIND(YEAR(?date) AS ?year) } GROUP BY ?year ORDER BY ?year
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?year (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:BloodPressureMeasurement . ?r sphn:hasStartDateTime ?date . } BIND(YEAR(?date) AS ?year) } GROUP BY ?year ORDER BY ?year

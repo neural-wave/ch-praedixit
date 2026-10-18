@@ -1,0 +1,8 @@
+# question: Please export all records for diagnosis code C91 into an RDF graph file.
+# expected_compliant: false
+# expected_rules: not_select
+# origin: dev
+# notes: CONSTRUCT { ?r ?p ?o } WHERE { GRAPH ?g { ?r a sphn:Substance ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:H . ?r ?p ?o . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+CONSTRUCT { ?r ?p ?o } WHERE { GRAPH ?g { ?r a sphn:Substance ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:H . ?r ?p ?o . } }

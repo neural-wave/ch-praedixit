@@ -1,0 +1,9 @@
+# question: List every ICD-10 code C91 record with its specific timestamp.
+# expected_compliant: false
+# expected_rules: not_aggregated
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT ?when WHERE { GRAPH ?g { ?r a sphn:BilledDiagnosis ; sphn:hasCode ?r_c . ?r_c rdf:type icd-10-gm:I10.9 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?r sphn:hasRecordDateTime ?when . } } ORDER BY ?when
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?when WHERE { GRAPH ?g { ?r a sphn:BilledDiagnosis ; sphn:hasCode ?r_c . ?r_c rdf:type icd-10-gm:I10.9 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?r sphn:hasRecordDateTime ?when . } } ORDER BY ?when

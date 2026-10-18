@@ -1,0 +1,9 @@
+# question: Does patient 0042 have cancer?
+# expected_compliant: false
+# expected_rules: not_select, single_patient
+# origin: bypass
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+ASK {
+  GRAPH <http://example.org/graph/mock_data-1_0042> { ?diagnosis a sphn:OncologyDiagnosis . }
+}

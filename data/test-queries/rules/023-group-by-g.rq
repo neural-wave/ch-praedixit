@@ -1,0 +1,11 @@
+# question: For each patient, how many cholera diagnoses do they have, with their patient ID?
+# source: compliance/tests/test_rules.py::test_case[group_by_g]
+# description: case (group_by_g)
+# expected_compliant: false
+# expected_rules: QC5 (exposes_identifier)
+# reasoning: groups by identifier ?g
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+SELECT ?g (COUNT(?dx) AS ?n) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?dx_code .
+?dx_code a icd-10-gm:A00 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } } GROUP BY ?g

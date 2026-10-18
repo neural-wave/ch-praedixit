@@ -1,0 +1,11 @@
+# question: Give me one patient who has a billed diagnosis of cholera.
+# source: compliance/tests/test_rules.py::test_case[sample_str_g]
+# description: case (sample_str_g)
+# expected_compliant: false
+# expected_rules: QC5 (exposes_identifier)
+# reasoning: SAMPLE over identifier ?pid
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+SELECT (SAMPLE(?pid) AS ?one) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?dx_code .
+?dx_code a icd-10-gm:A00 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } BIND(STR(?g) AS ?pid) }

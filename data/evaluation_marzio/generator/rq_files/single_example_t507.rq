@@ -1,0 +1,31 @@
+# question: When an adverse event is serious, how often does it end in death, and how often do people make a full recovery?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set T1 (official example)
+# notes: SELECT ?seriousness (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?fatal_patient) AS ?patients_fatal_outcome) (COUNT(DISTINCT ?recovered_patient) AS ?patients_fully_recovered) (ROUND(1000.0 * COUNT(DISTINCT ?fatal_patient) / COUNT(DISTINCT ?g)) / 10 AS ?fatal_pct) (ROUND(1000.0 * COUNT(DISTINCT ?recovered_patient) / COUNT(DISTINCT ?g)) / 10 AS ?recovered_pct) WHERE { GRAPH ?g { ?event a sphn:AdverseEvent ; sphn:hasConsequences ?consequence ; sphn:hasOutcome ?outcome . } BIND (STRAFTER(STR(?consequence), "#") AS ?seriousness) OPTIONAL { GRAPH ?g { ?event sphn:hasOutcome sphn-individual:Fatal . } BIND (?g AS ?fatal_patient) } OPTIONAL { GRAPH ?g { ?event sphn:hasOutcome sphn-individual:Recovered . } BIND (?g AS ?recovered_patient) } } GROUP BY ?seriousness ORDER BY DESC(?fatal_pct)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>
+SELECT ?seriousness
+       (COUNT(DISTINCT ?g) AS ?patients)
+       (COUNT(DISTINCT ?fatal_patient) AS ?patients_fatal_outcome)
+       (COUNT(DISTINCT ?recovered_patient) AS ?patients_fully_recovered)
+       (ROUND(1000.0 * COUNT(DISTINCT ?fatal_patient) / COUNT(DISTINCT ?g)) / 10 AS ?fatal_pct)
+       (ROUND(1000.0 * COUNT(DISTINCT ?recovered_patient) / COUNT(DISTINCT ?g)) / 10 AS ?recovered_pct)
+WHERE {
+  GRAPH ?g {
+    ?event a sphn:AdverseEvent ;
+           sphn:hasConsequences ?consequence ;
+           sphn:hasOutcome ?outcome .
+  }
+  BIND (STRAFTER(STR(?consequence), "#") AS ?seriousness)
+  OPTIONAL {
+    GRAPH ?g { ?event sphn:hasOutcome sphn-individual:Fatal . }
+    BIND (?g AS ?fatal_patient)
+  }
+  OPTIONAL {
+    GRAPH ?g { ?event sphn:hasOutcome sphn-individual:Recovered . }
+    BIND (?g AS ?recovered_patient)
+  }
+}
+GROUP BY ?seriousness
+ORDER BY DESC(?fatal_pct)

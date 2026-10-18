@@ -1,0 +1,7 @@
+# question: Pourriez-vous me fournir la liste complète de chaque enregistrement correspondant aux spécimens tumoraux, en indiquant pour chacun la date et l'heure de collecte ainsi que la valeur de v, au lieu de vous donner un simple résumé ou un comptage ?
+# expected_compliant: false
+# expected_rules: not_aggregated
+# origin: train
+# notes: SELECT ?when ?v WHERE { GRAPH ?g { ?r a sphn:TumorSpecimen ; sphn:hasPrimaryContainer ?v . ?r sphn:hasCollectionDateTime ?when . } } ORDER BY ?when
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?when ?v WHERE { GRAPH ?g { ?r a sphn:TumorSpecimen ; sphn:hasPrimaryContainer ?v . ?r sphn:hasCollectionDateTime ?when . } } ORDER BY ?when

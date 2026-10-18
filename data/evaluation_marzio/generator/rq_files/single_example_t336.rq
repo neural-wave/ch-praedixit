@@ -1,0 +1,7 @@
+# question: Does patient C91 have blood pressure records?
+# expected_compliant: ambiguous
+# expected_rules: not_select
+# origin: train
+# notes: ASK { GRAPH ?g { ?r a sphn:BloodPressureMeasurement . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } } | ASK: Query_Compliance.md allows only SELECT; API_specification.md lists ASK as read-only and valid.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+ASK { GRAPH ?g { ?r a sphn:BloodPressureMeasurement . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } }

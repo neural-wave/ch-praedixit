@@ -1,0 +1,7 @@
+# question: Zählen Sie Records für Patient 2462 mit C91.
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: dev
+# notes: SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/mock_data-1_2462> { ?r a sphn:Laterality ; sphn:hasCode ?v_c . ?v_c a ?v . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/mock_data-1_2462> { ?r a sphn:Laterality ; sphn:hasCode ?v_c . ?v_c a ?v . } }

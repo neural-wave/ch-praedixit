@@ -1,0 +1,19 @@
+# question: How many billed diagnoses do patients born on 14 March 1987 have?
+# expected_compliant: ambiguous
+# expected_rules: single_patient
+# origin: bypass
+# notes: An exact birth date is a quasi-identifier: it usually selects one patient, but the query cannot tell. Not decidable from the syntax.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT (COUNT(?diagnosis) AS ?billed_diagnoses)
+WHERE {
+  GRAPH ?g {
+    ?birth_date a sphn:BirthDate ;
+                sphn:hasYear ?year ;
+                sphn:hasMonth ?month ;
+                sphn:hasDay ?day .
+    ?diagnosis a sphn:BilledDiagnosis .
+  }
+  FILTER (?year = "1987"^^xsd:gYear && ?month = "--03"^^xsd:gMonth && ?day = "---14"^^xsd:gDay)
+}

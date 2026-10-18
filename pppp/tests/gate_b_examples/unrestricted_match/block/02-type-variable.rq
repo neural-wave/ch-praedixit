@@ -1,0 +1,2 @@
+# why: ?s a ?c matches every typed node
+SELECT ?class (COUNT(*) AS ?nodes) WHERE { GRAPH ?g { ?s a ?class } } GROUP BY ?class

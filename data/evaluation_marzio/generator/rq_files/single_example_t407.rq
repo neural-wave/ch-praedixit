@@ -1,0 +1,14 @@
+# question: Count of Lab Test Events grouped by the type of lab test performed (represented by the class URI), for patients having at least one such test.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT ?labTestType (COUNT(?r) AS ?eventCount) WHERE { GRAPH ?g { ?r a sphn:LabTestEvent ; sphn:hasLabTest ?labTestType . } } GROUP BY ?labTestType
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?labTestType (COUNT(?r) AS ?eventCount)
+WHERE {
+  GRAPH ?g {
+    ?r a sphn:LabTestEvent ;
+       sphn:hasLabTest ?labTestType .
+  }
+}
+GROUP BY ?labTestType

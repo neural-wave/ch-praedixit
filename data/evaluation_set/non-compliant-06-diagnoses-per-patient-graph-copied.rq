@@ -1,0 +1,13 @@
+# question: For each patient, how many billed diagnoses do they have?
+# expected_compliant: false
+# expected_rules: exposes_identifier, not_aggregated
+# origin: bypass
+# notes: The patient graph IRI is copied into another variable with BIND before grouping.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?patient (COUNT(?diagnosis) AS ?billed_diagnoses)
+WHERE {
+  GRAPH ?g { ?diagnosis a sphn:BilledDiagnosis . }
+  BIND (?g AS ?patient)
+}
+GROUP BY ?patient

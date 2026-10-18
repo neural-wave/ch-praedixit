@@ -1,0 +1,21 @@
+# question: Which ten diagnoses are most frequent, by ICD-10-GM code?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set
+# notes: Groups by sphn:hasIdentifier of a sphn:Code node, which here holds an ICD-10-GM code shared by many patients. A checker that treats every hasIdentifier as a patient identifier rejects it wrongly.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?icd_code (SAMPLE(?code_name) AS ?name) (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?diagnosis a sphn:Diagnosis ;
+               sphn:hasCode ?code .
+    ?code sphn:hasCodingSystemAndVersion ?coding_system ;
+          sphn:hasIdentifier ?icd_code ;
+          sphn:hasName ?code_name .
+  }
+  FILTER (STRSTARTS(?coding_system, "ICD-10-GM"))
+}
+GROUP BY ?icd_code
+ORDER BY DESC(?patients)
+LIMIT 10

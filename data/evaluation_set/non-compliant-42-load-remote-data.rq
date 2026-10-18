@@ -1,0 +1,5 @@
+# question: Load the extra data from http://example.com/data.ttl into the database.
+# expected_compliant: false
+# expected_rules: not_read_only
+# origin: test set
+LOAD <http://example.com/data.ttl> INTO GRAPH <http://example.org/graph/extra>

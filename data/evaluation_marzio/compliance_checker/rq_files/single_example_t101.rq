@@ -1,0 +1,7 @@
+# question: Count records and distinct patients grouped by diagnosis ranking.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> SELECT ?value (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:BilledDiagnosis ; sphn:hasRank ?v . } BIND(STRAFTER(STR(?v), "#") AS ?value) } GROUP BY ?value ORDER BY DESC(?records)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?value (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:BilledDiagnosis ; sphn:hasRank ?v . } BIND(STRAFTER(STR(?v), "#") AS ?value) } GROUP BY ?value ORDER BY DESC(?records)

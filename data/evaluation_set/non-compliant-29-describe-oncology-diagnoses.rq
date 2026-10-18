@@ -1,0 +1,10 @@
+# question: Describe all the cancer diagnoses.
+# expected_compliant: false
+# expected_rules: not_select, exposes_identifier
+# origin: bypass
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+DESCRIBE ?diagnosis
+WHERE {
+  GRAPH ?g { ?diagnosis a sphn:OncologyDiagnosis . }
+}

@@ -1,0 +1,9 @@
+# question: can you get me the count of records for patient 1011927 specifically where they have essential hypertension or high blood pressure listed on their bill and if it was the main reason for admission please use graph gen_mock_data-1_1011927 to find this
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/gen_mock_data-1_1011927> { ?r a sphn:BilledDiagnosis ; sphn:hasCode ?r_c . { ?r_c isa icd-10-gm:I10.9 } UNION { ?r_c isa icd-10-gm:I10-I15 } UNION { ?r_c isa icd-10-gm:E66.99 } } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/gen_mock_data-1_1011927> { ?r a sphn:BilledDiagnosis ; sphn:hasCode ?r_c . { ?r_c rdf:type icd-10-gm:I10.9 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type icd-10-gm:I10-I15 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type icd-10-gm:E66.99 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } } }

@@ -1,0 +1,13 @@
+# Settings of the request pipeline (pppp/src/pipeline.py).
+# Relative paths are resolved from the repository root.
+
+gate_a:
+  # Directory of the trained Gate A intent classifier.
+  model_directory: models/gate_a/ModernBERT-base
+
+generator:
+  # Configuration of the NL-to-SPARQL generator: model, model server, resources.
+  config: nl2sparql-generator/runtime/config.json
+
+# Translations retried after the first one (see pppp/src/checker/verdict.py).
+max_retries: 1

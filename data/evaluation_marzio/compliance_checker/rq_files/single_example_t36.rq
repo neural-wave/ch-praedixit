@@ -1,0 +1,9 @@
+# question: What is the distribution of patient counts for Loopogram of the colon, hepatic venography with hemodynamic evaluation, or general SNOMED RT+CTV3 imaging procedures, stratified by administrative sex?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT ?sex (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?r a sphn:ImagingProcedure ; sphn:hasCode ?r_c . { ?r_c rdf:type snomed:445863004 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type snomed:16431351000119104 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type snomed:138875005 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } ?s a sphn:AdministrativeSex ; sphn:hasCode ?sc . ?sc a ?sex_concept . } VALUES (?sex_concept ?sex) { (snomed:248153007 "male") (snomed:248152002 "female") (snomed:32570681000036106 "indeterminate") } } GROUP BY ?sex ORDER BY DESC(?patients)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?sex (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?r a sphn:ImagingProcedure ; sphn:hasCode ?r_c . { ?r_c rdf:type snomed:445863004 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type snomed:16431351000119104 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type snomed:138875005 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } ?s a sphn:AdministrativeSex ; sphn:hasCode ?sc . ?sc a ?sex_concept . } VALUES (?sex_concept ?sex) { (snomed:248153007 "male") (snomed:248152002 "female") (snomed:32570681000036106 "indeterminate") } } GROUP BY ?sex ORDER BY DESC(?patients)

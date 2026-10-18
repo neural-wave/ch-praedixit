@@ -1,0 +1,24 @@
+# question: Among patients with systolic blood-pressure results in mmHg, what is the average of each patient's highest stored systolic numeric value?
+# expected_compliant: true
+# expected_rules: none
+# origin: external LLM (entry-021.rq, rules none)
+# notes: Patient-specific maxima remain in a subquery and only their population average is exposed.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT (AVG(?peak) AS ?mean_patient_peak_systolic)
+WHERE {
+  {
+    SELECT ?g (MAX(?value) AS ?peak)
+    WHERE {
+      GRAPH ?g {
+        ?measurement a sphn:BloodPressureMeasurement ;
+                     sphn:hasResult ?result .
+        ?result sphn:hasSystolicPressure ?quantity .
+        ?quantity sphn:hasValue ?value ;
+                  sphn:hasUnit/sphn:hasCode ?unit_code .
+        ?unit_code a ucum:mmsblHgsbr .
+      }
+    }
+    GROUP BY ?g
+  }
+}

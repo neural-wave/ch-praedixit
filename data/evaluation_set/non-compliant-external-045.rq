@@ -1,0 +1,15 @@
+# question: If at least one laboratory event exists, return its population-wide event count and the number of distinct objects appearing anywhere in the named graphs.
+# expected_compliant: false
+# expected_rules: unrestricted_match
+# origin: external LLM (entry-045.rq, rules QC3)
+# notes: The OPTIONAL branch matches every triple without restriction even though only aggregate counts are returned.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?event) AS ?laboratory_events)
+       (COUNT(DISTINCT ?object) AS ?distinct_objects)
+WHERE {
+  GRAPH ?g { ?event a sphn:LabTestEvent . }
+  OPTIONAL {
+    GRAPH ?other_graph { ?subject ?predicate ?object . }
+  }
+}
+HAVING(COUNT(DISTINCT ?event) > 0)

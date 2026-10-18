@@ -1,0 +1,8 @@
+# question: I need to verify the data integrity for patient ID-10349320000064. Can you pull up their file and count the total number of matching C91 substance entries?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:Substance ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:Aperm . ?r sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier "ID-10349320000064" . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:Substance ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:Aperm . ?r sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier "ID-10349320000064" . } }

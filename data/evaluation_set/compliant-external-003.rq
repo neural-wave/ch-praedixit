@@ -1,0 +1,13 @@
+# question: How many patients have no death record in the database?
+# expected_compliant: true
+# expected_rules: none
+# origin: external LLM (entry-003.rq, rules none)
+# notes: Counts patients satisfying an absence condition without exposing their identities.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients_without_death_record)
+WHERE {
+  GRAPH ?g { ?subject a sphn:SubjectPseudoIdentifier . }
+  FILTER NOT EXISTS {
+    GRAPH ?g { ?death a sphn:Death . }
+  }
+}

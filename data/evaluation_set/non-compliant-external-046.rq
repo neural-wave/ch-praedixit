@@ -1,0 +1,15 @@
+# question: Remove the recorded-date triples from all tobacco-exposure records.
+# expected_compliant: false
+# expected_rules: not_read_only, not_select, not_aggregated
+# origin: external LLM (entry-046.rq, rules API-read-only, QC4, QC2)
+# notes: DELETE modifies the dataset, is not a SELECT query, and returns no aggregate information.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+DELETE {
+  GRAPH ?g { ?exposure sphn:hasRecordDateTime ?date . }
+}
+WHERE {
+  GRAPH ?g {
+    ?exposure a sphn:TobaccoExposure ;
+              sphn:hasRecordDateTime ?date .
+  }
+}

@@ -1,0 +1,12 @@
+# question: How many admissions happened in each hour of each day?
+# expected_compliant: false
+# expected_rules: not_aggregated
+# origin: bypass
+# notes: Groups by YEAR, MONTH, DAY and HOURS of one date-time, written in the GROUP BY: an exact date-time.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?year ?month ?day ?hour (COUNT(*) AS ?admissions)
+WHERE {
+  GRAPH ?g { ?case a sphn:AdministrativeCase ; sphn:hasAdmissionDateTime ?admission . }
+}
+GROUP BY (YEAR(?admission) AS ?year) (MONTH(?admission) AS ?month) (DAY(?admission) AS ?day) (HOURS(?admission) AS ?hour)

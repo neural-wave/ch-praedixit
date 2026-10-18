@@ -1,0 +1,9 @@
+# question: Retrieve the count of matching records for patient ID 2947 specifically, filtering for those with at least one lab test coded as Millimeters of copper (qualifier value) (SNOMED CT 229051007, including sub-codes) but without at least one resuscitation directive coded as For resuscitation (finding) (SNOMED CT 304252001, including sub-codes).
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT (COUNT(DISTINCT ?a) AS ?records) WHERE { GRAPH <http://example.org/graph/patient-2947> { ?a a sphn:LabTest ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:229051007 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?a) AS ?records) WHERE { GRAPH <http://example.org/graph/patient-2947> { ?a a sphn:LabTest ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:229051007 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

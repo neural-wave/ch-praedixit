@@ -1,0 +1,18 @@
+# question: How many patients have a weight measurement recorded, and how many have none?
+# expected_compliant: true
+# expected_rules: none
+# origin: external LLM (entry-006.rq, rules none)
+# notes: OPTIONAL determines a recording-status category and only aggregate category counts are exposed.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?recording_status (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?subject a sphn:SubjectPseudoIdentifier .
+    OPTIONAL { ?measurement a sphn:BodyWeightMeasurement . }
+  }
+  BIND(
+    IF(BOUND(?measurement), "weight recorded", "no weight recorded")
+    AS ?recording_status
+  )
+}
+GROUP BY ?recording_status

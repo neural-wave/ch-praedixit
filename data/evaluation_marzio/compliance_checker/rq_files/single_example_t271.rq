@@ -1,0 +1,9 @@
+# question: Count ID-10742190000054's 410607006 records.
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT (COUNT(DISTINCT ?b) AS ?records) WHERE { GRAPH ?g { ?b a sphn:Organism ; sphn:hasCode ?b_c . ?b_c rdf:type snomed:410607006 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?b sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier "ID-10742190000054" . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?b) AS ?records) WHERE { GRAPH ?g { ?b a sphn:Organism ; sphn:hasCode ?b_c . ?b_c rdf:type snomed:410607006 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?b sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier "ID-10742190000054" . } }

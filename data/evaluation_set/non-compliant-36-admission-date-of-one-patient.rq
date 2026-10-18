@@ -1,0 +1,17 @@
+# question: What is the admission date of the patient with pseudo identifier ID-10010000000022?
+# expected_compliant: false
+# expected_rules: single_patient, not_aggregated
+# origin: test set
+# notes: Schema 2026.1 form (sphn:hasAdmission node with sphn:hasDateTime); returns no rows on the mock data, which uses schema 2024.2.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?admission_time
+WHERE {
+  GRAPH ?g {
+    ?case a sphn:AdministrativeCase ;
+          sphn:hasAdmission ?admission ;
+          sphn:hasSubjectPseudoIdentifier ?subject .
+    ?admission sphn:hasDateTime ?admission_time .
+    ?subject sphn:hasIdentifier "ID-10010000000022" .
+  }
+}

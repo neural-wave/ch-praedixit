@@ -1,0 +1,9 @@
+# question: How many records match for just patient 2947? I need the count of people who had a lab test indicating Millimeters of copper (SNOMED CT 229051007) but did not have any resuscitation directive marked as For resuscitation (SNOMED CT 304252001).
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT (COUNT(DISTINCT ?a) AS ?records) WHERE { GRAPH <http://example.org/graph/patient-2947> { ?a a sphn:LabTest ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:229051007 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?a) AS ?records) WHERE { GRAPH <http://example.org/graph/patient-2947> { ?a a sphn:LabTest ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:229051007 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

@@ -1,0 +1,9 @@
+# question: Count records for code 138875005 for patient 7761 only.
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: test set T3 (worded by the other model)
+# notes: SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/mock_data-1_7761> { ?r a sphn:RadiotherapyProcedure ; sphn:hasCode ?r_c . { ?r_c isa snomed:138875005 } UNION { ?r_c isa snomed:74964007 } ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/mock_data-1_7761> { ?r a sphn:RadiotherapyProcedure ; sphn:hasCode ?r_c . { ?r_c rdf:type snomed:138875005 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type snomed:74964007 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } }

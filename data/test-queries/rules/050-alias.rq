@@ -1,0 +1,10 @@
+# question: How many patients are there for each exact body mass index value?
+# source: compliance/tests/test_rules.py::test_group_by_raw_fine_value_is_row_level[alias]
+# description: group by raw fine value is row level (alias)
+# expected_compliant: false
+# expected_rules: QC2 (not_aggregated)
+# reasoning: groups by the exact measurement value ?x: almost every group is one record, so the result is row-level data (group by a range instead, e.g. YEAR() or FLOOR())
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+SELECT ?x (COUNT(DISTINCT ?g) AS ?n) WHERE { GRAPH ?g { ?m a sphn:BodyMassIndex ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v . } BIND(?v AS ?x) } GROUP BY ?x

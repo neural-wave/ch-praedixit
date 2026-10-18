@@ -1,0 +1,10 @@
+# question: How many patients were admitted in each month?
+# expected_compliant: true
+# expected_rules: none
+# origin: bypass
+# notes: Year and month of a date-time: buckets, not an exact date.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?year ?month (COUNT(DISTINCT ?g) AS ?patients)
+WHERE { GRAPH ?g { ?case a sphn:AdministrativeCase ; sphn:hasAdmissionDateTime ?admission . } }
+GROUP BY (YEAR(?admission) AS ?year) (MONTH(?admission) AS ?month)

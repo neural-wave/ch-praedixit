@@ -1,0 +1,9 @@
+# question: I am currently reviewing the clinical history for patient 9467 to understand their specific microorganism profile, specifically looking at cases where an organism was identified as absent but no tumor grade assessment such as WHO or Fuhrman systems were recorded. Could you please provide the count of matching records for this single individual, patient 9467?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT (COUNT(DISTINCT ?a) AS ?records) WHERE { GRAPH <http://example.org/graph/patient-9467> { ?a a sphn:MicroorganismIdentificationResult ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:2667000 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?a) AS ?records) WHERE { GRAPH <http://example.org/graph/patient-9467> { ?a a sphn:MicroorganismIdentificationResult ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:2667000 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

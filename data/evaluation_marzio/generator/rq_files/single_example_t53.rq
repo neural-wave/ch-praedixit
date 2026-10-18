@@ -1,0 +1,9 @@
+# question: Among patients with retinoblastoma staged via the Stannard system, what proportion received either intermittent peritoneal dialysis or continuous hemodiafiltration?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?patients_b) (COUNT(DISTINCT ?ab) AS ?patients_a_and_b) (ROUND(1000.0 * COUNT(DISTINCT ?ab) / COUNT(DISTINCT ?g)) / 10 AS ?pct) WHERE { GRAPH ?g { ?b a sphn:TumorStageAssessment ; sphn:hasCode ?b_c . ?b_c isa snomed:254366002 . } OPTIONAL { GRAPH ?g { ?a a sphn:OrganSupport ; sphn:hasCode ?a_c . { ?a_c isa snomed:238321006 } UNION { ?a_c isa snomed:233588003 } } BIND(?g AS ?ab) } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients_b) (COUNT(DISTINCT ?ab) AS ?patients_a_and_b) (ROUND(1000.0 * COUNT(DISTINCT ?ab) / COUNT(DISTINCT ?g)) / 10 AS ?pct) WHERE { GRAPH ?g { ?b a sphn:TumorStageAssessment ; sphn:hasCode ?b_c . ?b_c rdf:type snomed:254366002 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } OPTIONAL { GRAPH ?g { ?a a sphn:OrganSupport ; sphn:hasCode ?a_c . { ?a_c rdf:type snomed:238321006 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?a_c rdf:type snomed:233588003 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } } BIND(?g AS ?ab) } }

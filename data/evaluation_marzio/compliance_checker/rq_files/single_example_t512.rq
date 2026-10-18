@@ -1,0 +1,18 @@
+# question: Give me all the cancer diagnoses as a graph I can take away.
+# expected_compliant: false
+# expected_rules: not_select
+# origin: test set T1 (official example)
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> CONSTRUCT { ?dx a sphn:OncologyDiagnosis ; sphn:hasIncidenceDateTime ?incidence ; sphn:hasCode ?code . } WHERE { GRAPH ?g { ?dx a sphn:OncologyDiagnosis ; sphn:hasIncidenceDateTime ?incidence ; sphn:hasCode ?code . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+CONSTRUCT {
+  ?dx a sphn:OncologyDiagnosis ;
+      sphn:hasIncidenceDateTime ?incidence ;
+      sphn:hasCode ?code .
+}
+WHERE {
+  GRAPH ?g {
+    ?dx a sphn:OncologyDiagnosis ;
+        sphn:hasIncidenceDateTime ?incidence ;
+        sphn:hasCode ?code .
+  }
+}

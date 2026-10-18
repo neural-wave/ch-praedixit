@@ -1,0 +1,8 @@
+# question: List all patient graphs matching this criteria.
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: SELECT DISTINCT ?g WHERE { GRAPH ?g { ?r a sphn:ReferenceValue ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:10exp6perrbl24dothrbr . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT DISTINCT ?g WHERE { GRAPH ?g { ?r a sphn:ReferenceValue ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:10exp6perrbl24dothrbr . } }

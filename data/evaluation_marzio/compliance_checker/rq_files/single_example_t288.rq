@@ -1,0 +1,9 @@
+# question: can you list every patient who has the blood cancer code but doesnt have the other two codes so i can see their full records
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT DISTINCT ?g WHERE { GRAPH ?g { ?a a sphn:OrganSupport ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:238321006 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT DISTINCT ?g WHERE { GRAPH ?g { ?a a sphn:OrganSupport ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:238321006 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

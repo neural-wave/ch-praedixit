@@ -1,0 +1,12 @@
+# question: How many patients were born on 14 March 1975?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: bypass
+# notes: Fixes year and month and gives the day as a range whose two ends are equal: a full date.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g { ?birth_date a sphn:BirthDate ; sphn:hasYear ?year ; sphn:hasMonth ?month ; sphn:hasDay ?day . }
+  FILTER (?year = 1975 && ?month = 3 && ?day >= 14 && ?day <= 14)
+}

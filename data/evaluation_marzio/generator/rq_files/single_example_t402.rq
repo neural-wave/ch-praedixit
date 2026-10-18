@@ -1,0 +1,8 @@
+# question: How many severe allergies (High risk) are confirmed present in the database?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?count) WHERE { GRAPH ?g { ?a a sphn:Allergy ; sphn:hasSeverityCode snomed:723509005 ; sphn:hasVerificationStatusCode snomed:410605003 } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+SELECT (COUNT(DISTINCT ?g) AS ?count) WHERE { GRAPH ?g { ?a a sphn:Allergy ; sphn:hasSeverityCode snomed:723509005 ; sphn:hasVerificationStatusCode snomed:410605003 } }

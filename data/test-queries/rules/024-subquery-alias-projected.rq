@@ -1,0 +1,11 @@
+# question: List the pseudo-identifiers of the patients with cholera.
+# source: compliance/tests/test_rules.py::test_case[subquery_alias_projected]
+# description: case (subquery_alias_projected)
+# expected_compliant: false
+# expected_rules: QC5 (exposes_identifier)
+# reasoning: returns identifier ?pseudo_id
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+SELECT ?pseudo_id WHERE { { SELECT DISTINCT (?g AS ?pseudo_id) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?dx_code .
+?dx_code a icd-10-gm:A00 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } } } }

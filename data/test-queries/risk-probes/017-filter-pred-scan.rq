@@ -1,0 +1,12 @@
+# question: How many patients have any coded record at all?
+# source: compliance/tests/test_risk_probes.py::test_default_mode[filter_pred_scan]
+# description: policy call: ?s ?p ?o restricted only by FILTER on ?p
+# expected_compliant: false
+# expected_rules: QC3 (unrestricted_match)
+# reasoning: pattern not tied to any class or property restriction (?s ?p ?o)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX bif: <bif:>
+SELECT (COUNT(DISTINCT ?g) AS ?n) WHERE { GRAPH ?g { ?s ?p ?o } FILTER(?p = sphn:hasCode) }

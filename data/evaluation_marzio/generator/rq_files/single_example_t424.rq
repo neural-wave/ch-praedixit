@@ -1,0 +1,21 @@
+# question: I need to cross-reference patients who have both protein analysis results and are covered by private insurance.
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: SELECT DISTINCT ?patientId WHERE { GRAPH ?g1 { ?patientId a sphn:Patient . ?protein a sphn:Protein ; sphn:hasCode ?code . } GRAPH ?g2 { ?insurance a sphn:InsuranceStatus ; sphn:hasCoverageType sphn-individual:Private . OPTIONAL { ?insurance sphn:hasSubjectPseudoIdentifier ?pid } FILTER(BOUND(?pid) && ?pid = ?patientId) } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>
+SELECT DISTINCT ?patientId
+WHERE {
+  GRAPH ?g1 {
+    ?patientId a sphn:Patient .
+    ?protein a sphn:Protein ;
+             sphn:hasCode ?code .
+  }
+  GRAPH ?g2 {
+    ?insurance a sphn:InsuranceStatus ;
+               sphn:hasCoverageType sphn-individual:Private .
+    OPTIONAL { ?insurance sphn:hasSubjectPseudoIdentifier ?pid }
+    FILTER(BOUND(?pid) && ?pid = ?patientId)
+  }
+}

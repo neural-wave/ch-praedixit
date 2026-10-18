@@ -1,0 +1,16 @@
+# question: How many patients have a drug administration stopped due to side effects or inefficacy?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: dev
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> SELECT COUNT(DISTINCT ?g) { GRAPH ?g { ?drug a sphn:DrugAdministrationEvent . OPTIONAL { ?drug sphn:hasReasonToStopCode ?reason . FILTER(?reason IN (snomed:395007004, snomed:395009001)) } } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+SELECT COUNT(DISTINCT ?g) {
+  GRAPH ?g {
+    ?drug a sphn:DrugAdministrationEvent .
+    OPTIONAL {
+      ?drug sphn:hasReasonToStopCode ?reason .
+      FILTER(?reason IN (snomed:395007004, snomed:395009001))
+    }
+  }
+}

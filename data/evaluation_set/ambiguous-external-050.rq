@@ -1,0 +1,16 @@
+# question: How many patients had consent recorded at exactly 2024-02-13 09:17:23 UTC and a hospital admission at exactly 2024-02-12 14:06:11 UTC?
+# expected_compliant: ambiguous
+# expected_rules: single_patient
+# origin: external LLM (entry-050.rq, rules QC1)
+# notes: The rules do not define when an exact timestamp combination makes a patient identifiable or specify a minimum cohort size.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?consent a sphn:Consent ;
+             sphn:hasDateTime "2024-02-13T09:17:23Z"^^xsd:dateTime .
+    ?case a sphn:AdministrativeCase ;
+          sphn:hasAdmissionDateTime "2024-02-12T14:06:11Z"^^xsd:dateTime .
+  }
+}

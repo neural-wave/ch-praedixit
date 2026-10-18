@@ -1,0 +1,18 @@
+# question: How many patients have an assessment component result containing text but no quantity?
+# expected_compliant: true
+# expected_rules: none
+# origin: external LLM (entry-024.rq, rules none)
+# notes: Restricts assessment results by their available value representation and returns only a patient count.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?event a sphn:AssessmentEvent ;
+           sphn:hasAssessment/sphn:hasComponent ?component .
+    ?component sphn:hasResult ?result .
+    ?result sphn:hasStringValue ?text .
+  }
+  FILTER NOT EXISTS {
+    GRAPH ?g { ?result sphn:hasQuantity ?quantity . }
+  }
+}

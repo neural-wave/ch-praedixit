@@ -1,0 +1,11 @@
+# question: How many statements are there other than type statements?
+# expected_compliant: false
+# expected_rules: unrestricted_match
+# origin: bypass
+# notes: A negated property set matches any predicate except one.
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT (COUNT(*) AS ?triples)
+WHERE {
+  GRAPH ?g { ?s !rdf:type ?o . }
+}

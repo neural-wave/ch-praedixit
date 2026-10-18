@@ -1,0 +1,26 @@
+# question: How many patients have a genomic insertion with a sequence length greater than 100 and an antimicrobial susceptibility result that is 'Susceptible'?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: test set T3 (worded by the other model)
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT (COUNT(DISTINCT ?g) AS ?count) WHERE { GRAPH ?g { ?patient a sphn:Patient . # Genomic Insertion Length > 100 ?insertion a sphn:GenomicInsertion . ?insertion sphn:hasSubjectPseudoIdentifier ?patient . ?insertion sphn:hasSequenceLength ?length . FILTER(?length > 100) # Susceptible Antimicrobial ?suscept a sphn:AntimicrobialSusceptibilityResult . ?suscept sphn:hasSubjectPseudoIdentifier ?patient . ?suscept sphn:hasCode ?susCode . ?susCode rdf:type snomed:131196009 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?count)
+WHERE {
+  GRAPH ?g {
+    ?patient a sphn:Patient .
+    
+    # Genomic Insertion Length > 100
+    ?insertion a sphn:GenomicInsertion .
+    ?insertion sphn:hasSubjectPseudoIdentifier ?patient .
+    ?insertion sphn:hasSequenceLength ?length .
+    FILTER(?length > 100)
+    
+    # Susceptible Antimicrobial
+    ?suscept a sphn:AntimicrobialSusceptibilityResult .
+    ?suscept sphn:hasSubjectPseudoIdentifier ?patient .
+    ?suscept sphn:hasCode ?susCode .
+    ?susCode rdf:type snomed:131196009 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global")
+  }
+}

@@ -1,0 +1,9 @@
+# question: How many distinct patients have a recorded geographic location of Namibia (SNOMED 223545002) or Turkmenistan (SNOMED 223578009) but lack any microorganism identification result coded as Present (SNOMED 52101004)?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:Country ; sphn:hasCode ?a_c . { ?a_c rdf:type snomed:223545002 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?a_c rdf:type snomed:223578009 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } } FILTER NOT EXISTS { GRAPH ?g { ?b a sphn:MicroorganismIdentificationResult ; sphn:hasCode ?b_c . ?b_c rdf:type snomed:52101004 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:Country ; sphn:hasCode ?a_c . { ?a_c rdf:type snomed:223545002 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?a_c rdf:type snomed:223578009 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } } FILTER NOT EXISTS { GRAPH ?g { ?b a sphn:MicroorganismIdentificationResult ; sphn:hasCode ?b_c . ?b_c rdf:type snomed:52101004 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } } }

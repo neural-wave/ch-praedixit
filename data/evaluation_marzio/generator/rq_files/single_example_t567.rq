@@ -1,0 +1,13 @@
+# question: Count how many distinct patients have a circumference measurement recorded.
+# expected_compliant: true
+# expected_rules: none
+# origin: test set T3 (worded by the other model)
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?count) WHERE { GRAPH ?g { ?r a sphn:Circumference . ?r sphn:hasQuantity ?q . ?q sphn:hasValue ?v . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?g) AS ?count) WHERE {
+  GRAPH ?g {
+    ?r a sphn:Circumference .
+    ?r sphn:hasQuantity ?q .
+    ?q sphn:hasValue ?v .
+  }
+}

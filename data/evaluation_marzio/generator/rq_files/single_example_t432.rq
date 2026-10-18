@@ -1,0 +1,15 @@
+# question: How many patients have tobacco exposure with a low degree and are currently not smoking (never used or ex-smoker)?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: train
+# notes: SELECT COUNT(DISTINCT ?g) { GRAPH ?g { ?tobacco a sphn:TobaccoExposure ; sphn:hasDegreeCode snomed:62482003 ; sphn:hasTypeCode ?type . FILTER(?type IN (snomed:702979003, snomed:8517006)) } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+SELECT COUNT(DISTINCT ?g) {
+  GRAPH ?g {
+    ?tobacco a sphn:TobaccoExposure ;
+             sphn:hasDegreeCode snomed:62482003 ;
+             sphn:hasTypeCode ?type .
+    FILTER(?type IN (snomed:702979003, snomed:8517006))
+  }
+}

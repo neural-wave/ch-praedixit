@@ -1,0 +1,9 @@
+# question: Count records for patient 9704 in mock_data-1_9704
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?b) AS ?records) WHERE { GRAPH <http://example.org/graph/mock_data-1_9704> { ?b a sphn:Organism ; sphn:hasCode ?b_c . { ?b_c isa snomed:112422003 } UNION { ?b_c isa snomed:699428004 } UNION { ?b_c isa snomed:417396000 } } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?b) AS ?records) WHERE { GRAPH <http://example.org/graph/mock_data-1_9704> { ?b a sphn:Organism ; sphn:hasCode ?b_c . { ?b_c rdf:type snomed:112422003 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?b_c rdf:type snomed:699428004 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?b_c rdf:type snomed:417396000 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } } }

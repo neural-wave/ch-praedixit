@@ -1,0 +1,8 @@
+# question: what are the counts of drug measurements for code c91 categorized as under 4400 between 4400 and 7000 and above 7000 in the past day
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (SUM(IF(?v < 4400.0, 1, 0)) AS ?low) (SUM(IF(?v >= 4400.0 && ?v < 7000.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 7000.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:Drug ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:24doth . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT (SUM(IF(?v < 4400.0, 1, 0)) AS ?low) (SUM(IF(?v >= 4400.0 && ?v < 7000.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 7000.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:Drug ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:24doth . } }

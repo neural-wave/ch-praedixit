@@ -1,0 +1,10 @@
+# question: How many patients have type 2 diabetes, leaving out patient 1000042?
+# source: compliance/tests/test_rules.py::test_differencing_is_single_patient[graph_not_in]
+# description: differencing is single patient (graph_not_in)
+# expected_compliant: false
+# expected_rules: QC1 (single_patient)
+# reasoning: FILTER excludes a specific patient or record (differencing: compared with the full count it reveals that one patient)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+SELECT (COUNT(DISTINCT ?g) AS ?n) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?c . ?c a <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/E11> . } FILTER(?g NOT IN (<http://example.org/graph/gen_mock_data-1_1000042>)) }

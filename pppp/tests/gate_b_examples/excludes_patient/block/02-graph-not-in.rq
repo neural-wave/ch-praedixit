@@ -1,0 +1,4 @@
+# why: the same with NOT IN
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?diagnosis a sphn:BilledDiagnosis ; sphn:hasCode ?code . ?code a icd-10-gm:E11 . } FILTER (?g NOT IN (<http://example.org/graph/gen_mock_data-1_1000042>)) }

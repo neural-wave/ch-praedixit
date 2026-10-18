@@ -1,0 +1,20 @@
+# question: Which ten lab tests are performed in the most patients?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set
+# notes: LIMIT on aggregated groups is not a single-patient restriction.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?lab_test_concept (COUNT(DISTINCT ?g) AS ?patients) (COUNT(?lab_test) AS ?lab_tests)
+WHERE {
+  GRAPH ?g {
+    ?event a sphn:LabTestEvent ;
+           sphn:hasLabTest ?lab_test .
+    ?lab_test sphn:hasCode ?code .
+    ?code a ?lab_test_concept .
+  }
+  FILTER (STRSTARTS(STR(?lab_test_concept), "http://snomed.info/id/"))
+}
+GROUP BY ?lab_test_concept
+ORDER BY DESC(?patients)
+LIMIT 10

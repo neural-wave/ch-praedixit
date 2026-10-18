@@ -1,0 +1,7 @@
+# question: Can you pull the total count of patients with consent record C91 and list their names, starting with just one example?
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: dev
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?patients) (SAMPLE(?g) AS ?example_patient) WHERE { GRAPH ?g { ?r a sphn:Consent . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) (SAMPLE(?g) AS ?example_patient) WHERE { GRAPH ?g { ?r a sphn:Consent . } }

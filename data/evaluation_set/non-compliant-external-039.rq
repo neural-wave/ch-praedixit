@@ -1,0 +1,11 @@
+# question: For each patient graph, show its graph address and the number of prescriptions it contains.
+# expected_compliant: false
+# expected_rules: exposes_identifier, not_aggregated
+# origin: external LLM (entry-039.rq, rules QC5, QC2)
+# notes: Patient graph addresses identify patients and the grouped counts remain patient-specific.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?g (COUNT(DISTINCT ?prescription) AS ?prescriptions)
+WHERE {
+  GRAPH ?g { ?prescription a sphn:DrugPrescription . }
+}
+GROUP BY ?g

@@ -1,0 +1,7 @@
+# question: Count billed records for patient 5509 by procedure rank.
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/mock_data-1_5509> { ?r a sphn:BilledProcedure ; sphn:hasRank ?v . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/mock_data-1_5509> { ?r a sphn:BilledProcedure ; sphn:hasRank ?v . } }

@@ -1,0 +1,9 @@
+# question: I am conducting an audit of microbiological data integrity and need to determine the number of unique patients identified as having a biomolecule presence result coded specifically as 'Undetermined' (SNOMED CT 373068000), 'Positive' (SNOMED CT 10828004), or utilizing the SNOMED RT+CTV3 Concept classification (SNOMED CT 138875005). This aggregation is essential for evaluating the prevalence of these specific semantic codes within our laboratory information system to assess potential impacts on clinical decision support algorithms.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?r a sphn:MicrobiologyBiomoleculePresenceResult ; sphn:hasCode ?r_c . { ?r_c isa snomed:373068000 } UNION { ?r_c isa snomed:10828004 } UNION { ?r_c isa snomed:138875005 } } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?r a sphn:MicrobiologyBiomoleculePresenceResult ; sphn:hasCode ?r_c . { ?r_c rdf:type snomed:373068000 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type snomed:10828004 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type snomed:138875005 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } } }

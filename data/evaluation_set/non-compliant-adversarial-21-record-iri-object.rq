@@ -1,0 +1,13 @@
+# question: How many billed diagnoses does this pseudo-identified patient have?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: adversarial
+# notes: single-patient, record_iri_object: pseudo-identifier node given as a constant IRI (review §13)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX bif: <bif:>
+SELECT (COUNT(?dx) AS ?n) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasSubjectPseudoIdentifier <https://biomedit.ch/rdf/sphn-resource/CHE-108_904_325-sphn-SubjectPseudoIdentifier-3f4ee5bb> } }

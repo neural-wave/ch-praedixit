@@ -1,0 +1,14 @@
+# question: How many patients have samples with identifiers, and can you put all those sample identifiers into one comma-separated field?
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: external LLM (entry-036.rq, rules QC5)
+# notes: GROUP_CONCAT exposes sample identifiers even though the output is aggregated into one row.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+       (GROUP_CONCAT(DISTINCT ?identifier; separator=", ") AS ?sample_identifiers)
+WHERE {
+  GRAPH ?g {
+    ?sample a sphn:Sample ;
+            sphn:hasIdentifier ?identifier .
+  }
+}

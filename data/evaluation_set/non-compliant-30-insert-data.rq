@@ -1,0 +1,9 @@
+# question: Add a cholera diagnosis for a new test patient.
+# expected_compliant: false
+# expected_rules: not_read_only
+# origin: bypass
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+INSERT DATA {
+  GRAPH <http://example.org/graph/test-patient> { <urn:test:diagnosis> a sphn:BilledDiagnosis . }
+}

@@ -1,0 +1,13 @@
+# question: What share of our patients has a recorded death?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+       (SUM(?deceased) AS ?deceased_patients)
+       (ROUND(1000.0 * SUM(?deceased) / COUNT(DISTINCT ?g)) / 10 AS ?pct)
+WHERE {
+  GRAPH ?g { ?case a sphn:AdministrativeCase . }
+  BIND (IF(EXISTS { GRAPH ?g { ?death a sphn:Death . } }, 1, 0) AS ?deceased)
+}

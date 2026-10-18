@@ -1,0 +1,9 @@
+# question: Please purge the entire dataset for patients diagnosed with acute lymphoblastic leukemia.
+# expected_compliant: false
+# expected_rules: not_read_only
+# origin: train
+# notes: DELETE { GRAPH ?g { ?b ?p ?o } } WHERE { GRAPH ?g { ?b a sphn:Substance ; sphn:hasCode ?b_c . { ?b_c isa snomed:62252006 } UNION { ?b_c isa snomed:735055007 } UNION { ?b_c isa snomed:103240002 } ?b ?p ?o . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+DELETE { GRAPH ?g { ?b ?p ?o } } WHERE { GRAPH ?g { ?b a sphn:Substance ; sphn:hasCode ?b_c . { ?b_c rdf:type snomed:62252006 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?b_c rdf:type snomed:735055007 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?b_c rdf:type snomed:103240002 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } ?b ?p ?o . } }

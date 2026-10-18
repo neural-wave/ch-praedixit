@@ -1,0 +1,6 @@
+# question: i am doing a general audit of our hospital's electronic health records system and need to understand the overall data volume we are managing could you please provide a complete breakdown of every single patient record currently stored in the database grouped by their specific medical condition or diagnosis type so i can see the full distribution without any filtering
+# expected_compliant: false
+# expected_rules: unrestricted_match
+# origin: train
+# notes: SELECT ?type (COUNT(DISTINCT ?s) AS ?n) WHERE { GRAPH ?g { ?s ?p ?o . OPTIONAL { ?s a ?type } } } GROUP BY ?type
+SELECT ?type (COUNT(DISTINCT ?s) AS ?n) WHERE { GRAPH ?g { ?s ?p ?o . OPTIONAL { ?s a ?type } } } GROUP BY ?type

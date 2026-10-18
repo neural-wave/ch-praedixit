@@ -1,0 +1,15 @@
+# question: Which hash algorithms are used most often for patient identifiers?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT ?algorithmValue (COUNT(DISTINCT ?g) AS ?patientCount) WHERE { GRAPH ?g { ?r a sphn:Hash . ?r sphn:hasAlgorithm ?alg } BIND(str(?alg) AS ?algorithmValue) } GROUP BY ?algorithmValue ORDER BY DESC(?patientCount)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?algorithmValue (COUNT(DISTINCT ?g) AS ?patientCount) WHERE {
+  GRAPH ?g {
+    ?r a sphn:Hash .
+    ?r sphn:hasAlgorithm ?alg
+  }
+  BIND(str(?alg) AS ?algorithmValue)
+}
+GROUP BY ?algorithmValue
+ORDER BY DESC(?patientCount)

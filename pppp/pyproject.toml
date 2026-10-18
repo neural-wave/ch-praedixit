@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pppp"
+version = "0.1.0"
+description = "NL-to-SPARQL service with compliance checks over SPHN clinical knowledge graphs"
+requires-python = ">=3.10"
+dependencies = ["rdflib==7.6.0", "torch==2.14.1", "transformers==5.20.1", "tqdm==4.70.1", "pyyaml==6.0.3", "requests==2.34.2",
+                "fastapi==0.143.3", "uvicorn==0.54.0"]
+
+[project.optional-dependencies]
+test = ["pytest==9.1.1", "httpx==0.28.1"]

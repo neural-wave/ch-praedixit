@@ -1,0 +1,6 @@
+# question: Can you provide a count of how often every specific property value is used across all records in the dataset, without filtering for any particular patient or condition?
+# expected_compliant: false
+# expected_rules: unrestricted_match
+# origin: train
+# notes: SELECT ?p (COUNT(*) AS ?uses) WHERE { GRAPH ?g { ?s ?p ?o } } GROUP BY ?p ORDER BY DESC(?uses)
+SELECT ?p (COUNT(*) AS ?uses) WHERE { GRAPH ?g { ?s ?p ?o } } GROUP BY ?p ORDER BY DESC(?uses)

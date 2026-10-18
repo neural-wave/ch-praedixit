@@ -1,0 +1,10 @@
+# question: Count patients with Younger sister SNOMED CT 19686009 excluding OBI 0002177, 0001402, and 2100262 assays.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:Performer ; sphn:hasCode ?a_c . ?a_c isa snomed:19686009 . } FILTER NOT EXISTS { GRAPH ?g { ?b a sphn:SequencingAssay ; sphn:hasCode ?b_c . { ?b_c isa obi:0002177 } UNION { ?b_c isa obi:0001402 } UNION { ?b_c isa obi:2100262 } } } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX obi: <http://purl.obolibrary.org/obo/OBI_>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:Performer ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:19686009 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } FILTER NOT EXISTS { GRAPH ?g { ?b a sphn:SequencingAssay ; sphn:hasCode ?b_c . { ?b_c rdf:type obi:0002177 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?b_c rdf:type obi:0001402 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?b_c rdf:type obi:2100262 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } } } }

@@ -1,0 +1,12 @@
+# question: How many billed diagnoses are there, and which records are they?
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: bypass
+# notes: GROUP_CONCAT over record IRIs turned into strings.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (COUNT(?diagnosis) AS ?billed_diagnoses)
+       (GROUP_CONCAT(STR(?diagnosis); separator=",") AS ?which_records)
+WHERE {
+  GRAPH ?g { ?diagnosis a sphn:BilledDiagnosis . }
+}

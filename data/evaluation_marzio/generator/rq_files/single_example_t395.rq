@@ -1,0 +1,6 @@
+# question: Return counts of all database nodes by type.
+# expected_compliant: false
+# expected_rules: unrestricted_match
+# origin: train
+# notes: SELECT ?type (COUNT(DISTINCT ?s) AS ?n) WHERE { GRAPH ?g { ?s ?p ?o . OPTIONAL { ?s a ?type } } } GROUP BY ?type
+SELECT ?type (COUNT(DISTINCT ?s) AS ?n) WHERE { GRAPH ?g { ?s ?p ?o . OPTIONAL { ?s a ?type } } } GROUP BY ?type

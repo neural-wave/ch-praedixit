@@ -1,0 +1,14 @@
+# question: How many patients have a tumour specimen with a recorded tumour-purity quantity?
+# expected_compliant: true
+# expected_rules: none
+# origin: external LLM (entry-009.rq, rules none)
+# notes: Returns one aggregate count over a restricted specimen pattern.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?specimen a sphn:TumorSpecimen ;
+              sphn:hasTumorPurity ?purity .
+    ?purity sphn:hasValue ?value .
+  }
+}

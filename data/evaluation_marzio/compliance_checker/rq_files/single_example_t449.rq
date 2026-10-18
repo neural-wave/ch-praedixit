@@ -1,0 +1,7 @@
+# question: I am preparing a report on our current microbial load distribution to identify potential outliers in our diagnostic pipeline. Could you provide a breakdown of the data by each cell count estimate code found in our microscopy result records? I need to see both the total number of records and the number of unique patients for every specific code value to better understand the prevalence of different bacterial loads.
+# expected_compliant: true
+# expected_rules: none
+# origin: dev
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> SELECT ?value (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:MicrobiologyMicroscopyResult ; sphn:hasCellCountEstimateCode ?v_c . ?v_c a ?v . } BIND(REPLACE(STR(?v), "^.*/", "") AS ?value) } GROUP BY ?value ORDER BY DESC(?records)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?value (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:MicrobiologyMicroscopyResult ; sphn:hasCellCountEstimateCode ?v_c . ?v_c a ?v . } BIND(REPLACE(STR(?v), "^.*/", "") AS ?value) } GROUP BY ?value ORDER BY DESC(?records)

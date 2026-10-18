@@ -1,0 +1,9 @@
+# question: Count adjunct intent patients excluding lost to follow-up, alive, or RT+CTV3 concepts.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:Intent ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:421974008 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } FILTER NOT EXISTS { GRAPH ?g { ?b a sphn:VitalStatus ; sphn:hasCode ?b_c . { ?b_c rdf:type snomed:399307001 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?b_c rdf:type snomed:438949009 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?b_c rdf:type snomed:138875005 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } } } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:Intent ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:421974008 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } FILTER NOT EXISTS { GRAPH ?g { ?b a sphn:VitalStatus ; sphn:hasCode ?b_c . { ?b_c rdf:type snomed:399307001 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?b_c rdf:type snomed:438949009 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?b_c rdf:type snomed:138875005 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } } } }

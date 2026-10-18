@@ -1,0 +1,8 @@
+# question: Compute mean, min, max hours of nutrition intake duration across all records and patients.
+# expected_compliant: true
+# expected_rules: none
+# origin: dev
+# notes: SELECT (COUNT(DISTINCT ?r) AS ?records) (COUNT(DISTINCT ?g) AS ?patients) (ROUND(AVG(?d)) AS ?avg_hours) (MIN(?d) AS ?min_hours) (MAX(?d) AS ?max_hours) WHERE { GRAPH ?g { ?r a sphn:NutritionIntake . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } FILTER(?end >= ?start) BIND(bif:datediff("hour", ?start, ?end) AS ?d) }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX bif: <bif:>
+SELECT (COUNT(DISTINCT ?r) AS ?records) (COUNT(DISTINCT ?g) AS ?patients) (ROUND(AVG(?d)) AS ?avg_hours) (MIN(?d) AS ?min_hours) (MAX(?d) AS ?max_hours) WHERE { GRAPH ?g { ?r a sphn:NutritionIntake . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } FILTER(?end >= ?start) BIND(bif:datediff("hour", ?start, ?end) AS ?d) }

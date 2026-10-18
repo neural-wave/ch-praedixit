@@ -1,0 +1,7 @@
+# question: Please provide the list of patient identifiers for those who had antimicrobial susceptibility lab tests performed.
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: SELECT DISTINCT ?g WHERE { GRAPH ?g { ?r a sphn:AntimicrobialSusceptibilityLabTest } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT DISTINCT ?g WHERE { GRAPH ?g { ?r a sphn:AntimicrobialSusceptibilityLabTest } }

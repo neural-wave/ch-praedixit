@@ -1,0 +1,9 @@
+# question: Top 10 URTI ICD-10 diagnoses.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT ?code (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:BilledDiagnosis ; sphn:hasCode ?c . ?c isa icd-10-gm:J30-J39 . ?c a ?concept . } FILTER(STRSTARTS(STR(?concept), STR(icd-10-gm:))) BIND(REPLACE(STR(?concept), "^.*/", "") AS ?code) } GROUP BY ?code ORDER BY DESC(?patients) LIMIT 10
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?code (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:BilledDiagnosis ; sphn:hasCode ?c . ?c rdf:type icd-10-gm:J30-J39 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?c a ?concept . } FILTER(STRSTARTS(STR(?concept), STR(icd-10-gm:))) BIND(REPLACE(STR(?concept), "^.*/", "") AS ?code) } GROUP BY ?code ORDER BY DESC(?patients) LIMIT 10

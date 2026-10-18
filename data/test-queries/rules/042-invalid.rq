@@ -1,0 +1,11 @@
+# question: How many patients have a billed diagnosis of cholera? (the query is misspelled)
+# source: compliance/tests/test_rules.py::test_case[invalid]
+# description: case (invalid)
+# expected_compliant: false
+# expected_rules: invalid (invalid_sparql)
+# reasoning: parse error: Expected end of text, found 'SELEC'  (at char 184), (line:4, col:1)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+SELEC (COUNT(*) AS ?n) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?dx_code .
+?dx_code a icd-10-gm:A00 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

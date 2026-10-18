@@ -1,0 +1,2678 @@
+{
+ "source": {
+  "folder": "patients",
+  "files": 2000,
+  "extracted": "2026-10-18"
+ },
+ "classes": {
+  "AccessDevice": 2350,
+  "AccessDevicePresence": 503,
+  "AdministrativeCase": 2000,
+  "AdministrativeSex": 2000,
+  "AdverseEvent": 290,
+  "Age": 2000,
+  "Allergen": 5303,
+  "Allergy": 1855,
+  "AllergyEpisode": 3448,
+  "AntimicrobialSusceptibilityLabTest": 721,
+  "AntimicrobialSusceptibilityLabTestEvent": 537,
+  "AntimicrobialSusceptibilityResult": 1135,
+  "Assay": 631,
+  "Assessment": 739,
+  "AssessmentComponent": 6177,
+  "AssessmentEvent": 2818,
+  "AssessmentResult": 7174,
+  "BilledDiagnosis": 1790,
+  "BilledProcedure": 1316,
+  "Biobanksample": 691,
+  "Birth": 2000,
+  "BirthDate": 2000,
+  "BloodPressure": 22043,
+  "BloodPressureMeasurement": 15575,
+  "BodyHeight": 2452,
+  "BodyHeightMeasurement": 2165,
+  "BodyMassIndex": 3431,
+  "BodyPosition": 1299,
+  "BodySite": 68345,
+  "BodySurfaceArea": 1054,
+  "BodyTemperature": 9467,
+  "BodyTemperatureMeasurement": 6376,
+  "BodyWeight": 5507,
+  "BodyWeightMeasurement": 5181,
+  "CardiacIndex": 1381,
+  "CardiacOutput": 3001,
+  "CardiacOutputMeasurement": 2061,
+  "CareHandling": 2000,
+  "ChromosomalLocation": 1195,
+  "Chromosome": 1195,
+  "Circumference": 1699,
+  "CircumferenceMeasurement": 1571,
+  "CivilStatus": 2000,
+  "Code": 237819,
+  "Consent": 2000,
+  "CopyNumberVariation": 114,
+  "Country": 6000,
+  "DataDetermination": 26750,
+  "DataFile": 2000,
+  "DataProcessing": 610,
+  "DataProvider": 2000,
+  "DataRelease": 2000,
+  "Death": 789,
+  "DeathDate": 828,
+  "Department": 2000,
+  "Diagnosis": 7658,
+  "Drug": 17767,
+  "DrugAdministrationEvent": 4873,
+  "DrugArticle": 17767,
+  "DrugPrescription": 12393,
+  "Electrocardiogram": 1592,
+  "ElectrocardiographicProcedure": 1592,
+  "ExcludedDisorder": 637,
+  "Exposure": 3307,
+  "FluidBalance": 4411,
+  "FluidInputOutput": 4511,
+  "FollowUp": 679,
+  "Gene": 4102,
+  "GenePanel": 1641,
+  "GeneticVariation": 106,
+  "GenomicDeletion": 391,
+  "GenomicInsertion": 415,
+  "GenomicPosition": 1195,
+  "GestationalAgeAtBirth": 2000,
+  "Hash": 4000,
+  "HealthcareEncounter": 12785,
+  "HealthcarePrimaryInformationSystem": 2000,
+  "HeartRate": 12348,
+  "HeartRateMeasurement": 8436,
+  "HomeAddress": 2000,
+  "ImagingProcedure": 5104,
+  "Implant": 27109,
+  "ImplantPresence": 535,
+  "InhaledOxygenConcentration": 5619,
+  "InsuranceStatus": 2000,
+  "Intent": 32138,
+  "Interpretation": 2972,
+  "Isolate": 2000,
+  "LabAnalyzer": 46226,
+  "LabResult": 30047,
+  "LabTest": 19767,
+  "LabTestEvent": 13703,
+  "Laterality": 68345,
+  "LibraryPreparation": 1641,
+  "Location": 42355,
+  "Measurement": 2455,
+  "MedicalDevice": 39000,
+  "MedicalProcedure": 1670,
+  "MicrobiologyBiomoleculePresenceLabTest": 796,
+  "MicrobiologyBiomoleculePresenceLabTestEvent": 606,
+  "MicrobiologyBiomoleculePresenceResult": 1151,
+  "MicrobiologyMicroscopyLabTest": 760,
+  "MicrobiologyMicroscopyLabTestEvent": 515,
+  "MicrobiologyMicroscopyResult": 1158,
+  "MicroorganismIdentificationLabTest": 1069,
+  "MicroorganismIdentificationLabTestEvent": 790,
+  "MicroorganismIdentificationResult": 1419,
+  "Nationality": 2000,
+  "NursingDiagnosis": 1227,
+  "NutritionIntake": 2453,
+  "OncologyDiagnosis": 323,
+  "OncologySurgery": 286,
+  "OrganSupport": 1890,
+  "Organism": 26749,
+  "OxygenSaturation": 13651,
+  "OxygenSaturationMeasurement": 7193,
+  "Performer": 62687,
+  "PharmaceuticalDoseForm": 17767,
+  "PhysiologicState": 10028,
+  "ProblemCondition": 1033,
+  "Protein": 13004,
+  "QualityControlMetric": 8456,
+  "Quantity": 383746,
+  "RadiotherapyProcedure": 1150,
+  "ReferenceInterpretationResult": 119,
+  "ReferenceRange": 15601,
+  "ReferenceSequence": 1891,
+  "ReferenceValue": 19309,
+  "RespiratoryRate": 13172,
+  "RespiratoryRateMeasurement": 7827,
+  "Result": 500,
+  "ResuscitationDirective": 339,
+  "Sample": 1983,
+  "SampleProcessing": 1675,
+  "SequencingAnalysis": 700,
+  "SequencingAssay": 629,
+  "SequencingInstrument": 629,
+  "SequencingRun": 965,
+  "SingleNucleotideVariation": 169,
+  "Software": 172194,
+  "SourceSystem": 2000,
+  "StandardOperatingProcedure": 5878,
+  "SubjectPseudoIdentifier": 2000,
+  "Substance": 63300,
+  "SwissSocioEconomicPosition": 3013,
+  "Terminology": 27,
+  "TherapeuticArea": 12785,
+  "TimePattern": 17266,
+  "TimeSeriesDataFile": 2000,
+  "TobaccoExposure": 1314,
+  "Transcript": 6224,
+  "Transplant": 120,
+  "TransplantPresence": 120,
+  "TumorGradeAssessment": 1970,
+  "TumorGradeAssessmentEvent": 657,
+  "TumorGradeAssessmentResult": 2131,
+  "TumorSpecimen": 1877,
+  "TumorStageAssessment": 1138,
+  "TumorStageAssessmentEvent": 372,
+  "TumorStageAssessmentResult": 1305,
+  "Unit": 383746,
+  "VariantDescriptor": 1195,
+  "VariantNotation": 1195,
+  "VitalStatus": 738
+ },
+ "properties": {
+  "hasAcquistionCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 2000
+  },
+  "hasActiveIngredient": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 27025
+  },
+  "hasAdministrationRouteCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 17266
+  },
+  "hasAdministrativeCase": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 187893
+  },
+  "hasAdmissionDateTime": {
+   "kind": "literal",
+   "datatypes": [
+    "dateTime"
+   ],
+   "uses": 2000
+  },
+  "hasAffectedGenomicFeature": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 145
+  },
+  "hasAgentCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 4621
+  },
+  "hasAlgorithm": {
+   "kind": "individual",
+   "datatypes": [],
+   "uses": 4000
+  },
+  "hasAlleleOriginCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 1195
+  },
+  "hasAllergen": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 5303
+  },
+  "hasAlternateAllele": {
+   "kind": "literal",
+   "datatypes": [],
+   "uses": 169
+  },
+  "hasArticle": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 17767
+  },
+  "hasAssessment": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 3847
+  },
+  "hasAssociatedCountry": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 2000
+  },
+  "hasAverageInsertSize": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 965
+  },
+  "hasAverageReadLength": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 965
+  },
+  "hasBiobankName": {
+   "kind": "literal",
+   "datatypes": [],
+   "uses": 691
+  },
+  "hasBodySite": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 67339
+  },
+  "hasCalculationMethod": {
+   "kind": "individual",
+   "datatypes": [],
+   "uses": 1054
+  },
+  "hasCareHandling": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 2000
+  },
+  "hasCategory": {
+   "kind": "individual",
+   "datatypes": [],
+   "uses": 4000
+  },
+  "hasCellCountEstimateCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 1158
+  },
+  "hasCellMorphology": {
+   "kind": "individual",
+   "datatypes": [],
+   "uses": 1158
+  },
+  "hasCellOrganization": {
+   "kind": "individual",
+   "datatypes": [],
+   "uses": 1158
+  },
+  "hasCertaintyCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 3448
+  },
+  "hasChemicalAgent": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 721
+  },
+  "hasChromosomalLocation": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 1195
+  },
+  "hasChromosome": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 1195
+  },
+  "hasCircumstanceCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 789
+  },
+  "hasCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 930724
+  },
+  "hasCodingSystemAndVersion": {
+   "kind": "literal",
+   "datatypes": [],
+   "uses": 239000
+  },
+  "hasCollectionDateTime": {
+   "kind": "literal",
+   "datatypes": [
+    "dateTime"
+   ],
+   "uses": 5860
+  },
+  "hasComparator": {
+   "kind": "individual",
+   "datatypes": [],
+   "uses": 385746
+  },
+  "hasComponent": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 6177
+  },
+  "hasConditionCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 789
+  },
+  "hasConsequences": {
+   "kind": "individual",
+   "datatypes": [],
+   "uses": 290
+  },
+  "hasCoordinateConvention": {
+   "kind": "individual",
+   "datatypes": [],
+   "uses": 1195
+  },
+  "hasCountry": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 4000
+  },
+  "hasCoverageType": {
+   "kind": "individual",
+   "datatypes": [],
+   "uses": 2000
+  },
+  "hasCreationDateTime": {
+   "kind": "literal",
+   "datatypes": [
+    "dateTime"
+   ],
+   "uses": 4000
+  },
+  "hasCurrentLocation": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 12785
+  },
+  "hasDataDetermination": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 26750
+  },
+  "hasDataFile": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 85165
+  },
+  "hasDataProvider": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 450550
+  },
+  "hasDate": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 2789
+  },
+  "hasDateTime": {
+   "kind": "literal",
+   "datatypes": [
+    "dateTime"
+   ],
+   "uses": 119021
+  },
+  "hasDay": {
+   "kind": "literal",
+   "datatypes": [
+    "gDay"
+   ],
+   "uses": 2828
+  },
+  "hasDeath": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 738
+  },
+  "hasDegreeCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 4621
+  },
+  "hasDeliveryModeCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 2000
+  },
+  "hasDepartment": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 2000
+  },
+  "hasDescription": {
+   "kind": "literal",
+   "datatypes": [],
+   "uses": 178072
+  },
+  "hasDeterminationDateTime": {
+   "kind": "literal",
+   "datatypes": [
+    "dateTime"
+   ],
+   "uses": 7866
+  },
+  "hasDiastolicPressure": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 22043
+  },
+  "hasDischargeDateTime": {
+   "kind": "literal",
+   "datatypes": [
+    "dateTime"
+   ],
+   "uses": 2000
+  },
+  "hasDischargeLocation": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 2000
+  },
+  "hasDistance": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 3013
+  },
+  "hasDrug": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 17266
+  },
+  "hasDuration": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 12942
+  },
+  "hasEncoding": {
+   "kind": "individual",
+   "datatypes": [],
+   "uses": 4000
+  },
+  "hasEnd": {
+   "kind": "literal",
+   "datatypes": [
+    "double"
+   ],
+   "uses": 1195
+  },
+  "hasEndCytobandCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 1195
+  },
+  "hasEndDateTime": {
+   "kind": "literal",
+   "datatypes": [
+    "dateTime"
+   ],
+   "uses": 111959
+  },
+  "hasEnergyQuantity": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 2453
+  },
+  "hasEntryCount": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 2000
+  },
+  "hasEventDateTime": {
+   "kind": "literal",
+   "datatypes": [
+    "dateTime"
+   ],
+   "uses": 2000
+  },
+  "hasExact": {
+   "kind": "literal",
+   "datatypes": [],
+   "uses": 42355
+  },
+  "hasExposure": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 3448
+  },
+  "hasExtractionDateTime": {
+   "kind": "literal",
+   "datatypes": [
+    "dateTime"
+   ],
+   "uses": 2000
+  },
+  "hasFirstAdministrationDateTime": {
+   "kind": "literal",
+   "datatypes": [
+    "dateTime"
+   ],
+   "uses": 12393
+  },
+  "hasFirstRecordDateTime": {
+   "kind": "literal",
+   "datatypes": [
+    "dateTime"
+   ],
+   "uses": 1855
+  },
+  "hasFixationType": {
+   "kind": "individual",
+   "datatypes": [],
+   "uses": 5860
+  },
+  "hasFluidInputOutput": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 4411
+  },
+  "hasFocusGene": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 2444
+  },
+  "hasFormatCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 4000
+  },
+  "hasFractionsNumber": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 1150
+  },
+  "hasFrequency": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 12393
+  },
+  "hasGene": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 1195
+  },
+  "hasGenePanel": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 1641
+  },
+  "hasGenericName": {
+   "kind": "literal",
+   "datatypes": [],
+   "uses": 63300
+  },
+  "hasGeneticVariation": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 1195
+  },
+  "hasGenomicPosition": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 1195
+  },
+  "hasGenomicSequence": {
+   "kind": "literal",
+   "datatypes": [],
+   "uses": 806
+  },
+  "hasGestationalAge": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 2000
+  },
+  "hasGraftTypeCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 120
+  },
+  "hasHash": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 4000
+  },
+  "hasIdentifier": {
+   "kind": "literal",
+   "datatypes": [],
+   "uses": 263366
+  },
+  "hasInactiveIngredient": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 27528
+  },
+  "hasIncidenceDateTime": {
+   "kind": "literal",
+   "datatypes": [
+    "dateTime"
+   ],
+   "uses": 323
+  },
+  "hasIndicationToStart": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 16352
+  },
+  "hasInput": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 10281
+  },
+  "hasInsertionPoint": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 503
+  },
+  "hasInstitutionCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 2000
+  },
+  "hasInstrument": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 23113
+  },
+  "hasIntendedInsertSize": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 1641
+  },
+  "hasIntendedReadDepth": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 629
+  },
+  "hasIntendedReadLength": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 629
+  },
+  "hasIntent": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 32138
+  },
+  "hasIntervention": {
+   "kind": "literal",
+   "datatypes": [],
+   "uses": 290
+  },
+  "hasKitCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 1641
+  },
+  "hasLabTest": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 23113
+  },
+  "hasLastAdministrationDateTime": {
+   "kind": "literal",
+   "datatypes": [
+    "dateTime"
+   ],
+   "uses": 12393
+  },
+  "hasLastReactionDateTime": {
+   "kind": "literal",
+   "datatypes": [
+    "dateTime"
+   ],
+   "uses": 1855
+  },
+  "hasLaterality": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 68345
+  },
+  "hasLibraryPreparation": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 629
+  },
+  "hasLowerLimit": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 15601
+  },
+  "hasManifestationCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 3448
+  },
+  "hasManufacturedDoseForm": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 17767
+  },
+  "hasMaterialTypeCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 8826
+  },
+  "hasMeanPressure": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 22043
+  },
+  "hasMeanReadDepth": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 965
+  },
+  "hasMedicalDevice": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 62840
+  },
+  "hasMethodCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 86971
+  },
+  "hasModeCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 2453
+  },
+  "hasMonth": {
+   "kind": "literal",
+   "datatypes": [
+    "gMonth"
+   ],
+   "uses": 2828
+  },
+  "hasName": {
+   "kind": "literal",
+   "datatypes": [],
+   "uses": 453668
+  },
+  "hasNotation": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 1195
+  },
+  "hasNumberOfLeads": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 1592
+  },
+  "hasNumericalReference": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 34910
+  },
+  "hasOnsetDateTime": {
+   "kind": "literal",
+   "datatypes": [
+    "dateTime"
+   ],
+   "uses": 1323
+  },
+  "hasOrganism": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 26749
+  },
+  "hasOriginLocation": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 14785
+  },
+  "hasOutcome": {
+   "kind": "individual",
+   "datatypes": [],
+   "uses": 290
+  },
+  "hasOutput": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 11034
+  },
+  "hasOxygenEquipment": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 5619
+  },
+  "hasOxygenFlowRate": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 5619
+  },
+  "hasPerformer": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 62687
+  },
+  "hasPredecessor": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 7615
+  },
+  "hasPrimaryContainer": {
+   "kind": "individual",
+   "datatypes": [],
+   "uses": 5860
+  },
+  "hasPrimarySystem": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 2000
+  },
+  "hasProductCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 114685
+  },
+  "hasProtein": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 12526
+  },
+  "hasPurpose": {
+   "kind": "individual",
+   "datatypes": [],
+   "uses": 2000
+  },
+  "hasQualityControlMetric": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 8465
+  },
+  "hasQuantity": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 238747
+  },
+  "hasRadiationQuantity": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 1150
+  },
+  "hasRank": {
+   "kind": "individual",
+   "datatypes": [],
+   "uses": 3106
+  },
+  "hasReactionTypeCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 1855
+  },
+  "hasReadCount": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 965
+  },
+  "hasReasonToStopCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 4873
+  },
+  "hasRecordDateTime": {
+   "kind": "literal",
+   "datatypes": [
+    "dateTime"
+   ],
+   "uses": 34676
+  },
+  "hasReference": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 1195
+  },
+  "hasReferenceAllele": {
+   "kind": "literal",
+   "datatypes": [],
+   "uses": 169
+  },
+  "hasReferenceSequence": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 700
+  },
+  "hasRegularityCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 12348
+  },
+  "hasRelativeTemporalityCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 1033
+  },
+  "hasReportDateTime": {
+   "kind": "literal",
+   "datatypes": [
+    "dateTime"
+   ],
+   "uses": 16940
+  },
+  "hasRestingPoint": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 503
+  },
+  "hasResult": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 130158
+  },
+  "hasRouteCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 6551
+  },
+  "hasSample": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 18251
+  },
+  "hasSequenceLength": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 806
+  },
+  "hasSequencingInstrument": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 629
+  },
+  "hasSequencingRun": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 965
+  },
+  "hasSeverityCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 5593
+  },
+  "hasSharedIdentifier": {
+   "kind": "literal",
+   "datatypes": [
+    "anyURI"
+   ],
+   "uses": 7860
+  },
+  "hasSoftware": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 172201
+  },
+  "hasSourceSystem": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 329055
+  },
+  "hasSpecialtyName": {
+   "kind": "individual",
+   "datatypes": [],
+   "uses": 12785
+  },
+  "hasStainingMethodCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 760
+  },
+  "hasStainingResultCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 1158
+  },
+  "hasStandardGuideline": {
+   "kind": "literal",
+   "datatypes": [],
+   "uses": 4107
+  },
+  "hasStandardOperatingProcedure": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 5886
+  },
+  "hasStart": {
+   "kind": "literal",
+   "datatypes": [
+    "double"
+   ],
+   "uses": 1195
+  },
+  "hasStartCytobandCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 1195
+  },
+  "hasStartDateTime": {
+   "kind": "literal",
+   "datatypes": [
+    "dateTime"
+   ],
+   "uses": 117845
+  },
+  "hasStatusCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 2000
+  },
+  "hasStringValue": {
+   "kind": "literal",
+   "datatypes": [],
+   "uses": 50553
+  },
+  "hasSubjectAge": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 10998
+  },
+  "hasSubjectPhysiologicState": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 10028
+  },
+  "hasSubjectPseudoIdentifier": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 213101
+  },
+  "hasSubstance": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 8527
+  },
+  "hasSwissSocioEconomicPosition": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 3013
+  },
+  "hasSystolicPressure": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 22043
+  },
+  "hasTargetEnrichmentKitCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 1641
+  },
+  "hasTargetLocation": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 12785
+  },
+  "hasTargetMolecule": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 796
+  },
+  "hasTemplateIdentifier": {
+   "kind": "literal",
+   "datatypes": [],
+   "uses": 2000
+  },
+  "hasTestKit": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 23113
+  },
+  "hasTherapeuticArea": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 12785
+  },
+  "hasTime": {
+   "kind": "literal",
+   "datatypes": [
+    "time"
+   ],
+   "uses": 2828
+  },
+  "hasTimePattern": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 17266
+  },
+  "hasTimeToPositivity": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 1419
+  },
+  "hasTotalCopyNumber": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 114
+  },
+  "hasTranscript": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 6224
+  },
+  "hasTransplant": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 120
+  },
+  "hasTumorPurity": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 1877
+  },
+  "hasTypeCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 180929
+  },
+  "hasUniformResourceIdentifier": {
+   "kind": "literal",
+   "datatypes": [],
+   "uses": 4000
+  },
+  "hasUniformResourceLocator": {
+   "kind": "literal",
+   "datatypes": [],
+   "uses": 172194
+  },
+  "hasUnit": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 383746
+  },
+  "hasUpperLimit": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 15601
+  },
+  "hasValue": {
+   "kind": "literal",
+   "datatypes": [
+    "double"
+   ],
+   "uses": 387954
+  },
+  "hasVerificationStatusCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 1855
+  },
+  "hasVersion": {
+   "kind": "literal",
+   "datatypes": [],
+   "uses": 181085
+  },
+  "hasYear": {
+   "kind": "literal",
+   "datatypes": [
+    "gYear"
+   ],
+   "uses": 2828
+  },
+  "hasZygosityCode": {
+   "kind": "record",
+   "datatypes": [],
+   "uses": 1195
+  }
+ },
+ "class_properties": {
+  "AccessDevice": [
+   "hasProductCode",
+   "hasSoftware",
+   "hasTypeCode"
+  ],
+  "AccessDevicePresence": [
+   "hasAdministrativeCase",
+   "hasDataProvider",
+   "hasEndDateTime",
+   "hasInsertionPoint",
+   "hasMedicalDevice",
+   "hasRestingPoint",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "AdministrativeCase": [
+   "hasAdmissionDateTime",
+   "hasCareHandling",
+   "hasDataProvider",
+   "hasDischargeDateTime",
+   "hasDischargeLocation",
+   "hasIdentifier",
+   "hasOriginLocation",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "AdministrativeSex": [
+   "hasCode",
+   "hasDataProvider",
+   "hasRecordDateTime",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "AdverseEvent": [
+   "hasAdministrativeCase",
+   "hasCode",
+   "hasConsequences",
+   "hasDataProvider",
+   "hasIntervention",
+   "hasOnsetDateTime",
+   "hasOutcome",
+   "hasSeverityCode",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "Age": [
+   "hasDeterminationDateTime",
+   "hasQuantity",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "Allergen": [
+   "hasCode"
+  ],
+  "Allergy": [
+   "hasAllergen",
+   "hasDataProvider",
+   "hasFirstRecordDateTime",
+   "hasLastReactionDateTime",
+   "hasReactionTypeCode",
+   "hasSeverityCode",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier",
+   "hasVerificationStatusCode"
+  ],
+  "AllergyEpisode": [
+   "hasAdministrativeCase",
+   "hasAllergen",
+   "hasBodySite",
+   "hasCertaintyCode",
+   "hasDataProvider",
+   "hasDateTime",
+   "hasDuration",
+   "hasExposure",
+   "hasManifestationCode",
+   "hasSeverityCode",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "AntimicrobialSusceptibilityLabTest": [
+   "hasChemicalAgent",
+   "hasCode",
+   "hasInstrument",
+   "hasResult",
+   "hasTestKit"
+  ],
+  "AntimicrobialSusceptibilityLabTestEvent": [
+   "hasAdministrativeCase",
+   "hasDataProvider",
+   "hasDateTime",
+   "hasLabTest",
+   "hasReportDateTime",
+   "hasSample",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "AntimicrobialSusceptibilityResult": [
+   "hasCode",
+   "hasNumericalReference",
+   "hasQuantity",
+   "hasStandardGuideline",
+   "hasStringValue"
+  ],
+  "Assay": [
+   "hasAdministrativeCase",
+   "hasCode",
+   "hasDataFile",
+   "hasDataProvider",
+   "hasIdentifier",
+   "hasPredecessor",
+   "hasSample",
+   "hasSourceSystem",
+   "hasStandardOperatingProcedure",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "Assessment": [
+   "hasCode",
+   "hasComponent",
+   "hasName",
+   "hasResult"
+  ],
+  "AssessmentComponent": [
+   "hasCode",
+   "hasName",
+   "hasResult"
+  ],
+  "AssessmentEvent": [
+   "hasAdministrativeCase",
+   "hasAssessment",
+   "hasDataProvider",
+   "hasDateTime",
+   "hasPerformer",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "AssessmentResult": [
+   "hasCode",
+   "hasQuantity",
+   "hasStringValue"
+  ],
+  "BilledDiagnosis": [
+   "hasAdministrativeCase",
+   "hasCode",
+   "hasDataProvider",
+   "hasRank",
+   "hasRecordDateTime",
+   "hasSourceSystem",
+   "hasSubjectAge",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "BilledProcedure": [
+   "hasAdministrativeCase",
+   "hasBodySite",
+   "hasCode",
+   "hasDataProvider",
+   "hasEndDateTime",
+   "hasIntent",
+   "hasRank",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "Biobanksample": [
+   "hasAdministrativeCase",
+   "hasBiobankName",
+   "hasDataProvider",
+   "hasIdentifier",
+   "hasSample",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "Birth": [
+   "hasAdministrativeCase",
+   "hasCountry",
+   "hasDataProvider",
+   "hasDate",
+   "hasDeliveryModeCode",
+   "hasGestationalAge",
+   "hasMedicalDevice",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "BirthDate": [
+   "hasComparator",
+   "hasDataProvider",
+   "hasDay",
+   "hasMonth",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier",
+   "hasTime",
+   "hasYear"
+  ],
+  "BloodPressure": [
+   "hasDataFile",
+   "hasDateTime",
+   "hasDiastolicPressure",
+   "hasMeanPressure",
+   "hasSystolicPressure"
+  ],
+  "BloodPressureMeasurement": [
+   "hasAdministrativeCase",
+   "hasBodySite",
+   "hasDataProvider",
+   "hasEndDateTime",
+   "hasMedicalDevice",
+   "hasMethodCode",
+   "hasPerformer",
+   "hasResult",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "BodyHeight": [
+   "hasDataDetermination",
+   "hasDateTime",
+   "hasQuantity"
+  ],
+  "BodyHeightMeasurement": [
+   "hasAdministrativeCase",
+   "hasDataProvider",
+   "hasEndDateTime",
+   "hasMedicalDevice",
+   "hasMethodCode",
+   "hasPerformer",
+   "hasResult",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "BodyMassIndex": [
+   "hasAdministrativeCase",
+   "hasDataProvider",
+   "hasDeterminationDateTime",
+   "hasQuantity",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "BodyPosition": [
+   "hasAdministrativeCase",
+   "hasCode",
+   "hasDataProvider",
+   "hasEndDateTime",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "BodySite": [
+   "hasCode",
+   "hasLaterality"
+  ],
+  "BodySurfaceArea": [
+   "hasAdministrativeCase",
+   "hasCalculationMethod",
+   "hasDataProvider",
+   "hasDeterminationDateTime",
+   "hasQuantity",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "BodyTemperature": [
+   "hasDataFile",
+   "hasDateTime",
+   "hasQuantity"
+  ],
+  "BodyTemperatureMeasurement": [
+   "hasAdministrativeCase",
+   "hasBodySite",
+   "hasDataProvider",
+   "hasEndDateTime",
+   "hasMedicalDevice",
+   "hasMethodCode",
+   "hasPerformer",
+   "hasResult",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "BodyWeight": [
+   "hasDataDetermination",
+   "hasDateTime",
+   "hasQuantity"
+  ],
+  "BodyWeightMeasurement": [
+   "hasAdministrativeCase",
+   "hasDataProvider",
+   "hasEndDateTime",
+   "hasMedicalDevice",
+   "hasMethodCode",
+   "hasPerformer",
+   "hasResult",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "CardiacIndex": [
+   "hasAdministrativeCase",
+   "hasDataProvider",
+   "hasDeterminationDateTime",
+   "hasMethodCode",
+   "hasQuantity",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "CardiacOutput": [
+   "hasDataFile",
+   "hasDateTime",
+   "hasQuantity"
+  ],
+  "CardiacOutputMeasurement": [
+   "hasAdministrativeCase",
+   "hasDataProvider",
+   "hasEndDateTime",
+   "hasMedicalDevice",
+   "hasMethodCode",
+   "hasPerformer",
+   "hasResult",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "CareHandling": [
+   "hasSourceSystem",
+   "hasTypeCode"
+  ],
+  "ChromosomalLocation": [
+   "hasChromosome",
+   "hasEndCytobandCode",
+   "hasStartCytobandCode"
+  ],
+  "Chromosome": [
+   "hasCode"
+  ],
+  "Circumference": [
+   "hasDateTime",
+   "hasQuantity"
+  ],
+  "CircumferenceMeasurement": [
+   "hasAdministrativeCase",
+   "hasBodySite",
+   "hasDataProvider",
+   "hasEndDateTime",
+   "hasMedicalDevice",
+   "hasMethodCode",
+   "hasPerformer",
+   "hasResult",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "CivilStatus": [
+   "hasCode",
+   "hasEventDateTime",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "Code": [
+   "hasCodingSystemAndVersion",
+   "hasIdentifier",
+   "hasName"
+  ],
+  "Consent": [
+   "hasDataProvider",
+   "hasDateTime",
+   "hasSourceSystem",
+   "hasStatusCode",
+   "hasSubjectPseudoIdentifier",
+   "hasTemplateIdentifier",
+   "hasTypeCode"
+  ],
+  "CopyNumberVariation": [
+   "hasAffectedGenomicFeature",
+   "hasChromosomalLocation",
+   "hasGenomicPosition",
+   "hasTotalCopyNumber",
+   "hasTypeCode"
+  ],
+  "Country": [
+   "hasCode"
+  ],
+  "DataDetermination": [
+   "hasMethodCode"
+  ],
+  "DataFile": [
+   "hasCreationDateTime",
+   "hasDataProvider",
+   "hasEncoding",
+   "hasFormatCode",
+   "hasHash",
+   "hasName",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier",
+   "hasUniformResourceIdentifier"
+  ],
+  "DataProcessing": [
+   "hasAdministrativeCase",
+   "hasCode",
+   "hasDataProvider",
+   "hasInput",
+   "hasOutput",
+   "hasPredecessor",
+   "hasQualityControlMetric",
+   "hasSoftware",
+   "hasSourceSystem",
+   "hasStandardOperatingProcedure",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "DataProvider": [
+   "hasCategory",
+   "hasDepartment",
+   "hasInstitutionCode"
+  ],
+  "DataRelease": [
+   "hasDataProvider",
+   "hasExtractionDateTime"
+  ],
+  "Death": [
+   "hasAdministrativeCase",
+   "hasCircumstanceCode",
+   "hasConditionCode",
+   "hasDataProvider",
+   "hasDate",
+   "hasReportDateTime",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "DeathDate": [
+   "hasDataProvider",
+   "hasDay",
+   "hasMonth",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier",
+   "hasTime",
+   "hasYear"
+  ],
+  "Department": [
+   "hasName"
+  ],
+  "Diagnosis": [
+   "hasAdministrativeCase",
+   "hasCode",
+   "hasDataProvider",
+   "hasRecordDateTime",
+   "hasSourceSystem",
+   "hasSubjectAge",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "Drug": [
+   "hasActiveIngredient",
+   "hasArticle",
+   "hasInactiveIngredient",
+   "hasQuantity",
+   "hasSourceSystem"
+  ],
+  "DrugAdministrationEvent": [
+   "hasAdministrationRouteCode",
+   "hasAdministrativeCase",
+   "hasDataProvider",
+   "hasDrug",
+   "hasDuration",
+   "hasEndDateTime",
+   "hasReasonToStopCode",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier",
+   "hasTimePattern"
+  ],
+  "DrugArticle": [
+   "hasCode",
+   "hasManufacturedDoseForm",
+   "hasName",
+   "hasSourceSystem"
+  ],
+  "DrugPrescription": [
+   "hasAdministrationRouteCode",
+   "hasAdministrativeCase",
+   "hasDataProvider",
+   "hasDrug",
+   "hasFirstAdministrationDateTime",
+   "hasFrequency",
+   "hasIndicationToStart",
+   "hasIntent",
+   "hasLastAdministrationDateTime",
+   "hasRecordDateTime",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier",
+   "hasTimePattern"
+  ],
+  "Electrocardiogram": [
+   "hasDataFile"
+  ],
+  "ElectrocardiographicProcedure": [
+   "hasAdministrativeCase",
+   "hasBodySite",
+   "hasCode",
+   "hasDataProvider",
+   "hasEndDateTime",
+   "hasIntent",
+   "hasNumberOfLeads",
+   "hasOutput",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPhysiologicState",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "ExcludedDisorder": [
+   "hasAdministrativeCase",
+   "hasCode",
+   "hasDataProvider",
+   "hasRecordDateTime",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "Exposure": [
+   "hasAdministrativeCase",
+   "hasAgentCode",
+   "hasDataProvider",
+   "hasDegreeCode",
+   "hasDuration",
+   "hasEndDateTime",
+   "hasQuantity",
+   "hasRecordDateTime",
+   "hasRouteCode",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "FluidBalance": [
+   "hasAdministrativeCase",
+   "hasDataProvider",
+   "hasEndDateTime",
+   "hasFluidInputOutput",
+   "hasQuantity",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "FluidInputOutput": [
+   "hasAdministrativeCase",
+   "hasDataProvider",
+   "hasEndDateTime",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier",
+   "hasSubstance"
+  ],
+  "FollowUp": [
+   "hasCode",
+   "hasDataProvider",
+   "hasDateTime",
+   "hasResult",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "Gene": [
+   "hasCode",
+   "hasOrganism",
+   "hasProtein",
+   "hasTranscript"
+  ],
+  "GenePanel": [
+   "hasDataFile",
+   "hasFocusGene"
+  ],
+  "GeneticVariation": [
+   "hasChromosomalLocation",
+   "hasGenomicPosition"
+  ],
+  "GenomicDeletion": [
+   "hasChromosomalLocation",
+   "hasGenomicPosition",
+   "hasGenomicSequence",
+   "hasSequenceLength"
+  ],
+  "GenomicInsertion": [
+   "hasChromosomalLocation",
+   "hasGenomicPosition",
+   "hasGenomicSequence",
+   "hasSequenceLength"
+  ],
+  "GenomicPosition": [
+   "hasCoordinateConvention",
+   "hasEnd",
+   "hasReference",
+   "hasStart"
+  ],
+  "GestationalAgeAtBirth": [
+   "hasAdministrativeCase",
+   "hasDataProvider",
+   "hasQuantity",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "Hash": [
+   "hasAlgorithm",
+   "hasStringValue"
+  ],
+  "HealthcareEncounter": [
+   "hasAdministrativeCase",
+   "hasCurrentLocation",
+   "hasDataProvider",
+   "hasEndDateTime",
+   "hasIdentifier",
+   "hasOriginLocation",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier",
+   "hasTargetLocation",
+   "hasTherapeuticArea"
+  ],
+  "HealthcarePrimaryInformationSystem": [
+   "hasCode",
+   "hasDataProvider",
+   "hasName"
+  ],
+  "HeartRate": [
+   "hasDataFile",
+   "hasDateTime",
+   "hasQuantity",
+   "hasRegularityCode"
+  ],
+  "HeartRateMeasurement": [
+   "hasAdministrativeCase",
+   "hasBodySite",
+   "hasDataProvider",
+   "hasEndDateTime",
+   "hasMedicalDevice",
+   "hasMethodCode",
+   "hasPerformer",
+   "hasResult",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPhysiologicState",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "HomeAddress": [
+   "hasCountry",
+   "hasDataProvider",
+   "hasEndDateTime",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier",
+   "hasSwissSocioEconomicPosition"
+  ],
+  "ImagingProcedure": [
+   "hasAdministrativeCase",
+   "hasBodySite",
+   "hasCode",
+   "hasDataProvider",
+   "hasEndDateTime",
+   "hasIntent",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "Implant": [
+   "hasProductCode",
+   "hasSoftware",
+   "hasTypeCode"
+  ],
+  "ImplantPresence": [
+   "hasAdministrativeCase",
+   "hasBodySite",
+   "hasDataProvider",
+   "hasEndDateTime",
+   "hasMedicalDevice",
+   "hasRecordDateTime",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "InhaledOxygenConcentration": [
+   "hasAdministrativeCase",
+   "hasDataDetermination",
+   "hasDataProvider",
+   "hasDateTime",
+   "hasOxygenEquipment",
+   "hasOxygenFlowRate",
+   "hasQuantity",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "InsuranceStatus": [
+   "hasAdministrativeCase",
+   "hasCoverageType",
+   "hasDataProvider",
+   "hasEndDateTime",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "Intent": [
+   "hasCode"
+  ],
+  "Interpretation": [
+   "hasDataProvider",
+   "hasDateTime",
+   "hasInput",
+   "hasOutput",
+   "hasSourceSystem",
+   "hasStandardGuideline"
+  ],
+  "Isolate": [
+   "hasAdministrativeCase",
+   "hasBodySite",
+   "hasCollectionDateTime",
+   "hasDataProvider",
+   "hasFixationType",
+   "hasIdentifier",
+   "hasMaterialTypeCode",
+   "hasOrganism",
+   "hasPrimaryContainer",
+   "hasSharedIdentifier",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "LabAnalyzer": [
+   "hasProductCode",
+   "hasSoftware",
+   "hasTypeCode"
+  ],
+  "LabResult": [
+   "hasCode",
+   "hasNumericalReference",
+   "hasQuantity",
+   "hasStringValue"
+  ],
+  "LabTest": [
+   "hasCode",
+   "hasInstrument",
+   "hasResult",
+   "hasTestKit"
+  ],
+  "LabTestEvent": [
+   "hasAdministrativeCase",
+   "hasDataProvider",
+   "hasDateTime",
+   "hasLabTest",
+   "hasReportDateTime",
+   "hasSample",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "Laterality": [
+   "hasCode"
+  ],
+  "LibraryPreparation": [
+   "hasAdministrativeCase",
+   "hasCode",
+   "hasDataProvider",
+   "hasGenePanel",
+   "hasInput",
+   "hasIntendedInsertSize",
+   "hasKitCode",
+   "hasOutput",
+   "hasPredecessor",
+   "hasQualityControlMetric",
+   "hasSourceSystem",
+   "hasStandardOperatingProcedure",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier",
+   "hasTargetEnrichmentKitCode"
+  ],
+  "Location": [
+   "hasDataProvider",
+   "hasExact",
+   "hasTypeCode"
+  ],
+  "Measurement": [
+   "hasAdministrativeCase",
+   "hasDataProvider",
+   "hasEndDateTime",
+   "hasMedicalDevice",
+   "hasMethodCode",
+   "hasPerformer",
+   "hasResult",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "MedicalDevice": [
+   "hasProductCode",
+   "hasSoftware",
+   "hasTypeCode"
+  ],
+  "MedicalProcedure": [
+   "hasAdministrativeCase",
+   "hasBodySite",
+   "hasCode",
+   "hasDataProvider",
+   "hasEndDateTime",
+   "hasIntent",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "MicrobiologyBiomoleculePresenceLabTest": [
+   "hasCode",
+   "hasInstrument",
+   "hasResult",
+   "hasTargetMolecule",
+   "hasTestKit"
+  ],
+  "MicrobiologyBiomoleculePresenceLabTestEvent": [
+   "hasAdministrativeCase",
+   "hasDataProvider",
+   "hasDateTime",
+   "hasLabTest",
+   "hasReportDateTime",
+   "hasSample",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "MicrobiologyBiomoleculePresenceResult": [
+   "hasCode",
+   "hasNumericalReference",
+   "hasQuantity",
+   "hasStringValue"
+  ],
+  "MicrobiologyMicroscopyLabTest": [
+   "hasCode",
+   "hasInstrument",
+   "hasResult",
+   "hasStainingMethodCode",
+   "hasTestKit"
+  ],
+  "MicrobiologyMicroscopyLabTestEvent": [
+   "hasAdministrativeCase",
+   "hasDataProvider",
+   "hasDateTime",
+   "hasLabTest",
+   "hasReportDateTime",
+   "hasSample",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "MicrobiologyMicroscopyResult": [
+   "hasCellCountEstimateCode",
+   "hasCellMorphology",
+   "hasCellOrganization",
+   "hasNumericalReference",
+   "hasQuantity",
+   "hasStainingResultCode",
+   "hasStringValue"
+  ],
+  "MicroorganismIdentificationLabTest": [
+   "hasCode",
+   "hasInstrument",
+   "hasResult",
+   "hasTestKit"
+  ],
+  "MicroorganismIdentificationLabTestEvent": [
+   "hasAdministrativeCase",
+   "hasDataProvider",
+   "hasDateTime",
+   "hasLabTest",
+   "hasReportDateTime",
+   "hasSample",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "MicroorganismIdentificationResult": [
+   "hasCode",
+   "hasNumericalReference",
+   "hasOrganism",
+   "hasStringValue",
+   "hasTimeToPositivity"
+  ],
+  "Nationality": [
+   "hasAcquistionCode",
+   "hasAssociatedCountry",
+   "hasDataProvider",
+   "hasRecordDateTime",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "NursingDiagnosis": [
+   "hasAdministrativeCase",
+   "hasCode",
+   "hasDataProvider",
+   "hasRecordDateTime",
+   "hasSourceSystem",
+   "hasSubjectAge",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "NutritionIntake": [
+   "hasAdministrativeCase",
+   "hasDataProvider",
+   "hasEndDateTime",
+   "hasEnergyQuantity",
+   "hasModeCode",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier",
+   "hasSubstance"
+  ],
+  "OncologyDiagnosis": [
+   "hasAdministrativeCase",
+   "hasBodySite",
+   "hasCode",
+   "hasDataProvider",
+   "hasIncidenceDateTime",
+   "hasRecordDateTime",
+   "hasSourceSystem",
+   "hasSubjectAge",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "OncologySurgery": [
+   "hasAdministrativeCase",
+   "hasBodySite",
+   "hasCode",
+   "hasDataProvider",
+   "hasEndDateTime",
+   "hasIntent",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "OrganSupport": [
+   "hasAdministrativeCase",
+   "hasBodySite",
+   "hasCode",
+   "hasDataProvider",
+   "hasEndDateTime",
+   "hasIntent",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "Organism": [
+   "hasCode"
+  ],
+  "OxygenSaturation": [
+   "hasDataFile",
+   "hasDateTime",
+   "hasQuantity"
+  ],
+  "OxygenSaturationMeasurement": [
+   "hasAdministrativeCase",
+   "hasBodySite",
+   "hasDataProvider",
+   "hasEndDateTime",
+   "hasMedicalDevice",
+   "hasMethodCode",
+   "hasPerformer",
+   "hasResult",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "Performer": [
+   "hasCode"
+  ],
+  "PharmaceuticalDoseForm": [
+   "hasCode"
+  ],
+  "PhysiologicState": [
+   "hasCode"
+  ],
+  "ProblemCondition": [
+   "hasAdministrativeCase",
+   "hasCode",
+   "hasDataProvider",
+   "hasOnsetDateTime",
+   "hasRecordDateTime",
+   "hasRelativeTemporalityCode",
+   "hasSourceSystem",
+   "hasStringValue",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "Protein": [
+   "hasCode",
+   "hasOrganism"
+  ],
+  "QualityControlMetric": [
+   "hasCode",
+   "hasDataProvider",
+   "hasQuantity"
+  ],
+  "Quantity": [
+   "hasComparator",
+   "hasUnit",
+   "hasValue"
+  ],
+  "RadiotherapyProcedure": [
+   "hasAdministrativeCase",
+   "hasBodySite",
+   "hasCode",
+   "hasDataProvider",
+   "hasEndDateTime",
+   "hasFractionsNumber",
+   "hasIntent",
+   "hasRadiationQuantity",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "ReferenceInterpretationResult": [
+   "hasCode"
+  ],
+  "ReferenceRange": [
+   "hasLowerLimit",
+   "hasUpperLimit"
+  ],
+  "ReferenceSequence": [
+   "hasCode"
+  ],
+  "ReferenceValue": [
+   "hasQuantity"
+  ],
+  "RespiratoryRate": [
+   "hasDataDetermination",
+   "hasDataFile",
+   "hasDateTime",
+   "hasQuantity"
+  ],
+  "RespiratoryRateMeasurement": [
+   "hasAdministrativeCase",
+   "hasDataProvider",
+   "hasEndDateTime",
+   "hasMedicalDevice",
+   "hasMethodCode",
+   "hasPerformer",
+   "hasResult",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "ResuscitationDirective": [
+   "hasAdministrativeCase",
+   "hasCode",
+   "hasDataProvider",
+   "hasRecordDateTime",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "Sample": [
+   "hasAdministrativeCase",
+   "hasBodySite",
+   "hasCollectionDateTime",
+   "hasDataProvider",
+   "hasFixationType",
+   "hasIdentifier",
+   "hasMaterialTypeCode",
+   "hasPrimaryContainer",
+   "hasSharedIdentifier",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "SampleProcessing": [
+   "hasAdministrativeCase",
+   "hasCode",
+   "hasDataProvider",
+   "hasInput",
+   "hasOutput",
+   "hasPredecessor",
+   "hasQualityControlMetric",
+   "hasSourceSystem",
+   "hasStandardOperatingProcedure",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "SequencingAnalysis": [
+   "hasAdministrativeCase",
+   "hasCode",
+   "hasDataProvider",
+   "hasInput",
+   "hasOutput",
+   "hasPredecessor",
+   "hasQualityControlMetric",
+   "hasReferenceSequence",
+   "hasSoftware",
+   "hasSourceSystem",
+   "hasStandardOperatingProcedure",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "SequencingAssay": [
+   "hasAdministrativeCase",
+   "hasCode",
+   "hasDataFile",
+   "hasDataProvider",
+   "hasIdentifier",
+   "hasIntendedReadDepth",
+   "hasIntendedReadLength",
+   "hasLibraryPreparation",
+   "hasPredecessor",
+   "hasSample",
+   "hasSequencingInstrument",
+   "hasSequencingRun",
+   "hasSourceSystem",
+   "hasStandardOperatingProcedure",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "SequencingInstrument": [
+   "hasCode",
+   "hasDataProvider"
+  ],
+  "SequencingRun": [
+   "hasAverageInsertSize",
+   "hasAverageReadLength",
+   "hasDataFile",
+   "hasDataProvider",
+   "hasDateTime",
+   "hasIdentifier",
+   "hasMeanReadDepth",
+   "hasQualityControlMetric",
+   "hasReadCount"
+  ],
+  "SingleNucleotideVariation": [
+   "hasAlternateAllele",
+   "hasChromosomalLocation",
+   "hasGenomicPosition",
+   "hasReferenceAllele"
+  ],
+  "Software": [
+   "hasDataProvider",
+   "hasDescription",
+   "hasName",
+   "hasUniformResourceLocator",
+   "hasVersion"
+  ],
+  "SourceSystem": [
+   "hasCategory",
+   "hasDataProvider",
+   "hasName",
+   "hasPrimarySystem",
+   "hasPurpose"
+  ],
+  "StandardOperatingProcedure": [
+   "hasDataFile",
+   "hasDataProvider",
+   "hasDescription",
+   "hasName",
+   "hasVersion"
+  ],
+  "SubjectPseudoIdentifier": [
+   "hasDataProvider",
+   "hasIdentifier",
+   "hasSharedIdentifier"
+  ],
+  "Substance": [
+   "hasCode",
+   "hasGenericName",
+   "hasQuantity",
+   "hasSourceSystem"
+  ],
+  "SwissSocioEconomicPosition": [
+   "hasDistance",
+   "hasValue",
+   "hasVersion"
+  ],
+  "TherapeuticArea": [
+   "hasSourceSystem",
+   "hasSpecialtyName"
+  ],
+  "TimePattern": [
+   "hasTypeCode"
+  ],
+  "TimeSeriesDataFile": [
+   "hasCreationDateTime",
+   "hasDataProvider",
+   "hasEncoding",
+   "hasEntryCount",
+   "hasFormatCode",
+   "hasHash",
+   "hasName",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier",
+   "hasUniformResourceIdentifier"
+  ],
+  "TobaccoExposure": [
+   "hasAdministrativeCase",
+   "hasAgentCode",
+   "hasDataProvider",
+   "hasDegreeCode",
+   "hasDuration",
+   "hasEndDateTime",
+   "hasQuantity",
+   "hasRecordDateTime",
+   "hasRouteCode",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier",
+   "hasTypeCode"
+  ],
+  "Transcript": [
+   "hasCode",
+   "hasOrganism",
+   "hasProtein"
+  ],
+  "Transplant": [
+   "hasCode",
+   "hasGraftTypeCode"
+  ],
+  "TransplantPresence": [
+   "hasAdministrativeCase",
+   "hasBodySite",
+   "hasDataProvider",
+   "hasEndDateTime",
+   "hasRecordDateTime",
+   "hasSourceSystem",
+   "hasStartDateTime",
+   "hasSubjectPseudoIdentifier",
+   "hasTransplant"
+  ],
+  "TumorGradeAssessment": [
+   "hasCode",
+   "hasComponent",
+   "hasName",
+   "hasResult"
+  ],
+  "TumorGradeAssessmentEvent": [
+   "hasAdministrativeCase",
+   "hasAssessment",
+   "hasDataProvider",
+   "hasDateTime",
+   "hasPerformer",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "TumorGradeAssessmentResult": [
+   "hasCode",
+   "hasQuantity",
+   "hasStringValue"
+  ],
+  "TumorSpecimen": [
+   "hasAdministrativeCase",
+   "hasBodySite",
+   "hasCollectionDateTime",
+   "hasDataProvider",
+   "hasFixationType",
+   "hasIdentifier",
+   "hasMaterialTypeCode",
+   "hasPrimaryContainer",
+   "hasSharedIdentifier",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier",
+   "hasTumorPurity"
+  ],
+  "TumorStageAssessment": [
+   "hasCode",
+   "hasComponent",
+   "hasName",
+   "hasResult"
+  ],
+  "TumorStageAssessmentEvent": [
+   "hasAdministrativeCase",
+   "hasAssessment",
+   "hasDataProvider",
+   "hasDateTime",
+   "hasPerformer",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ],
+  "TumorStageAssessmentResult": [
+   "hasCode",
+   "hasQuantity",
+   "hasStringValue"
+  ],
+  "Unit": [
+   "hasCode"
+  ],
+  "VariantDescriptor": [
+   "hasAdministrativeCase",
+   "hasAlleleOriginCode",
+   "hasCode",
+   "hasDataProvider",
+   "hasGene",
+   "hasGeneticVariation",
+   "hasNotation",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier",
+   "hasTypeCode",
+   "hasZygosityCode"
+  ],
+  "VariantNotation": [
+   "hasCodingSystemAndVersion",
+   "hasValue"
+  ],
+  "VitalStatus": [
+   "hasCode",
+   "hasDataProvider",
+   "hasDeath",
+   "hasSourceSystem",
+   "hasSubjectPseudoIdentifier"
+  ]
+ },
+ "covered_by": {
+  "GenomicVariation": [
+   "CopyNumberVariation",
+   "GenomicDeletion",
+   "GenomicInsertion",
+   "SingleNucleotideVariation"
+  ],
+  "Range": [
+   "ReferenceRange"
+  ],
+  "SPHNConcept": [
+   "AccessDevice",
+   "AccessDevicePresence",
+   "AdministrativeCase",
+   "AdministrativeSex",
+   "AdverseEvent",
+   "Age",
+   "Allergen",
+   "Allergy",
+   "AllergyEpisode",
+   "AntimicrobialSusceptibilityLabTest",
+   "AntimicrobialSusceptibilityLabTestEvent",
+   "AntimicrobialSusceptibilityResult",
+   "Assay",
+   "Assessment",
+   "AssessmentComponent",
+   "AssessmentEvent",
+   "AssessmentResult",
+   "BilledDiagnosis",
+   "BilledProcedure",
+   "Biobanksample",
+   "Birth",
+   "BirthDate",
+   "BloodPressure",
+   "BloodPressureMeasurement",
+   "BodyHeight",
+   "BodyHeightMeasurement",
+   "BodyMassIndex",
+   "BodyPosition",
+   "BodySite",
+   "BodySurfaceArea",
+   "BodyTemperature",
+   "BodyTemperatureMeasurement",
+   "BodyWeight",
+   "BodyWeightMeasurement",
+   "CardiacIndex",
+   "CardiacOutput",
+   "CardiacOutputMeasurement",
+   "CareHandling",
+   "ChromosomalLocation",
+   "Chromosome",
+   "Circumference",
+   "CircumferenceMeasurement",
+   "CivilStatus",
+   "Code",
+   "Consent",
+   "CopyNumberVariation",
+   "Country",
+   "DataDetermination",
+   "DataFile",
+   "DataProcessing",
+   "DataProvider",
+   "DataRelease",
+   "Death",
+   "DeathDate",
+   "Department",
+   "Diagnosis",
+   "Drug",
+   "DrugAdministrationEvent",
+   "DrugArticle",
+   "DrugPrescription",
+   "Electrocardiogram",
+   "ElectrocardiographicProcedure",
+   "ExcludedDisorder",
+   "Exposure",
+   "FluidBalance",
+   "FluidInputOutput",
+   "FollowUp",
+   "Gene",
+   "GenePanel",
+   "GenomicDeletion",
+   "GenomicInsertion",
+   "GenomicPosition",
+   "GestationalAgeAtBirth",
+   "Hash",
+   "HealthcareEncounter",
+   "HealthcarePrimaryInformationSystem",
+   "HeartRate",
+   "HeartRateMeasurement",
+   "HomeAddress",
+   "ImagingProcedure",
+   "Implant",
+   "ImplantPresence",
+   "InsuranceStatus",
+   "Intent",
+   "Interpretation",
+   "Isolate",
+   "LabAnalyzer",
+   "LabResult",
+   "LabTest",
+   "LabTestEvent",
+   "Laterality",
+   "LibraryPreparation",
+   "Location",
+   "Measurement",
+   "MedicalDevice",
+   "MedicalProcedure",
+   "MicrobiologyBiomoleculePresenceLabTest",
+   "MicrobiologyBiomoleculePresenceLabTestEvent",
+   "MicrobiologyBiomoleculePresenceResult",
+   "MicrobiologyMicroscopyLabTest",
+   "MicrobiologyMicroscopyLabTestEvent",
+   "MicrobiologyMicroscopyResult",
+   "MicroorganismIdentificationLabTest",
+   "MicroorganismIdentificationLabTestEvent",
+   "MicroorganismIdentificationResult",
+   "Nationality",
+   "NursingDiagnosis",
+   "OncologyDiagnosis",
+   "OncologySurgery",
+   "OrganSupport",
+   "Organism",
+   "OxygenSaturation",
+   "OxygenSaturationMeasurement",
+   "Performer",
+   "PharmaceuticalDoseForm",
+   "PhysiologicState",
+   "ProblemCondition",
+   "Protein",
+   "QualityControlMetric",
+   "Quantity",
+   "RadiotherapyProcedure",
+   "ReferenceInterpretationResult",
+   "ReferenceRange",
+   "ReferenceSequence",
+   "ReferenceValue",
+   "RespiratoryRate",
+   "RespiratoryRateMeasurement",
+   "Result",
+   "ResuscitationDirective",
+   "Sample",
+   "SampleProcessing",
+   "SequencingAnalysis",
+   "SequencingAssay",
+   "SequencingInstrument",
+   "SequencingRun",
+   "SingleNucleotideVariation",
+   "Software",
+   "SourceSystem",
+   "StandardOperatingProcedure",
+   "SubjectPseudoIdentifier",
+   "Substance",
+   "SwissSocioEconomicPosition",
+   "Terminology",
+   "TherapeuticArea",
+   "TimePattern",
+   "TimeSeriesDataFile",
+   "TobaccoExposure",
+   "Transcript",
+   "Transplant",
+   "TransplantPresence",
+   "TumorGradeAssessment",
+   "TumorGradeAssessmentEvent",
+   "TumorGradeAssessmentResult",
+   "TumorSpecimen",
+   "TumorStageAssessment",
+   "TumorStageAssessmentEvent",
+   "TumorStageAssessmentResult",
+   "Unit",
+   "VariantDescriptor",
+   "VariantNotation",
+   "VitalStatus"
+  ]
+ }
+}

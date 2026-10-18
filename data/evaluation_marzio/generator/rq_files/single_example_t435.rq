@@ -1,0 +1,9 @@
+# question: we are analyzing long term cardiac recording frequency so please tell me the number of unique individuals who received at least one seventy two hour ambulatory electrocardiographic monitoring procedure
+# expected_compliant: true
+# expected_rules: none
+# origin: dev
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?r a sphn:ElectrocardiographicProcedure ; sphn:hasCode ?r_c . ?r_c isa snomed:715994002 . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?r a sphn:ElectrocardiographicProcedure ; sphn:hasCode ?r_c . ?r_c rdf:type snomed:715994002 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

@@ -1,0 +1,8 @@
+# question: How many patients have a quantity with a comparator indicating 'Greater Than', and which patient graphs are associated with these quantities?
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?count) ?g WHERE { GRAPH ?g { ?r a sphn:Quantity . ?r sphn:hasComparator ?comp . FILTER(?comp = sphn-individual:GreaterThan) } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>
+SELECT (COUNT(DISTINCT ?g) AS ?count) ?g WHERE { GRAPH ?g { ?r a sphn:Quantity . ?r sphn:hasComparator ?comp . FILTER(?comp = sphn-individual:GreaterThan) } }

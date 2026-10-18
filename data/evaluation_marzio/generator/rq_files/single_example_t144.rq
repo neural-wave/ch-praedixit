@@ -1,0 +1,8 @@
+# question: How many substance values fall below 3400.0 versus 3400.0-6700.0 versus 6700.0+
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (SUM(IF(?v < 3400.0, 1, 0)) AS ?low) (SUM(IF(?v >= 3400.0 && ?v < 6700.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 6700.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:Substance ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:V . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT (SUM(IF(?v < 3400.0, 1, 0)) AS ?low) (SUM(IF(?v >= 3400.0 && ?v < 6700.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 6700.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:Substance ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:V . } }

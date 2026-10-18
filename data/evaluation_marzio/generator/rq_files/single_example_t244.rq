@@ -1,0 +1,9 @@
+# question: I need to pull the specific risk management flags for patient 56675 to see their individual coding status.
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/patient-56675> { ?r a sphn:HealthcarePrimaryInformationSystem ; sphn:hasCode ?r_c . ?r_c isa snomed:466659008 . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/patient-56675> { ?r a sphn:HealthcarePrimaryInformationSystem ; sphn:hasCode ?r_c . ?r_c rdf:type snomed:466659008 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

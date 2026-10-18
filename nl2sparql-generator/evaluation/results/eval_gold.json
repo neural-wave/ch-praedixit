@@ -1,0 +1,309 @@
+{
+ "summary": {
+  "syntax_valid": 0.0,
+  "schema_consistent": 1.0,
+  "exact_match": 0.0,
+  "element_f1": 0.776,
+  "exec_strict": 0.0,
+  "exec_relaxed": 0.0,
+  "exec_iri_relaxed": 0.0,
+  "exec_numeric": 0.0,
+  "exec_projection": 0.0,
+  "exec_strict_raw_reference": 0.0,
+  "n_reference_evaluable": 0,
+  "exec_strict_on_evaluable": 0.0,
+  "exec_relaxed_on_evaluable": 0.0,
+  "exec_iri_relaxed_on_evaluable": 0.0,
+  "exec_numeric_on_evaluable": 0.0,
+  "exec_projection_on_evaluable": 0.0,
+  "latency_mean_s": 23.12,
+  "latency_median_s": 19.8,
+  "tokens_mean": 4496,
+  "repairs_mean": 0,
+  "set": "gold",
+  "n": 3,
+  "config": {
+   "backend": "ollama",
+   "model": "qwen3.8:27b",
+   "llm_url": "http://localhost:11434",
+   "endpoint": "http://localhost:8890/sparql",
+   "use_endpoint": false,
+   "num_ctx": 8192,
+   "analysis": true,
+   "n_examples": 6,
+   "max_repairs": 2,
+   "repair_temperature": 0.3,
+   "repair_on_warnings": [
+    "no_graph",
+    "fanout",
+    "cross_patient",
+    "code_label",
+    "empty"
+   ],
+   "check_code_meaning": true,
+   "example_bank": "resources/examples.jsonl",
+   "schema": "resources/schema.json",
+   "terminology": "resources/terminology.sqlite",
+   "max_schema_classes": 7,
+   "max_codes": 10,
+   "execution_timeout": 20
+  },
+  "bank_size": 3149
+ },
+ "items": [
+  {
+   "id": "gold-02",
+   "question": "During hospital stays billed for cholera, do drug administrations run shorter or longer than in other stays?",
+   "expected_compliant": true,
+   "reference": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>\nPREFIX bif: <bif:>\n\nSELECT ?cohort\n       (COUNT(DISTINCT ?case) AS ?admissions)\n       (COUNT(*) AS ?administrations)\n       (ROUND(AVG(?hours)) AS ?avg_hours)\n       (MIN(?hours) AS ?min_hours)\n       (MAX(?hours) AS ?max_hours)\n       (SUM(IF(?hours <= 72, 1, 0)) AS ?within_3_days)\n       (ROUND(1000.0 * SUM(IF(?hours <= 72, 1, 0)) / COUNT(*)) / 10 AS ?within_3_days_pct)\nWHERE {\n  {\n    SELECT DISTINCT ?g ?case ?administration ?start ?end\n    WHERE {\n      GRAPH ?g {\n        ?administration a sphn:DrugAdministrationEvent ;\n                        sphn:hasAdministrativeCase ?case ;\n                        sphn:hasStartDateTime ?start ;\n                        sphn:hasEndDateTime ?end .\n      }\n      FILTER (?end >= ?start)\n    }\n  }\n  BIND (bif:datediff(\"hour\", ?start, ?end) AS ?hours)\n  BIND (IF(EXISTS {\n             GRAPH ?g {\n               ?dx a sphn:BilledDiagnosis ;\n                   sphn:hasAdministrativeCase ?case ;\n                   sphn:hasCode ?dx_code .\n               ?dx_code a icd-10-gm:A00 OPTION (inference \"https://biomedit.ch/rdf/sphn-resource/global\") .\n             }\n           }, \"billed for cholera\", \"other admissions\") AS ?cohort)\n}\nGROUP BY ?cohort\n",
+   "generated": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT \n  (AVG(?cholera_duration) AS ?avg_cholera)\n  (AVG(?other_duration) AS ?avg_other)\nWHERE {\n  {\n    SELECT ?g (AVG(?duration_value) AS ?cholera_duration)\n    WHERE {\n      GRAPH ?g {\n        ?diagnosis a sphn:BilledDiagnosis ;\n                   sphn:hasCode ?code ;\n                   sphn:hasAdministrativeCase ?case .\n        ?code rdf:type icd-10-gm:A00 OPTION (inference \"https://biomedit.ch/rdf/sphn-resource/global\") .\n        \n        ?admin a sphn:DrugAdministrationEvent ;\n               sphn:hasAdministrativeCase ?case ;\n               sphn:hasDuration ?q .\n        ?q sphn:hasValue ?duration_value .\n      }\n    }\n    GROUP BY ?g\n  }\n  {\n    SELECT ?g (AVG(?duration_value) AS ?other_duration)\n    WHERE {\n      GRAPH ?g {\n        ?admin a sphn:DrugAdministrationEvent ;\n               sphn:hasAdministrativeCase ?case ;\n               sphn:hasDuration ?q .\n        ?q sphn:hasValue ?duration_value .\n        \n        FILTER NOT EXISTS {\n          ?diagnosis a sphn:BilledDiagnosis ;\n                     sphn:hasCode ?code ;\n                     sphn:hasAdministrativeCase ?case .\n          ?code rdf:type icd-10-gm:A00 OPTION (inference \"https://biomedit.ch/rdf/sphn-resource/global\") .\n        }\n      }\n    }\n    GROUP BY ?g\n  }\n}\n",
+   "syntax_valid": false,
+   "pred_error": "connection error: HTTPConnectionPool(host='localhost', port=8890): Max retries exceeded with url: /sparql (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=8890): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))",
+   "schema_consistent": true,
+   "schema_errors": [],
+   "exact_match": false,
+   "element_f1": 0.714,
+   "exec_strict": false,
+   "exec_relaxed": false,
+   "exec_iri_relaxed": false,
+   "exec_numeric": false,
+   "exec_projection": false,
+   "exec_strict_raw_reference": false,
+   "reference_ok": false,
+   "reference_empty": false,
+   "ref_rows": 0,
+   "pred_rows": 0,
+   "latency_s": 34.411,
+   "attempts": 1,
+   "problems": [
+    {
+     "severity": "warning",
+     "code": "unit",
+     "message": "Values are compared or aggregated without fixing their unit (sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:...); the same measurement is stored in several units."
+    }
+   ],
+   "usage": {
+    "llm_calls": 2,
+    "prompt_tokens": 4556,
+    "completion_tokens": 453,
+    "total_tokens": 5009,
+    "llm_seconds": 32.385
+   },
+   "trace": {
+    "analysis": {
+     "classes": [
+      "sphn:HealthcareEncounter",
+      "sphn:BilledDiagnosis",
+      "sphn:DrugAdministrationEvent"
+     ],
+     "concepts": [
+      {
+       "text": "cholera",
+       "english": "Cholera",
+       "german": "Cholera",
+       "system": "ICD-10-GM",
+       "code": "A00"
+      }
+     ],
+     "raw": "```json\n{\n  \"classes\": [\n    \"HealthcareEncounter\",\n    \"BilledDiagnosis\",\n    \"DrugAdministrationEvent\"\n  ],\n  \"concepts\": [\n    {\n      \"text\": \"cholera\",\n      \"english\": \"Cholera\",\n      \"german\": \"Cholera\",\n      \"system\": \"ICD-10-GM\",\n      \"code\": \"A00\"\n    }\n  ]\n}\n```"
+    },
+    "classes": [
+     "sphn:HealthcareEncounter",
+     "sphn:BilledDiagnosis",
+     "sphn:DrugAdministrationEvent",
+     "sphn:DrugPrescription",
+     "sphn:SequencingRun",
+     "sphn:Drug",
+     "sphn:Quantity"
+    ],
+    "codes": [
+     "icd-10-gm:A00",
+     "snomed:63650001",
+     "snomed:371881003",
+     "snomed:282476009",
+     "snomed:421994004",
+     "snomed:182832007"
+    ],
+    "examples": [
+     "marzio-train-train-0397",
+     "evalset-compliant-22-cholera-without-drug-administration",
+     "evalset-non-compliant-12-diagnoses-per-administrative-case",
+     "marzio-train-train-0226",
+     "marzio-test-test-0068",
+     "marzio-dev-train-0498"
+    ],
+    "attempts": [
+     {
+      "query": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT \n  (AVG(?cholera_duration) AS ?avg_cholera)\n  (AVG(?other_duration) AS ?avg_other)\nWHERE {\n  {\n    SELECT ?g (AVG(?duration_value) AS ?cholera_duration)\n    WHERE {\n      GRAPH ?g {\n        ?diagnosis a sphn:BilledDiagnosis ;\n                   sphn:hasCode ?code ;\n                   sphn:hasAdministrativeCase ?case .\n        ?code rdf:type icd-10-gm:A00 OPTION (inference \"https://biomedit.ch/rdf/sphn-resource/global\") .\n        \n        ?admin a sphn:DrugAdministrationEvent ;\n               sphn:hasAdministrativeCase ?case ;\n               sphn:hasDuration ?q .\n        ?q sphn:hasValue ?duration_value .\n      }\n    }\n    GROUP BY ?g\n  }\n  {\n    SELECT ?g (AVG(?duration_value) AS ?other_duration)\n    WHERE {\n      GRAPH ?g {\n        ?admin a sphn:DrugAdministrationEvent ;\n               sphn:hasAdministrativeCase ?case ;\n               sphn:hasDuration ?q .\n        ?q sphn:hasValue ?duration_value .\n        \n        FILTER NOT EXISTS {\n          ?diagnosis a sphn:BilledDiagnosis ;\n                     sphn:hasCode ?code ;\n                     sphn:hasAdministrativeCase ?case .\n          ?code rdf:type icd-10-gm:A00 OPTION (inference \"https://biomedit.ch/rdf/sphn-resource/global\") .\n        }\n      }\n    }\n    GROUP BY ?g\n  }\n}\n",
+      "problems": [
+       {
+        "severity": "warning",
+        "code": "unit",
+        "message": "Values are compared or aggregated without fixing their unit (sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:...); the same measurement is stored in several units."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "gold-03",
+   "question": "Is cholera on a hospital bill (any diagnosis rank) more common in men, women, or patients of indeterminate sex?",
+   "expected_compliant": true,
+   "reference": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>\nPREFIX snomed: <http://snomed.info/id/>\nPREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>\n\nSELECT ?sex\n       (COUNT(DISTINCT ?g) AS ?patients)\n       (COUNT(DISTINCT ?cholera_patient) AS ?cholera_principal_patients)\n       (ROUND(1000.0 * COUNT(DISTINCT ?cholera_patient) / COUNT(DISTINCT ?g)) / 10 AS ?cholera_pct)\nWHERE {\n  GRAPH ?g {\n    ?sex_record a sphn:AdministrativeSex ;\n                sphn:hasCode ?sex_code .\n    ?sex_code a ?sex_concept .\n  }\n  VALUES (?sex_concept ?sex) {\n    (snomed:248153007         \"male\")\n    (snomed:248152002         \"female\")\n    (snomed:32570681000036106 \"indeterminate\")\n  }\n  OPTIONAL {\n    GRAPH ?g {\n      ?dx a sphn:BilledDiagnosis ;\n          sphn:hasRank sphn-individual:Principal ;\n          sphn:hasCode ?dx_code .\n      ?dx_code a icd-10-gm:A00 OPTION (inference \"https://biomedit.ch/rdf/sphn-resource/global\") .\n    }\n    BIND(?g AS ?cholera_patient)\n  }\n}\nGROUP BY ?sex\nORDER BY DESC(?cholera_pct)\n",
+   "generated": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT ?sex (COUNT(DISTINCT ?g) AS ?patients)\nWHERE {\n  GRAPH ?g {\n    ?dx a sphn:BilledDiagnosis .\n    ?dx sphn:hasCode ?dx_code .\n    ?dx_code rdf:type icd-10-gm:A00 OPTION (inference \"https://biomedit.ch/rdf/sphn-resource/global\") .\n    ?sex_record a sphn:AdministrativeSex .\n    ?sex_record sphn:hasCode ?sex_code .\n    ?sex_code a ?sex .\n  }\n}\nGROUP BY ?sex\nORDER BY DESC(?patients)\n",
+   "syntax_valid": false,
+   "pred_error": "connection error: HTTPConnectionPool(host='localhost', port=8890): Max retries exceeded with url: /sparql (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=8890): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))",
+   "schema_consistent": true,
+   "schema_errors": [],
+   "exact_match": false,
+   "element_f1": 0.615,
+   "exec_strict": false,
+   "exec_relaxed": false,
+   "exec_iri_relaxed": false,
+   "exec_numeric": false,
+   "exec_projection": false,
+   "exec_strict_raw_reference": false,
+   "reference_ok": false,
+   "reference_empty": false,
+   "ref_rows": 0,
+   "pred_rows": 0,
+   "latency_s": 15.155,
+   "attempts": 1,
+   "problems": [],
+   "usage": {
+    "llm_calls": 2,
+    "prompt_tokens": 3901,
+    "completion_tokens": 229,
+    "total_tokens": 4130,
+    "llm_seconds": 14.677
+   },
+   "trace": {
+    "analysis": {
+     "classes": [
+      "sphn:BilledDiagnosis",
+      "sphn:AdministrativeSex"
+     ],
+     "concepts": [
+      {
+       "text": "cholera",
+       "english": "Cholera",
+       "german": "Cholera",
+       "system": "ICD-10-GM",
+       "code": "A00"
+      }
+     ],
+     "raw": "```json\n{\n  \"classes\": [\n    \"BilledDiagnosis\",\n    \"AdministrativeSex\"\n  ],\n  \"concepts\": [\n    {\n      \"text\": \"cholera\",\n      \"english\": \"Cholera\",\n      \"german\": \"Cholera\",\n      \"system\": \"ICD-10-GM\",\n      \"code\": \"A00\"\n    }\n  ]\n}\n```"
+    },
+    "classes": [
+     "sphn:BilledDiagnosis",
+     "sphn:AdministrativeSex",
+     "sphn:Protein",
+     "sphn:BilledProcedure"
+    ],
+    "codes": [
+     "icd-10-gm:A00",
+     "snomed:32570681000036106",
+     "snomed:263486008",
+     "snomed:63650001",
+     "snomed:37791004"
+    ],
+    "examples": [
+     "generated-train-3386",
+     "generated-train-3867",
+     "generated-train-0912",
+     "generated-train-4153",
+     "generated-train-2303",
+     "testqueries-rules-002-group-by-code-class"
+    ],
+    "attempts": [
+     {
+      "query": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT ?sex (COUNT(DISTINCT ?g) AS ?patients)\nWHERE {\n  GRAPH ?g {\n    ?dx a sphn:BilledDiagnosis .\n    ?dx sphn:hasCode ?dx_code .\n    ?dx_code rdf:type icd-10-gm:A00 OPTION (inference \"https://biomedit.ch/rdf/sphn-resource/global\") .\n    ?sex_record a sphn:AdministrativeSex .\n    ?sex_record sphn:hasCode ?sex_code .\n    ?sex_code a ?sex .\n  }\n}\nGROUP BY ?sex\nORDER BY DESC(?patients)\n",
+      "problems": []
+     }
+    ]
+   }
+  },
+  {
+   "id": "gold-06",
+   "question": "Which kinds of therapeutic ultrasound do we bill most, how often is it the main procedure of the stay, and how long does it usually take?",
+   "expected_compliant": true,
+   "reference": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>\nPREFIX chop: <https://biomedit.ch/rdf/sphn-resource/chop/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX bif: <bif:>\n\nSELECT ?chop_code (SAMPLE(?label) AS ?procedure)\n       (COUNT(DISTINCT ?g) AS ?patients)\n       (COUNT(DISTINCT ?principal_patient) AS ?patients_as_principal_procedure)\n       (ROUND(AVG(?duration_hours)) AS ?avg_duration_hours)\nWHERE {\n  GRAPH ?g {\n    ?proc a sphn:BilledProcedure ;\n          sphn:hasRank ?rank ;\n          sphn:hasStartDateTime ?start ;\n          sphn:hasEndDateTime ?end ;\n          sphn:hasCode ?code .\n    ?code a chop:00.0 OPTION (inference \"https://biomedit.ch/rdf/sphn-resource/global\") .\n    ?code a ?concept .\n  }\n  FILTER (STRSTARTS(STR(?concept), STR(chop:)))\n  BIND (REPLACE(STR(?concept), \"^.*/\", \"\") AS ?chop_code)\n  FILTER (REGEX(?chop_code, \"^00\\\\.0[0-9]$\"))\n  OPTIONAL {\n    GRAPH <https://biomedit.ch/rdf/sphn-resource/global> { ?concept rdfs:label ?label . }\n    FILTER (LANGMATCHES(LANG(?label), \"de\"))\n  }\n  OPTIONAL {\n    GRAPH ?principal_patient { ?proc sphn:hasRank sphn-individual:Principal . }\n  }\n  BIND (bif:datediff(\"hour\", ?start, ?end) AS ?duration_hours)\n}\nGROUP BY ?chop_code\nORDER BY DESC(?patients)\n",
+   "generated": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX bif: <bif:>\nPREFIX chop: <https://biomedit.ch/rdf/sphn-resource/chop/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>\nSELECT ?code (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?proc) AS ?records) (COUNT(DISTINCT ?principal_proc) AS ?principal_records) (AVG(?duration) AS ?avg_duration_hours)\nWHERE {\n  GRAPH ?g {\n    ?proc a sphn:BilledProcedure ;\n          sphn:hasCode ?code_node ;\n          sphn:hasStartDateTime ?start ;\n          sphn:hasEndDateTime ?end .\n    ?code_node rdf:type chop:00.0 OPTION (inference \"https://biomedit.ch/rdf/sphn-resource/global\") .\n    ?code_node a ?code .\n    OPTIONAL {\n      ?proc sphn:hasRank sphn-individual:Principal .\n      BIND(?proc AS ?principal_proc)\n    }\n    BIND(bif:datediff(\"hour\", ?start, ?end) AS ?duration)\n  }\n}\nGROUP BY ?code\nORDER BY DESC(?records)\n",
+   "syntax_valid": false,
+   "pred_error": "connection error: HTTPConnectionPool(host='localhost', port=8890): Max retries exceeded with url: /sparql (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=8890): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))",
+   "schema_consistent": true,
+   "schema_errors": [],
+   "exact_match": false,
+   "element_f1": 1.0,
+   "exec_strict": false,
+   "exec_relaxed": false,
+   "exec_iri_relaxed": false,
+   "exec_numeric": false,
+   "exec_projection": false,
+   "exec_strict_raw_reference": false,
+   "reference_ok": false,
+   "reference_empty": false,
+   "ref_rows": 0,
+   "pred_rows": 0,
+   "latency_s": 19.804,
+   "attempts": 1,
+   "problems": [],
+   "usage": {
+    "llm_calls": 2,
+    "prompt_tokens": 4043,
+    "completion_tokens": 307,
+    "total_tokens": 4350,
+    "llm_seconds": 18.259
+   },
+   "trace": {
+    "analysis": {
+     "classes": [
+      "sphn:BilledProcedure",
+      "sphn:HealthcareEncounter"
+     ],
+     "concepts": [
+      {
+       "text": "therapeutic ultrasound",
+       "english": "Therapeutic ultrasound",
+       "german": "Therapeutischer Ultraschall",
+       "system": "CHOP",
+       "code": ""
+      }
+     ],
+     "raw": "```json\n{\n  \"classes\": [\n    \"BilledProcedure\",\n    \"HealthcareEncounter\"\n  ],\n  \"concepts\": [\n    {\n      \"text\": \"therapeutic ultrasound\",\n      \"english\": \"Therapeutic ultrasound\",\n      \"german\": \"Therapeutischer Ultraschall\",\n      \"system\": \"CHOP\",\n      \"code\": \"\"\n    }\n  ]\n}\n```"
+    },
+    "classes": [
+     "sphn:BilledProcedure",
+     "sphn:HealthcareEncounter",
+     "sphn:TherapeuticArea",
+     "sphn:Country",
+     "sphn:MedicalDevice",
+     "sphn:BilledDiagnosis"
+    ],
+    "codes": [
+     "chop:00.0",
+     "snomed:63161005",
+     "snomed:89002000",
+     "snomed:419652001",
+     "snomed:466579009",
+     "snomed:706272001"
+    ],
+    "examples": [
+     "evalset-compliant-34-cholera-patients-with-ultrasound",
+     "marzio-train-train-0226",
+     "marzio-train-train-0367",
+     "generated-train-0464",
+     "marzio-train-train-0399",
+     "generated-train-4197"
+    ],
+    "attempts": [
+     {
+      "query": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX bif: <bif:>\nPREFIX chop: <https://biomedit.ch/rdf/sphn-resource/chop/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>\nSELECT ?code (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?proc) AS ?records) (COUNT(DISTINCT ?principal_proc) AS ?principal_records) (AVG(?duration) AS ?avg_duration_hours)\nWHERE {\n  GRAPH ?g {\n    ?proc a sphn:BilledProcedure ;\n          sphn:hasCode ?code_node ;\n          sphn:hasStartDateTime ?start ;\n          sphn:hasEndDateTime ?end .\n    ?code_node rdf:type chop:00.0 OPTION (inference \"https://biomedit.ch/rdf/sphn-resource/global\") .\n    ?code_node a ?code .\n    OPTIONAL {\n      ?proc sphn:hasRank sphn-individual:Principal .\n      BIND(?proc AS ?principal_proc)\n    }\n    BIND(bif:datediff(\"hour\", ?start, ?end) AS ?duration)\n  }\n}\nGROUP BY ?code\nORDER BY DESC(?records)\n",
+      "problems": []
+     }
+    ]
+   }
+  }
+ ]
+}

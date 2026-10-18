@@ -1,0 +1,10 @@
+# question: How many triples are stored in total?
+# source: compliance/tests/test_rules.py::test_seed[queries/count-triples.rq]
+# expected_compliant: false
+# expected_rules: QC3 (unrestricted_match)
+# reasoning: pattern not tied to any class or property restriction (?s ?p ?o)
+SELECT (COUNT(*) AS ?triples)
+WHERE {
+  GRAPH ?g { ?s ?p ?o }
+  FILTER(STRSTARTS(STR(?g), "http://example.org/graph/"))
+}

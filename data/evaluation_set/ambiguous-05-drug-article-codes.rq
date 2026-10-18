@@ -1,0 +1,19 @@
+# question: Which ten drug articles are given to the most patients, by article code?
+# expected_compliant: ambiguous
+# expected_rules: exposes_identifier
+# origin: test set
+# notes: Groups by sphn:hasIdentifier of the sphn:Code of drug articles. In real SPHN data it is an article code shared by many patients; in this mock data the values look like patient identifiers and are unique per record. Depends on how hasIdentifier on sphn:Code is treated.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?article_code (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?administration a sphn:DrugAdministrationEvent ;
+                    sphn:hasDrug ?drug .
+    ?drug sphn:hasArticle/sphn:hasCode ?code .
+    ?code sphn:hasIdentifier ?article_code .
+  }
+}
+GROUP BY ?article_code
+ORDER BY DESC(?patients)
+LIMIT 10

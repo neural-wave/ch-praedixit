@@ -1,0 +1,9 @@
+# question: As an epidemiologist investigating the intersection of genetic predisposition and social determinants of health, I request the number of distinct patients who have at least one recorded chromosome anomaly coded under the SNOMED CT Concept 138875005 (including all descendant codes) and concurrently have at least one recorded civil status of Divorced coded under SNOMED CT 20295000 (including all descendant codes). This count will enable us to quantify the co-occurrence of chromosomal abnormalities and marital dissolution within our patient cohort, thereby informing future studies on psychosocial impacts of genetic conditions.
+# expected_compliant: true
+# expected_rules: none
+# origin: test set T3 (worded by the other model)
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:Chromosome ; sphn:hasCode ?a_c . ?a_c isa snomed:138875005 . ?b a sphn:CivilStatus ; sphn:hasCode ?b_c . ?b_c isa snomed:20295000 . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:Chromosome ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:138875005 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?b a sphn:CivilStatus ; sphn:hasCode ?b_c . ?b_c rdf:type snomed:20295000 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

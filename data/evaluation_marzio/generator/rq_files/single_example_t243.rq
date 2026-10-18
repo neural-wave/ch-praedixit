@@ -1,0 +1,7 @@
+# question: To validate our genomic data integrity, could you provide the mean, min, and max counts of genetic variation records for all patients who have at least one such record on file?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (COUNT(*) AS ?patients) (ROUND(10 * AVG(?n)) / 10 AS ?avg_per_patient) (MIN(?n) AS ?min_per_patient) (MAX(?n) AS ?max_per_patient) WHERE { { SELECT ?g (COUNT(DISTINCT ?r) AS ?n) WHERE { GRAPH ?g { ?r a sphn:GeneticVariation . } } GROUP BY ?g } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(*) AS ?patients) (ROUND(10 * AVG(?n)) / 10 AS ?avg_per_patient) (MIN(?n) AS ?min_per_patient) (MAX(?n) AS ?max_per_patient) WHERE { { SELECT ?g (COUNT(DISTINCT ?r) AS ?n) WHERE { GRAPH ?g { ?r a sphn:GeneticVariation . } } GROUP BY ?g } }

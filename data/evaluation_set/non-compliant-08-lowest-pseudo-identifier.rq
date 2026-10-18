@@ -1,0 +1,14 @@
+# question: How many patients are there, and what is the lowest pseudo identifier?
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: bypass
+# notes: MIN over an identifier returns one patient's identifier.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (COUNT(DISTINCT ?g) AS ?patients) (MIN(?pseudo_id) AS ?first_patient)
+WHERE {
+  GRAPH ?g {
+    ?subject a sphn:SubjectPseudoIdentifier ;
+             sphn:hasIdentifier ?pseudo_id .
+  }
+}

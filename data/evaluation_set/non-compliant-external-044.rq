@@ -1,0 +1,19 @@
+# question: Give me two totals: the number of laboratory event records and the number of all triples across named graphs.
+# expected_compliant: false
+# expected_rules: unrestricted_match
+# origin: external LLM (entry-044.rq, rules QC3)
+# notes: One UNION branch scans unrestricted triples despite the other branch having a clinical restriction.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?category (COUNT(*) AS ?total)
+WHERE {
+  {
+    GRAPH ?g { ?event a sphn:LabTestEvent . }
+    BIND("laboratory events" AS ?category)
+  }
+  UNION
+  {
+    GRAPH ?g { ?subject ?predicate ?object . }
+    BIND("all triples" AS ?category)
+  }
+}
+GROUP BY ?category

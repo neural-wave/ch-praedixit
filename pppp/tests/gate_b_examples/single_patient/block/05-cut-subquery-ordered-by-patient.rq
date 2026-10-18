@@ -1,0 +1,3 @@
+# why: ORDER BY STR(?g) LIMIT 1 keeps the first patient
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (MAX(?admission) AS ?admitted) WHERE { { SELECT ?admission WHERE { GRAPH ?g { ?case a sphn:AdministrativeCase ; sphn:hasAdmissionDateTime ?admission . } } ORDER BY STR(?g) LIMIT 1 } }

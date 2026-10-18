@@ -1,0 +1,7 @@
+# question: list every single bp record with start and end times instead of averages
+# expected_compliant: false
+# expected_rules: not_aggregated
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> SELECT ?when ?end ?start WHERE { GRAPH ?g { ?r a sphn:BloodPressureMeasurement . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . ?r sphn:hasStartDateTime ?when . } } ORDER BY ?when
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?when ?end ?start WHERE { GRAPH ?g { ?r a sphn:BloodPressureMeasurement . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . ?r sphn:hasStartDateTime ?when . } } ORDER BY ?when

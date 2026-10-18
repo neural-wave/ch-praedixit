@@ -1,0 +1,12 @@
+# question: How many patients have a drug article coded under E11?
+# expected_compliant: true
+# expected_rules: none
+# origin: bypass
+# notes: A short code prefix with letters is not a per-patient identifier.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g { ?article a sphn:DrugArticle ; sphn:hasCode ?code . ?code sphn:hasIdentifier ?code_id . }
+  FILTER (STRSTARTS(?code_id, "E11"))
+}

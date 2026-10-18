@@ -1,0 +1,17 @@
+# question: Which kinds of tobacco exposure are recorded, and in how many patients?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?exposure_type (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?exposure a sphn:TobaccoExposure ;
+              sphn:hasTypeCode ?type_code .
+    ?type_code a ?exposure_type .
+  }
+  FILTER (STRSTARTS(STR(?exposure_type), "http://snomed.info/id/"))
+}
+GROUP BY ?exposure_type
+ORDER BY DESC(?patients)

@@ -1,0 +1,9 @@
+# question: For the upcoming quarterly audit, I need to verify the specific data footprint for patient 1008049 within the gen_mock_data-1_1008049 graph. Please provide a count of all records associated with this single individual that match SNOMED CT codes 372308003, 250803009, or 404966002.
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/gen_mock_data-1_1008049> { ?r a sphn:AssessmentComponent ; sphn:hasCode ?r_c . { ?r_c isa snomed:372308003 } UNION { ?r_c isa snomed:250803009 } UNION { ?r_c isa snomed:404966002 } } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/gen_mock_data-1_1008049> { ?r a sphn:AssessmentComponent ; sphn:hasCode ?r_c . { ?r_c rdf:type snomed:372308003 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type snomed:250803009 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type snomed:404966002 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } } }

@@ -1,0 +1,8 @@
+# question: What is the average, minimum, and maximum duration in hours for oxygen saturation measurement records (C91) across all patients, and how many records and patients are included?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set T3 (worded by the other model)
+# notes: SELECT (COUNT(DISTINCT ?r) AS ?records) (COUNT(DISTINCT ?g) AS ?patients) (ROUND(AVG(?d)) AS ?avg_hours) (MIN(?d) AS ?min_hours) (MAX(?d) AS ?max_hours) WHERE { GRAPH ?g { ?r a sphn:OxygenSaturationMeasurement . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } FILTER(?end >= ?start) BIND(bif:datediff("hour", ?start, ?end) AS ?d) }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX bif: <bif:>
+SELECT (COUNT(DISTINCT ?r) AS ?records) (COUNT(DISTINCT ?g) AS ?patients) (ROUND(AVG(?d)) AS ?avg_hours) (MIN(?d) AS ?min_hours) (MAX(?d) AS ?max_hours) WHERE { GRAPH ?g { ?r a sphn:OxygenSaturationMeasurement . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } FILTER(?end >= ?start) BIND(bif:datediff("hour", ?start, ?end) AS ?d) }

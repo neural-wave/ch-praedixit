@@ -1,0 +1,15 @@
+# question: How many tobacco-exposure records belong to the patient whose identifier is ID-10019210000023?
+# expected_compliant: false
+# expected_rules: single_patient, not_aggregated
+# origin: external LLM (entry-026.rq, rules QC1, QC2)
+# notes: Filtering by an exact patient identifier targets one identifiable patient despite returning only a count.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?exposure) AS ?exposure_records)
+WHERE {
+  GRAPH ?g {
+    ?subject a sphn:SubjectPseudoIdentifier ;
+             sphn:hasIdentifier "ID-10019210000023" .
+    ?exposure a sphn:TobaccoExposure ;
+              sphn:hasSubjectPseudoIdentifier ?subject .
+  }
+}

@@ -1,0 +1,3 @@
+# why: ROUND of the value times 1000 keeps three decimals
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?rounded (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?bmi a sphn:BodyMassIndex ; sphn:hasQuantity/sphn:hasValue ?value . } BIND (ROUND(?value * 1000) AS ?rounded) } GROUP BY ?rounded

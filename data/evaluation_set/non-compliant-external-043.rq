@@ -1,0 +1,10 @@
+# question: Count all triples across all named graphs, using a filter that accepts every match.
+# expected_compliant: false
+# expected_rules: unrestricted_match
+# origin: external LLM (entry-043.rq, rules QC3)
+# notes: FILTER(true) imposes no restriction on the whole-graph match.
+SELECT (COUNT(*) AS ?triples)
+WHERE {
+  GRAPH ?g { ?subject ?predicate ?object . }
+  FILTER(true)
+}

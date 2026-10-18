@@ -1,0 +1,7 @@
+# question: For every rank of billed procedure records, count the records and distinct patiens.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> SELECT ?value (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:BilledProcedure ; sphn:hasRank ?v . } BIND(STRAFTER(STR(?v), "#") AS ?value) } GROUP BY ?value ORDER BY DESC(?records)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?value (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:BilledProcedure ; sphn:hasRank ?v . } BIND(STRAFTER(STR(?v), "#") AS ?value) } GROUP BY ?value ORDER BY DESC(?records)

@@ -1,0 +1,8 @@
+# question: Calculate the distribution of reference values recorded in units of 10^6/(24.h), categorizing them into bands below 3300, between 3300 and 6300, and at or above 6300.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/> SELECT (SUM(IF(?v < 3300.0, 1, 0)) AS ?low) (SUM(IF(?v >= 3300.0 && ?v < 6300.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 6300.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:ReferenceValue ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:10exp6perrbl24dothrbr . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT (SUM(IF(?v < 3300.0, 1, 0)) AS ?low) (SUM(IF(?v >= 3300.0 && ?v < 6300.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 6300.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:ReferenceValue ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:10exp6perrbl24dothrbr . } }

@@ -1,0 +1,15 @@
+# question: How do adverse events end: how many patients recovered, are still recovering, or died?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?outcome (COUNT(?event) AS ?adverse_events) (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?event a sphn:AdverseEvent ;
+           sphn:hasOutcome ?outcome .
+  }
+}
+GROUP BY ?outcome
+ORDER BY DESC(?adverse_events)

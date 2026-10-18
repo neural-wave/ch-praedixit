@@ -1,0 +1,21 @@
+# question: How many patients with a billed diagnosis of essential hypertension are there for each administrative sex?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+
+SELECT ?sex (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?diagnosis a sphn:BilledDiagnosis ;
+               sphn:hasCode ?code .
+    ?code a icd-10-gm:I10 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") .
+    ?sex_record a sphn:AdministrativeSex ;
+                sphn:hasCode ?sex_code .
+    ?sex_code a ?sex .
+  }
+  FILTER (STRSTARTS(STR(?sex), "http://snomed.info/id/"))
+}
+GROUP BY ?sex
+ORDER BY DESC(?patients)

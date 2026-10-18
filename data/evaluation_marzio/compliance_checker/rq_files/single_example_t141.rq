@@ -1,0 +1,8 @@
+# question: Can you pull the C91 code counts for cells below 3100, 3100-6000, and above 6000 in our latest report?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/> SELECT (SUM(IF(?v < 3100.0, 1, 0)) AS ?low) (SUM(IF(?v >= 3100.0 && ?v < 6000.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 6000.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:ReferenceValue ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:10exp6perL . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT (SUM(IF(?v < 3100.0, 1, 0)) AS ?low) (SUM(IF(?v >= 3100.0 && ?v < 6000.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 6000.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:ReferenceValue ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:10exp6perL . } }

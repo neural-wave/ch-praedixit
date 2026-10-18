@@ -1,0 +1,14 @@
+# question: Show the notation text for every recorded variant descriptor, one row per descriptor-notation link.
+# expected_compliant: false
+# expected_rules: not_aggregated
+# origin: external LLM (entry-033.rq, rules QC2)
+# notes: Returning individual variant-notation values does not satisfy the aggregation requirement.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?notation_text
+WHERE {
+  GRAPH ?g {
+    ?descriptor a sphn:VariantDescriptor ;
+                sphn:hasNotation ?notation .
+    ?notation sphn:hasValue ?notation_text .
+  }
+}

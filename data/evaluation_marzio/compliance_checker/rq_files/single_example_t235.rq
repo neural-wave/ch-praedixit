@@ -1,0 +1,7 @@
+# question: How many patients have at least one C91 record with mean min and max counts?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> SELECT (COUNT(*) AS ?patients) (ROUND(10 * AVG(?n)) / 10 AS ?avg_per_patient) (MIN(?n) AS ?min_per_patient) (MAX(?n) AS ?max_per_patient) WHERE { { SELECT ?g (COUNT(DISTINCT ?r) AS ?n) WHERE { GRAPH ?g { ?r a sphn:LibraryPreparation . } } GROUP BY ?g } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(*) AS ?patients) (ROUND(10 * AVG(?n)) / 10 AS ?avg_per_patient) (MIN(?n) AS ?min_per_patient) (MAX(?n) AS ?max_per_patient) WHERE { { SELECT ?g (COUNT(DISTINCT ?r) AS ?n) WHERE { GRAPH ?g { ?r a sphn:LibraryPreparation . } } GROUP BY ?g } }

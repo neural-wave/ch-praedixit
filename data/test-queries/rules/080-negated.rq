@@ -1,0 +1,10 @@
+# question: Which diagnosis codes are held by no more than 5 patients?
+# source: compliance/tests/test_rules.py::test_small_cells_rewritten[negated]
+# description: small cells rewritten (negated)
+# expected_compliant: false
+# expected_rules: QC1 (single_patient)
+# reasoning: HAVING keeps only groups of at most 5 (small cells): each result row points at a handful of patients
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+SELECT ?cls (COUNT(DISTINCT ?g) AS ?n) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?c . ?c a ?cls . } } GROUP BY ?cls HAVING (!(COUNT(DISTINCT ?g) > 5))

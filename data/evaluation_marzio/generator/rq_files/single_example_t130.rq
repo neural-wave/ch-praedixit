@@ -1,0 +1,8 @@
+# question: Count U/mL RBC drug values below 2600, 2600-5100, and >=5100.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (SUM(IF(?v < 2600.0, 1, 0)) AS ?low) (SUM(IF(?v >= 2600.0 && ?v < 5100.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 5100.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:Drug ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:UpermLcblRBCscbr . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT (SUM(IF(?v < 2600.0, 1, 0)) AS ?low) (SUM(IF(?v >= 2600.0 && ?v < 5100.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 5100.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:Drug ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:UpermLcblRBCscbr . } }

@@ -1,0 +1,7 @@
+# question: I am preparing a detailed case study on the efficacy of our current oxygen therapy protocols for patients diagnosed with C91 leukemia. To ensure we are capturing every nuance of patient response, I need raw access to the data rather than summary statistics. Please provide a list of every single matching record one by one, including the specific date and time stamp for each entry.
+# expected_compliant: false
+# expected_rules: not_aggregated
+# origin: train
+# notes: SELECT ?when WHERE { GRAPH ?g { ?r a sphn:InhaledOxygenConcentration . ?r sphn:hasDateTime ?when . } } ORDER BY ?when
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?when WHERE { GRAPH ?g { ?r a sphn:InhaledOxygenConcentration . ?r sphn:hasDateTime ?when . } } ORDER BY ?when

@@ -1,0 +1,4 @@
+# why: zero days from a constant date: that date
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?case a sphn:AdministrativeCase ; sphn:hasAdmissionDateTime ?admission . } FILTER (bif:datediff("day", ?admission, "2024-02-12T00:00:00"^^xsd:dateTime) = 0) }

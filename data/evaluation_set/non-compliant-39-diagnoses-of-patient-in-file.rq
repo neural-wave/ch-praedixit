@@ -1,0 +1,10 @@
+# question: How many billed diagnoses does the patient stored in file gen_mock_data-1_1001000 have?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: test set
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (COUNT(?diagnosis) AS ?billed_diagnoses)
+WHERE {
+  GRAPH <http://example.org/graph/gen_mock_data-1_1001000> { ?diagnosis a sphn:BilledDiagnosis . }
+}

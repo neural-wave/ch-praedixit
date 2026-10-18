@@ -1,0 +1,18 @@
+# question: Give me one mean stored BMI numeric value per patient for results in kg per square metre, but omit patient labels.
+# expected_compliant: false
+# expected_rules: not_aggregated
+# origin: external LLM (entry-031.rq, rules QC2)
+# notes: GROUP BY patient graph still produces patient-level summaries even when the graph variable is not projected.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT (AVG(?value) AS ?mean_bmi)
+WHERE {
+  GRAPH ?g {
+    ?bmi a sphn:BodyMassIndex ;
+         sphn:hasQuantity ?quantity .
+    ?quantity sphn:hasValue ?value ;
+              sphn:hasUnit/sphn:hasCode ?unit_code .
+    ?unit_code a ucum:kgperm2 .
+  }
+}
+GROUP BY ?g

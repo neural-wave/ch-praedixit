@@ -1,0 +1,3 @@
+# why: GROUP_CONCAT lists every record's value in one cell
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (GROUP_CONCAT(STR(?date); separator=",") AS ?dates) WHERE { GRAPH ?g { ?diagnosis a sphn:BilledDiagnosis ; sphn:hasRecordDateTime ?date . } }

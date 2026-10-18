@@ -1,0 +1,3 @@
+# why: MIN is an aggregate over all patients
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (MIN(?date) AS ?first) WHERE { GRAPH ?g { ?diagnosis a sphn:BilledDiagnosis ; sphn:hasRecordDateTime ?date . } }

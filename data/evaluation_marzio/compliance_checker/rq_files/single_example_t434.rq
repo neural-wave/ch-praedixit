@@ -1,0 +1,9 @@
+# question: how many had a 72 hour heart monitor test
+# expected_compliant: true
+# expected_rules: none
+# origin: dev
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?r a sphn:ElectrocardiographicProcedure ; sphn:hasCode ?r_c . ?r_c rdf:type snomed:715994002 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?r a sphn:ElectrocardiographicProcedure ; sphn:hasCode ?r_c . ?r_c rdf:type snomed:715994002 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

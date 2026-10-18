@@ -1,0 +1,10 @@
+# question: List the resource addresses of nursing diagnosis records as plain text.
+# expected_compliant: false
+# expected_rules: exposes_identifier, not_aggregated
+# origin: external LLM (entry-038.rq, rules QC5, QC2)
+# notes: Converting diagnosis IRIs to strings still exposes record identifiers in unaggregated rows.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (STR(?diagnosis) AS ?diagnosis_address)
+WHERE {
+  GRAPH ?g { ?diagnosis a sphn:NursingDiagnosis . }
+}

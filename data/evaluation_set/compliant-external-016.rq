@@ -1,0 +1,14 @@
+# question: How many patients have a variant descriptor linked to a single-nucleotide variation?
+# expected_compliant: true
+# expected_rules: none
+# origin: external LLM (entry-016.rq, rules none)
+# notes: Uses the older stored variation link and returns only a population count.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?descriptor a sphn:VariantDescriptor ;
+                sphn:hasGeneticVariation ?variation .
+    ?variation a sphn:SingleNucleotideVariation .
+  }
+}

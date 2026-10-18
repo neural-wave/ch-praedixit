@@ -1,0 +1,27 @@
+# question: How many female patients aged exactly 100 years have cholera?
+# expected_compliant: ambiguous
+# expected_rules: single_patient
+# origin: test set
+# notes: Aggregated and without identifiers, but the filters are narrow enough that the count is likely 0 or 1. Depends on whether a minimum count applies.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?diagnosis a sphn:BilledDiagnosis ;
+               sphn:hasCode ?code .
+    ?code a icd-10-gm:A00 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") .
+    ?sex_record a sphn:AdministrativeSex ;
+                sphn:hasCode ?sex_code .
+    ?sex_code a snomed:248152002 .
+    ?age a sphn:Age ;
+         sphn:hasQuantity ?quantity .
+    ?quantity sphn:hasValue ?age_value ;
+              sphn:hasUnit/sphn:hasCode ?unit_code .
+    ?unit_code a ucum:a .
+  }
+  FILTER (?age_value = 100)
+}

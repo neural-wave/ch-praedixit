@@ -1,0 +1,9 @@
+# question: how many records for patient 24381?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: dev
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/patient-24381> { ?r a sphn:ElectrocardiographicProcedure ; sphn:hasCode ?r_c . ?r_c rdf:type snomed:715994002 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/patient-24381> { ?r a sphn:ElectrocardiographicProcedure ; sphn:hasCode ?r_c . ?r_c rdf:type snomed:715994002 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

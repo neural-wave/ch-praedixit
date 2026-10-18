@@ -1,0 +1,10 @@
+# question: Quel est le pourcentage de patients ayant un diagnostic principal de choléra (A00.1) ou de dorsalgies (M54) par rapport au total des patients diagnostiqués pour l'une ou l'autre de ces conditions ?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?principal) AS ?patients_principal) (ROUND(1000.0 * COUNT(DISTINCT ?principal) / COUNT(DISTINCT ?g)) / 10 AS ?principal_pct) WHERE { GRAPH ?g { ?r a sphn:BilledDiagnosis ; sphn:hasCode ?r_c . { ?r_c isa icd-10-gm:A00.1 } UNION { ?r_c isa icd-10-gm:M54 } } OPTIONAL { GRAPH ?g { ?r sphn:hasRank sphn-individual:Principal . } BIND(?g AS ?principal) } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?principal) AS ?patients_principal) (ROUND(1000.0 * COUNT(DISTINCT ?principal) / COUNT(DISTINCT ?g)) / 10 AS ?principal_pct) WHERE { GRAPH ?g { ?r a sphn:BilledDiagnosis ; sphn:hasCode ?r_c . { ?r_c rdf:type icd-10-gm:A00.1 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type icd-10-gm:M54 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } } OPTIONAL { GRAPH ?g { ?r sphn:hasRank sphn-individual:Principal . } BIND(?g AS ?principal) } }

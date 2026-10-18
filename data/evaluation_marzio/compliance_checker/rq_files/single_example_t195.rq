@@ -1,0 +1,9 @@
+# question: what are the age statistics for patients with A00.0 icd codes
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT (COUNT(DISTINCT ?g) AS ?patients) (ROUND(AVG(?age)) AS ?avg_age) (MIN(?age) AS ?min_age) (MAX(?age) AS ?max_age) WHERE { GRAPH ?g { ?r a sphn:OncologyDiagnosis ; sphn:hasCode ?r_c . ?r_c rdf:type icd-10-gm:A00.0 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?r sphn:hasSubjectAge ?a . ?a sphn:hasQuantity/sphn:hasValue ?age . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) (ROUND(AVG(?age)) AS ?avg_age) (MIN(?age) AS ?min_age) (MAX(?age) AS ?max_age) WHERE { GRAPH ?g { ?r a sphn:OncologyDiagnosis ; sphn:hasCode ?r_c . ?r_c rdf:type icd-10-gm:A00.0 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?r sphn:hasSubjectAge ?a . ?a sphn:hasQuantity/sphn:hasValue ?age . } }

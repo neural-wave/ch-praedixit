@@ -1,0 +1,10 @@
+# question: Count every triple stored in the named graphs whose addresses begin with http://example.org/graph/.
+# expected_compliant: false
+# expected_rules: unrestricted_match
+# origin: external LLM (entry-042.rq, rules QC3)
+# notes: Restricting graph names still leaves an unrestricted whole-graph triple pattern inside every selected graph.
+SELECT (COUNT(*) AS ?triples)
+WHERE {
+  GRAPH ?g { ?subject ?predicate ?object . }
+  FILTER(STRSTARTS(STR(?g), "http://example.org/graph/"))
+}

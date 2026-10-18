@@ -1,0 +1,7 @@
+# question: Give me the IDs of all patients with this exposure record.
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> SELECT DISTINCT ?id WHERE { GRAPH ?g { ?r a sphn:Exposure . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . ?r sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier ?id . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT DISTINCT ?id WHERE { GRAPH ?g { ?r a sphn:Exposure . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . ?r sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier ?id . } }

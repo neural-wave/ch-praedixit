@@ -1,0 +1,9 @@
+# question: Check patient ID-10077380000082 for C virus tests.
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT (COUNT(DISTINCT ?a) AS ?records) WHERE { GRAPH ?g { ?a a sphn:MicroorganismIdentificationLabTest ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:397662006 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?a sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier "ID-10077380000082" . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?a) AS ?records) WHERE { GRAPH ?g { ?a a sphn:MicroorganismIdentificationLabTest ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:397662006 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?a sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier "ID-10077380000082" . } }

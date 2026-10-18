@@ -1,0 +1,17 @@
+# question: Among patients with lab tests, how many lab test events does a patient have on average?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set
+# notes: The subquery groups by patient graph; only aggregates over patients leave the outer query.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (COUNT(*) AS ?patients) (AVG(?events) AS ?avg_events_per_patient)
+WHERE {
+  {
+    SELECT ?g (COUNT(?event) AS ?events)
+    WHERE {
+      GRAPH ?g { ?event a sphn:LabTestEvent . }
+    }
+    GROUP BY ?g
+  }
+}

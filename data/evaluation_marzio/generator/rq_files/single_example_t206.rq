@@ -1,0 +1,9 @@
+# question: annual count of distinct patients with ct small bowel contrast procedures
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT ?year (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:ImagingProcedure ; sphn:hasCode ?r_c . ?r_c isa snomed:715970002 . ?r sphn:hasEndDateTime ?date . } BIND(YEAR(?date) AS ?year) } GROUP BY ?year ORDER BY ?year
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?year (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:ImagingProcedure ; sphn:hasCode ?r_c . ?r_c rdf:type snomed:715970002 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?r sphn:hasEndDateTime ?date . } BIND(YEAR(?date) AS ?year) } GROUP BY ?year ORDER BY ?year

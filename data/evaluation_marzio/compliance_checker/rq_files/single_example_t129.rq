@@ -1,0 +1,8 @@
+# question: Count L/s/s2 values in three specific numeric bands.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/> SELECT (SUM(IF(?v < 3300.0, 1, 0)) AS ?low) (SUM(IF(?v >= 3300.0 && ?v < 6500.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 6500.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:Substance ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:Lperspers2 . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT (SUM(IF(?v < 3300.0, 1, 0)) AS ?low) (SUM(IF(?v >= 3300.0 && ?v < 6500.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 6500.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:Substance ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:Lperspers2 . } }

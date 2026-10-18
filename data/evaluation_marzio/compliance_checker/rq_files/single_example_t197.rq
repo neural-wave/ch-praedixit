@@ -1,0 +1,9 @@
+# question: as a data steward preparing our annual oncology quality metrics report i need to isolate the specific incidence of male genital malignancies for each calendar year so please compute the mean distinct patient count and record volume for all entries falling under icd-10-gm codes c60 through c63 representing bösartige neubildungen der männlichen genitalorgane broken down by year
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT ?year (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:OncologyDiagnosis ; sphn:hasCode ?r_c . ?r_c rdf:type icd-10-gm:C60-C63 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?r sphn:hasRecordDateTime ?date . } BIND(YEAR(?date) AS ?year) } GROUP BY ?year ORDER BY ?year
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?year (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:OncologyDiagnosis ; sphn:hasCode ?r_c . ?r_c rdf:type icd-10-gm:C60-C63 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?r sphn:hasRecordDateTime ?date . } BIND(YEAR(?date) AS ?year) } GROUP BY ?year ORDER BY ?year

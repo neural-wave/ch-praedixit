@@ -1,0 +1,15 @@
+# question: How many billed diagnoses does each hospital stay have?
+# expected_compliant: false
+# expected_rules: exposes_identifier, not_aggregated
+# origin: bypass
+# notes: The administrative case IRI appears only in object position.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?case (COUNT(?diagnosis) AS ?billed_diagnoses)
+WHERE {
+  GRAPH ?g {
+    ?diagnosis a sphn:BilledDiagnosis ;
+               sphn:hasAdministrativeCase ?case .
+  }
+}
+GROUP BY ?case

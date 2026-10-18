@@ -1,0 +1,11 @@
+# question: How many patients were born on 14 March 1975?
+# source: compliance/tests/test_rules.py::test_exact_timestamp_or_full_date_is_single_patient[full_birth_date_triples]
+# description: exact timestamp or full date is single patient (full_birth_date_triples)
+# expected_compliant: false
+# expected_rules: QC1 (single_patient)
+# reasoning: a full date (year, month and day) is fixed: quasi-identifier
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT (COUNT(DISTINCT ?g) AS ?n) WHERE { GRAPH ?g { ?b a sphn:BirthDate ; sphn:hasYear 1975 ; sphn:hasMonth 3 ; sphn:hasDay 14 } }

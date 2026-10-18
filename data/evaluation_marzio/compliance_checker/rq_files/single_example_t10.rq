@@ -1,0 +1,9 @@
+# question: What is the total count of unique subjects with at least one recorded ICD-10-GM diagnosis code falling within the A00-A09 range, corresponding to infectious gastrointestinal conditions?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?r a sphn:BilledDiagnosis ; sphn:hasCode ?r_c . ?r_c rdf:type icd-10-gm:A00-A09 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?r a sphn:BilledDiagnosis ; sphn:hasCode ?r_c . ?r_c rdf:type icd-10-gm:A00-A09 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

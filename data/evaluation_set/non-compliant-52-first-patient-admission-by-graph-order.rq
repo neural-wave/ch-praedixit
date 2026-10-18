@@ -1,0 +1,16 @@
+# question: When was the first patient in the list admitted?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: bypass
+# notes: The subquery is ordered by the patient graph and cut by LIMIT 1: it keeps one patient, even though it does not return ?g.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (MAX(?admission) AS ?admitted)
+WHERE {
+  {
+    SELECT ?admission
+    WHERE { GRAPH ?g { ?case a sphn:AdministrativeCase ; sphn:hasAdmissionDateTime ?admission . } }
+    ORDER BY STR(?g)
+    LIMIT 1
+  }
+}

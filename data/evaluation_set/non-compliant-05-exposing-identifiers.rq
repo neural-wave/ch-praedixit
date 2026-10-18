@@ -1,0 +1,19 @@
+# question: How many patients have cholera, and which ones are they?
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: queries-example.md section 15
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+
+SELECT (COUNT(DISTINCT ?g) AS ?cholera_patients)
+       (GROUP_CONCAT(DISTINCT ?pseudo_id; separator=", ") AS ?which_patients)
+WHERE {
+  GRAPH ?g {
+    ?dx a sphn:BilledDiagnosis ;
+        sphn:hasSubjectPseudoIdentifier ?subject ;
+        sphn:hasCode ?dx_code .
+    ?dx_code a icd-10-gm:A00 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") .
+    ?subject a sphn:SubjectPseudoIdentifier ;
+             sphn:hasIdentifier ?pseudo_id .
+  }
+}

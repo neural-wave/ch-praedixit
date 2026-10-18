@@ -1,0 +1,21 @@
+# question: How many patients are there in each ten-year age band?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set
+# notes: Age quantities use several units in the data; only ages in years (ucum:a) are counted. The group key is a numeric bucket derived from a literal.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+
+SELECT ?age_band_start (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?age a sphn:Age ;
+         sphn:hasQuantity ?quantity .
+    ?quantity sphn:hasValue ?age_value ;
+              sphn:hasUnit/sphn:hasCode ?unit_code .
+    ?unit_code a ucum:a .
+  }
+  BIND (FLOOR(?age_value / 10) * 10 AS ?age_band_start)
+}
+GROUP BY ?age_band_start
+ORDER BY ?age_band_start

@@ -1,0 +1,15 @@
+# question: Is there any patient with a billed diagnosis of cholera?
+# expected_compliant: ambiguous
+# expected_rules: not_select
+# origin: test set
+# notes: Query_Compliance.md allows only SELECT; API_specification.md lists ASK as read-only and valid. Open question to the organisers.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+
+ASK {
+  GRAPH ?g {
+    ?diagnosis a sphn:BilledDiagnosis ;
+               sphn:hasCode ?code .
+    ?code a icd-10-gm:A00 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") .
+  }
+}

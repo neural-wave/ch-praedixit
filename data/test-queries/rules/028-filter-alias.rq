@@ -1,0 +1,11 @@
+# question: Is patient p-1 among the patients with cholera?
+# source: compliance/tests/test_rules.py::test_case[filter_alias]
+# description: case (filter_alias)
+# expected_compliant: false
+# expected_rules: QC1 (single_patient)
+# reasoning: FILTER compares the patient graph or an identifier (?p) to a constant
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+SELECT (COUNT(?p) AS ?n) WHERE { { SELECT DISTINCT (?g AS ?p) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?dx_code .
+?dx_code a icd-10-gm:A00 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } } } FILTER(?p = <http://example.org/graph/p-1>) }

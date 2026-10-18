@@ -1,0 +1,17 @@
+# question: By recorded microscopy cell morphology, how many patients have a microbiology microscopy result?
+# expected_compliant: true
+# expected_rules: none
+# origin: external LLM (entry-015.rq, rules none)
+# notes: Uses the stored morphology property to return aggregate counts by a categorical value.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?morphology (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?event a sphn:MicrobiologyMicroscopyLabTestEvent ;
+           sphn:hasLabTest/sphn:hasResult ?result .
+    ?result a sphn:MicrobiologyMicroscopyResult ;
+            sphn:hasCellMorphology ?category .
+  }
+  BIND(STRAFTER(STR(?category), "#") AS ?morphology)
+}
+GROUP BY ?morphology

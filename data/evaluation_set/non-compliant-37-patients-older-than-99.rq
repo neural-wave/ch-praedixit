@@ -1,0 +1,18 @@
+# question: Show me the patients older than 99 years with their age.
+# expected_compliant: false
+# expected_rules: not_aggregated, exposes_identifier
+# origin: test set
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+
+SELECT ?g ?age_value
+WHERE {
+  GRAPH ?g {
+    ?age a sphn:Age ;
+         sphn:hasQuantity ?quantity .
+    ?quantity sphn:hasValue ?age_value ;
+              sphn:hasUnit/sphn:hasCode ?unit_code .
+    ?unit_code a ucum:a .
+  }
+  FILTER (?age_value > 99)
+}

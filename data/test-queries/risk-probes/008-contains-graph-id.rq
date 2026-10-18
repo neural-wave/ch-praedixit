@@ -1,0 +1,12 @@
+# question: How many type 2 diabetes diagnoses does patient 1000123 have?
+# source: compliance/tests/test_risk_probes.py::test_default_mode[contains_graph_id]
+# description: patient picked by substring of the graph IRI
+# expected_compliant: false
+# expected_rules: QC1 (single_patient)
+# reasoning: CONTAINS on the patient graph or an identifier selects a specific patient (1000123)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX bif: <bif:>
+SELECT (COUNT(?dx) AS ?n) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?c . ?c a icd-10-gm:E11 . } FILTER(CONTAINS(STR(?g), "1000123")) }

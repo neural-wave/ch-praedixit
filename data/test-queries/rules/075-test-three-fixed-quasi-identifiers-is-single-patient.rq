@@ -1,0 +1,10 @@
+# question: How many men of nationality 223369002, born in 1975, have type 2 diabetes?
+# source: compliance/tests/test_rules.py::test_three_fixed_quasi_identifiers_is_single_patient
+# description: three fixed quasi identifiers is single patient
+# expected_compliant: false
+# expected_rules: QC1 (single_patient)
+# reasoning: 3 quasi-identifiers fixed to exact values (birth, nationality, sex): together they can single out one patient
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+SELECT (COUNT(DISTINCT ?g) AS ?n) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?c . ?c a <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/E11> . ?s a sphn:AdministrativeSex ; sphn:hasCode ?sc . ?sc a <http://snomed.info/id/248153007> . ?n a sphn:Nationality ; sphn:hasAssociatedCountry/sphn:hasCode ?nc . ?nc a <http://snomed.info/id/223369002> . ?b a sphn:BirthDate ; sphn:hasYear ?y . } FILTER(?y = 1975) }

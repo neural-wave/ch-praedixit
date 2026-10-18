@@ -1,0 +1,8 @@
+# question: what is the average min and max duration in days for blood pressure measurements across all records and patients
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX bif: <bif:> SELECT (COUNT(DISTINCT ?r) AS ?records) (COUNT(DISTINCT ?g) AS ?patients) (ROUND(AVG(?d)) AS ?avg_days) (MIN(?d) AS ?min_days) (MAX(?d) AS ?max_days) WHERE { GRAPH ?g { ?r a sphn:BloodPressureMeasurement . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } FILTER(?end >= ?start) BIND(bif:datediff("day", ?start, ?end) AS ?d) }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX bif: <bif:>
+SELECT (COUNT(DISTINCT ?r) AS ?records) (COUNT(DISTINCT ?g) AS ?patients) (ROUND(AVG(?d)) AS ?avg_days) (MIN(?d) AS ?min_days) (MAX(?d) AS ?max_days) WHERE { GRAPH ?g { ?r a sphn:BloodPressureMeasurement . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } FILTER(?end >= ?start) BIND(bif:datediff("day", ?start, ?end) AS ?d) }

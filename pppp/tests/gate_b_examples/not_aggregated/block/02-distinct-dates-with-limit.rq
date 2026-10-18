@@ -1,0 +1,3 @@
+# why: DISTINCT and LIMIT still return record values row by row
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT DISTINCT ?date WHERE { GRAPH ?g { ?diagnosis a sphn:BilledDiagnosis ; sphn:hasRecordDateTime ?date . } } LIMIT 10

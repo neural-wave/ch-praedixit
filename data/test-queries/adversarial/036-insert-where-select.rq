@@ -1,0 +1,14 @@
+# question: Store the number of type 2 diabetes patients in a new graph.
+# source: compliance/tests/test_adversarial.py::test_adversarial[insert_where_select]
+# description: INSERT ... WHERE with an aggregate inside
+# expected_compliant: false
+# expected_rules: QC4 (not_read_only)
+# reasoning: update operation (INSERT/DELETE/LOAD/CLEAR/DROP...)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX bif: <bif:>
+INSERT { GRAPH <urn:tmp> { <urn:x> <urn:n> ?n } } WHERE { { SELECT (COUNT(DISTINCT ?g) AS ?n) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?c . ?c a icd-10-gm:E11 . } } } }

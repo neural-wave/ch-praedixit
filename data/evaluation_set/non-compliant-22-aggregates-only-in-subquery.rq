@@ -1,0 +1,17 @@
+# question: List every patient with their number of billed diagnoses.
+# expected_compliant: false
+# expected_rules: not_aggregated, exposes_identifier
+# origin: bypass
+# notes: The aggregation is in the subquery; the outer query returns one row per patient.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?patient ?billed_diagnoses
+WHERE {
+  {
+    SELECT (?g AS ?patient) (COUNT(?diagnosis) AS ?billed_diagnoses)
+    WHERE {
+      GRAPH ?g { ?diagnosis a sphn:BilledDiagnosis . }
+    }
+    GROUP BY ?g
+  }
+}

@@ -1,0 +1,7 @@
+# question: I need a list of the patient IDs for everyone who has at least one record of blood cancer (C91) so I can contact them directly.
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: SELECT DISTINCT ?id WHERE { GRAPH ?g { ?r a sphn:DataRelease . ?r sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier ?id . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT DISTINCT ?id WHERE { GRAPH ?g { ?r a sphn:DataRelease . ?r sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier ?id . } }

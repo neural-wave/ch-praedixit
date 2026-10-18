@@ -1,0 +1,2 @@
+# why: ?s ?p ?o matches the whole graph
+SELECT (COUNT(*) AS ?triples) WHERE { GRAPH ?g { ?s ?p ?o } }

@@ -1,0 +1,42 @@
+# question: What kinds of genetic variants do we find in our patients, how often is someone carrying one copy versus two, and how many of these people also have cancer?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set T1 (official example)
+# notes: SELECT ?variant_type (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?heterozygous_patient) AS ?patients_heterozygous) (COUNT(DISTINCT ?homozygous_patient) AS ?patients_homozygous) (COUNT(DISTINCT ?cancer_patient) AS ?patients_with_cancer_diagnosis) (ROUND(1000.0 * COUNT(DISTINCT ?cancer_patient) / COUNT(DISTINCT ?g)) / 10 AS ?cancer_pct) WHERE { VALUES ?variant_class { sphn:SingleNucleotideVariation sphn:GenomicInsertion sphn:GenomicDeletion sphn:GenomicDelins sphn:GenomicDuplication sphn:GenomicInversion sphn:GenomicTranslocation sphn:GenomicTransposition sphn:CopyNumberVariation sphn:GeneFusion } GRAPH ?g { ?descriptor a sphn:VariantDescriptor ; sphn:hasGeneticVariation ?variant ; sphn:hasZygosityCode ?zygosity_code . ?variant a ?variant_class . ?zygosity_code a ?zygosity . } BIND (STRAFTER(STR(?variant_class), "#") AS ?variant_type) OPTIONAL { GRAPH ?g { ?zygosity_code a geno:0000135 . } BIND (?g AS ?heterozygous_patient) } OPTIONAL { GRAPH ?g { ?zygosity_code a geno:0000136 . } BIND (?g AS ?homozygous_patient) } OPTIONAL { GRAPH ?g { ?onco a sphn:OncologyDiagnosis . } BIND (?g AS ?cancer_patient) } } GROUP BY ?variant_type ORDER BY DESC(?patients)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX geno: <http://purl.obolibrary.org/obo/GENO_>
+SELECT ?variant_type
+       (COUNT(DISTINCT ?g) AS ?patients)
+       (COUNT(DISTINCT ?heterozygous_patient) AS ?patients_heterozygous)
+       (COUNT(DISTINCT ?homozygous_patient) AS ?patients_homozygous)
+       (COUNT(DISTINCT ?cancer_patient) AS ?patients_with_cancer_diagnosis)
+       (ROUND(1000.0 * COUNT(DISTINCT ?cancer_patient) / COUNT(DISTINCT ?g)) / 10 AS ?cancer_pct)
+WHERE {
+  VALUES ?variant_class {
+    sphn:SingleNucleotideVariation sphn:GenomicInsertion sphn:GenomicDeletion sphn:GenomicDelins
+    sphn:GenomicDuplication sphn:GenomicInversion sphn:GenomicTranslocation sphn:GenomicTransposition
+    sphn:CopyNumberVariation sphn:GeneFusion
+  }
+  GRAPH ?g {
+    ?descriptor a sphn:VariantDescriptor ;
+                sphn:hasGeneticVariation ?variant ;
+                sphn:hasZygosityCode ?zygosity_code .
+    ?variant a ?variant_class .
+    ?zygosity_code a ?zygosity .
+  }
+  BIND (STRAFTER(STR(?variant_class), "#") AS ?variant_type)
+  OPTIONAL {
+    GRAPH ?g { ?zygosity_code a geno:0000135 . }
+    BIND (?g AS ?heterozygous_patient)
+  }
+  OPTIONAL {
+    GRAPH ?g { ?zygosity_code a geno:0000136 . }
+    BIND (?g AS ?homozygous_patient)
+  }
+  OPTIONAL {
+    GRAPH ?g { ?onco a sphn:OncologyDiagnosis . }
+    BIND (?g AS ?cancer_patient)
+  }
+}
+GROUP BY ?variant_type
+ORDER BY DESC(?patients)

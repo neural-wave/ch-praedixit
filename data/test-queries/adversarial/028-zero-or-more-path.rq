@@ -1,0 +1,14 @@
+# question: How many coded records are linked to their codes?
+# source: compliance/tests/test_adversarial.py::test_adversarial[zero_or_more_path]
+# description: (p|^p)* matches every node to itself
+# expected_compliant: false
+# expected_rules: QC3 (unrestricted_match)
+# reasoning: pattern not tied to any class or property restriction (?s Path(Path(https://biomedit.ch/rdf/sphn-schema/sphn#hasCode | Path(~https://biomedit.ch/rdf/sphn-schema/sphn#hasCode))*) ?o)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX bif: <bif:>
+SELECT (COUNT(*) AS ?n) WHERE { GRAPH ?g { ?s (sphn:hasCode|^sphn:hasCode)* ?o } }

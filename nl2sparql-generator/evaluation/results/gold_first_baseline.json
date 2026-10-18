@@ -1,0 +1,1452 @@
+{
+ "summary": {
+  "syntax_valid": 0.933,
+  "schema_consistent": 1.0,
+  "exact_match": 0.0,
+  "element_f1": 0.641,
+  "exec_strict": 0.133,
+  "exec_relaxed": 0.133,
+  "exec_iri_relaxed": 0.133,
+  "exec_numeric": 0.133,
+  "exec_strict_raw_reference": 0.133,
+  "n_reference_evaluable": 14,
+  "exec_strict_on_evaluable": 0.071,
+  "exec_relaxed_on_evaluable": 0.071,
+  "exec_iri_relaxed_on_evaluable": 0.071,
+  "exec_numeric_on_evaluable": 0.071,
+  "latency_mean_s": 30.83,
+  "latency_median_s": 26.8,
+  "tokens_mean": 5959,
+  "repairs_mean": 0.47,
+  "set": "gold",
+  "n": 15,
+  "bank_size": 756,
+  "config": {
+   "model": "qwen2.5-coder:7b",
+   "ollama_url": "http://localhost:11434",
+   "endpoint": "http://localhost:8890/sparql",
+   "use_endpoint": true,
+   "num_ctx": 8192,
+   "analysis": true,
+   "n_examples": 6,
+   "max_repairs": 2,
+   "repair_on_warnings": [
+    "no_graph",
+    "fanout",
+    "cross_patient"
+   ],
+   "example_bank": "/private/tmp/claude-501/-Users-marziolunghi-Desktop-Best-Generator/16846def-a27f-4847-be82-132a85390959/scratchpad/tmp_bank.jsonl",
+   "schema": "resources/schema.json",
+   "terminology": "resources/terminology.sqlite",
+   "max_schema_classes": 7,
+   "max_codes": 10,
+   "execution_timeout": 20
+  }
+ },
+ "items": [
+  {
+   "id": "gold-01",
+   "question": "Once someone is diagnosed with cancer, what usually happens next: surgery, radiotherapy, both, or nothing? And how long do they typically wait for their first treatment?",
+   "reference": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX bif: <bif:>\n\nSELECT ?pathway\n       (COUNT(*) AS ?patients)\n       (IF(SUM(?treated) > 0, ROUND(1.0 * SUM(?days_to_first_treatment) / SUM(?treated)), \"\")\n         AS ?avg_days_to_first_treatment)\nWHERE {\n  {\n    SELECT ?g (MIN(?incidence) AS ?diagnosed)\n              (MIN(?surgery_start) AS ?first_surgery)\n              (MIN(?rt_start) AS ?first_rt)\n    WHERE {\n      GRAPH ?g {\n        ?dx a sphn:OncologyDiagnosis ;\n            sphn:hasIncidenceDateTime ?incidence .\n      }\n      OPTIONAL {\n        GRAPH ?g {\n          ?dx sphn:hasIncidenceDateTime ?incidence .\n          ?surgery a sphn:OncologySurgery ; sphn:hasStartDateTime ?surgery_start .\n        }\n        FILTER (?surgery_start > ?incidence)\n      }\n      OPTIONAL {\n        GRAPH ?g {\n          ?dx sphn:hasIncidenceDateTime ?incidence .\n          ?rt a sphn:RadiotherapyProcedure ; sphn:hasStartDateTime ?rt_start .\n        }\n        FILTER (?rt_start > ?incidence)\n      }\n    }\n    GROUP BY ?g\n  }\n  BIND (IF(BOUND(?first_surgery) && BOUND(?first_rt), \"surgery and radiotherapy\",\n        IF(BOUND(?first_surgery), \"surgery only\",\n        IF(BOUND(?first_rt), \"radiotherapy only\", \"no treatment recorded after diagnosis\"))) AS ?pathway)\n  BIND (IF(BOUND(?first_surgery) && BOUND(?first_rt),\n           IF(?first_surgery < ?first_rt, ?first_surgery, ?first_rt),\n           COALESCE(?first_surgery, ?first_rt)) AS ?first_treatment)\n  BIND (IF(BOUND(?first_treatment), 1, 0) AS ?treated)\n  BIND (bif:datediff(\"day\", ?diagnosed, COALESCE(?first_treatment, ?diagnosed)) AS ?days_to_first_treatment)\n}\nGROUP BY ?pathway\nORDER BY DESC(?patients)\n",
+   "generated": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX bif: <bif:>\nSELECT (COUNT(DISTINCT ?g) AS ?patients_with_either)\n       (COUNT(DISTINCT ?surgery_patient) AS ?patients_with_surgery)\n       (COUNT(DISTINCT ?radiotherapy_patient) AS ?patients_with_radiotherapy)\n       (MIN(?wait_time) AS ?min_wait_days)\n       (AVG(?wait_time) AS ?avg_wait_days)\n       (MAX(?wait_time) AS ?max_wait_days)\nWHERE {\n  {\n    GRAPH ?g { \n      ?dx a sphn:OncologyDiagnosis ; \n           sphn:hasRecordDateTime ?dx_date . \n      ?surgery a sphn:MedicalProcedure ; \n                ?surgery:hasAdministrativeCase ?case .\n      ?dx :hasAdministrativeCase ?case .\n      FILTER(?surgery:sphn:hasStartDateTime >= ?dx_date)\n    }\n    BIND(bif:datediff(\"day\", ?dx_date, ?surgery:sphn:hasStartDateTime) AS ?wait_time)\n    BIND (?g AS ?surgery_patient)\n  }\n  UNION\n  {\n    GRAPH ?g { \n      ?dx a sphn:OncologyDiagnosis ; \n           sphn:hasRecordDateTime ?dx_date . \n      ?radiotherapy a sphn:MedicalProcedure ; \n                    ?radiotherapy:hasAdministrativeCase ?case .\n      ?dx :hasAdministrativeCase ?case .\n      FILTER(?radiotherapy:sphn:hasStartDateTime >= ?dx_date)\n    }\n    BIND(bif:datediff(\"day\", ?dx_date, ?radiotherapy:sphn:hasStartDateTime) AS ?wait_time)\n    BIND (?g AS ?radiotherapy_patient)\n  }\n}\n",
+   "syntax_valid": false,
+   "pred_error": "Virtuoso 37000 Error SP030: SPARQL compiler, line 15: Undefined namespace prefix at '' before '?case'",
+   "schema_consistent": true,
+   "schema_errors": [],
+   "exact_match": false,
+   "element_f1": 0.444,
+   "exec_strict": false,
+   "exec_relaxed": false,
+   "exec_iri_relaxed": false,
+   "exec_strict_raw_reference": false,
+   "reference_ok": true,
+   "reference_empty": false,
+   "ref_rows": 4,
+   "pred_rows": 0,
+   "latency_s": 76.615,
+   "attempts": 3,
+   "problems": [
+    {
+     "severity": "warning",
+     "code": "fanout",
+     "message": "Inside GRAPH ?g the patterns form 3 unconnected groups (?case; ?radiotherapy; ?surgery); every combination of their matches is a row, so AVG(?wait_time) over-counts. Link them (e.g. through sphn:hasAdministrativeCase) or aggregate per patient / use DISTINCT."
+    },
+    {
+     "severity": "error",
+     "code": "virtuoso",
+     "message": "Virtuoso rejected the query: Virtuoso 37000 Error SP030: SPARQL compiler, line 15: Undefined namespace prefix at '' before '?case'"
+    }
+   ],
+   "usage": {
+    "llm_calls": 4,
+    "prompt_tokens": 12556,
+    "completion_tokens": 1228,
+    "total_tokens": 13784,
+    "llm_seconds": 75.898
+   },
+   "trace": {
+    "analysis": {
+     "classes": [
+      "sphn:OncologyDiagnosis",
+      "sphn:OncologySurgery",
+      "sphn:RadiotherapyProcedure"
+     ],
+     "concepts": [
+      {
+       "text": "cancer",
+       "english": "cancer",
+       "german": "Krebs",
+       "system": "ICD-10-GM",
+       "code": ""
+      },
+      {
+       "text": "surgery",
+       "english": "surgery",
+       "german": "Chirurgie",
+       "system": "",
+       "code": ""
+      },
+      {
+       "text": "radiotherapy",
+       "english": "radiotherapy",
+       "german": "Strahlentherapie",
+       "system": "",
+       "code": ""
+      }
+     ],
+     "raw": "```json\n{\n  \"classes\": [\"OncologyDiagnosis\", \"OncologySurgery\", \"RadiotherapyProcedure\"],\n  \"concepts\": [\n    {\n      \"text\": \"cancer\",\n      \"english\": \"cancer\",\n      \"german\": \"Krebs\",\n      \"system\": \"ICD-10-GM\",\n      \"code\": \"\"\n    },\n    {\n      \"text\": \"surgery\",\n      \"english\": \"surgery\",\n      \"german\": \"Chirurgie\",\n      \"system\": \"\",\n      \"code\": \"\"\n    },\n    {\n      \"text\": \"radiotherapy\",\n      \"english\": \"radiotherapy\",\n      \"german\": \"Strahlentherapie\",\n      \"system\": \"\",\n      \"code\": \"\"\n    }\n  ]\n}\n```"
+    },
+    "classes": [
+     "sphn:OncologyDiagnosis",
+     "sphn:OncologySurgery",
+     "sphn:RadiotherapyProcedure",
+     "sphn:Intent",
+     "sphn:Quantity"
+    ],
+    "codes": [
+     "snomed:257556004",
+     "snomed:419815003",
+     "snomed:108290001",
+     "snomed:399315003",
+     "snomed:33834001",
+     "icd-10-gm:Z51.0",
+     "snomed:35631009"
+    ],
+    "examples": [
+     "evalset-compliant-24-oncology-surgery-or-radiotherapy",
+     "marzio-train-train-0163",
+     "marzio-train-train-0217",
+     "marzio-train-train-0066",
+     "marzio-train-train-0042",
+     "marzio-test-test-0033"
+    ],
+    "attempts": [
+     {
+      "query": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX bif: <bif:>\nSELECT (COUNT(DISTINCT ?surgery_patient) AS ?patients_with_surgery)\n       (COUNT(DISTINCT ?radiotherapy_patient) AS ?patients_with_radiotherapy)\n       (COUNT(DISTINCT ?g) AS ?patients_with_either)\n       (MIN(?wait_time) AS ?min_wait_days)\n       (AVG(?wait_time) AS ?avg_wait_days)\n       (MAX(?wait_time) AS ?max_wait_days)\nWHERE {\n  {\n    GRAPH ?g { \n      ?dx a sphn:OncologyDiagnosis ; \n           sphn:hasRecordDateTime ?dx_date . \n      ?surgery a sphn:OncologySurgery ; \n                sphn:hasIncidenceDateTime ?surgery_date .\n      FILTER(?surgery_date >= ?dx_date)\n    }\n    BIND(bif:datediff(\"day\", ?dx_date, ?surgery_date) AS ?wait_time)\n    BIND (?g AS ?surgery_patient)\n  }\n  UNION\n  {\n    GRAPH ?g { \n      ?dx a sphn:OncologyDiagnosis ; \n           sphn:hasRecordDateTime ?dx_date . \n      ?radiotherapy a sphn:RadiotherapyProcedure ; \n                    sphn:hasIncidenceDateTime ?radiotherapy_date .\n      FILTER(?radiotherapy_date >= ?dx_date)\n    }\n    BIND(bif:datediff(\"day\", ?dx_date, ?radiotherapy_date) AS ?wait_time)\n    BIND (?g AS ?radiotherapy_patient)\n  }\n}\n",
+      "problems": [
+       {
+        "severity": "warning",
+        "code": "fanout",
+        "message": "Inside GRAPH ?g the patterns form 3 unconnected groups (?dx; ?radiotherapy; ?surgery); every combination of their matches is a row, so AVG(?wait_time) over-counts. Link them (e.g. through sphn:hasAdministrativeCase) or aggregate per patient / use DISTINCT."
+       },
+       {
+        "severity": "error",
+        "code": "predicate_domain",
+        "message": "?surgery is a sphn:OncologySurgery, but sphn:OncologySurgery records never use sphn:hasIncidenceDateTime in the data (sphn:hasIncidenceDateTime is used on: sphn:OncologyDiagnosis). sphn:OncologySurgery uses: sphn:hasCode, sphn:hasBodySite, sphn:hasStartDateTime, sphn:hasAdministrativeCase, sphn:hasEndDateTime, sphn:hasIntent."
+       },
+       {
+        "severity": "error",
+        "code": "predicate_domain",
+        "message": "?radiotherapy is a sphn:RadiotherapyProcedure, but sphn:RadiotherapyProcedure records never use sphn:hasIncidenceDateTime in the data (sphn:hasIncidenceDateTime is used on: sphn:OncologyDiagnosis). sphn:RadiotherapyProcedure uses: sphn:hasBodySite, sphn:hasCode, sphn:hasAdministrativeCase, sphn:hasStartDateTime, sphn:hasEndDateTime, sphn:hasFractionsNumber, sphn:hasIntent, sphn:hasRadiationQuantity."
+       },
+       {
+        "severity": "warning",
+        "code": "empty",
+        "message": "The query returns no data on the store although its codes occur in the data: a predicate path, class or filter is probably wrong."
+       }
+      ]
+     },
+     {
+      "query": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX bif: <bif:>\nSELECT (COUNT(DISTINCT ?g) AS ?patients_with_either)\n       (COUNT(DISTINCT ?surgery_patient) AS ?patients_with_surgery)\n       (COUNT(DISTINCT ?radiotherapy_patient) AS ?patients_with_radiotherapy)\n       (MIN(?wait_time) AS ?min_wait_days)\n       (AVG(?wait_time) AS ?avg_wait_days)\n       (MAX(?wait_time) AS ?max_wait_days)\nWHERE {\n  {\n    GRAPH ?g { \n      ?dx a sphn:OncologyDiagnosis ; \n           sphn:hasRecordDateTime ?dx_date . \n      ?surgery a sphn:MedicalProcedure ; \n                ?surgery:hasAdministrativeCase ?case .\n      ?dx :hasAdministrativeCase ?case .\n      FILTER(?surgery:sphn:hasStartDateTime >= ?dx_date)\n    }\n    BIND(bif:datediff(\"day\", ?dx_date, ?surgery:sphn:hasStartDateTime) AS ?wait_time)\n    BIND (?g AS ?surgery_patient)\n  }\n  UNION\n  {\n    GRAPH ?g { \n      ?dx a sphn:OncologyDiagnosis ; \n           sphn:hasRecordDateTime ?dx_date . \n      ?radiotherapy a sphn:MedicalProcedure ; \n                    ?radiotherapy:hasAdministrativeCase ?case .\n      ?dx :hasAdministrativeCase ?case .\n      FILTER(?radiotherapy:sphn:hasStartDateTime >= ?dx_date)\n    }\n    BIND(bif:datediff(\"day\", ?dx_date, ?radiotherapy:sphn:hasStartDateTime) AS ?wait_time)\n    BIND (?g AS ?radiotherapy_patient)\n  }\n}\n",
+      "problems": [
+       {
+        "severity": "warning",
+        "code": "fanout",
+        "message": "Inside GRAPH ?g the patterns form 3 unconnected groups (?case; ?radiotherapy; ?surgery); every combination of their matches is a row, so AVG(?wait_time) over-counts. Link them (e.g. through sphn:hasAdministrativeCase) or aggregate per patient / use DISTINCT."
+       },
+       {
+        "severity": "error",
+        "code": "virtuoso",
+        "message": "Virtuoso rejected the query: Virtuoso 37000 Error SP030: SPARQL compiler, line 15: Undefined namespace prefix at '' before '?case'"
+       }
+      ]
+     },
+     {
+      "query": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX bif: <bif:>\nSELECT (COUNT(DISTINCT ?g) AS ?patients_with_either)\n       (COUNT(DISTINCT ?surgery_patient) AS ?patients_with_surgery)\n       (COUNT(DISTINCT ?radiotherapy_patient) AS ?patients_with_radiotherapy)\n       (MIN(?wait_time) AS ?min_wait_days)\n       (AVG(?wait_time) AS ?avg_wait_days)\n       (MAX(?wait_time) AS ?max_wait_days)\nWHERE {\n  {\n    GRAPH ?g { \n      ?dx a sphn:OncologyDiagnosis ; \n           sphn:hasRecordDateTime ?dx_date . \n      ?surgery a sphn:MedicalProcedure ; \n                ?surgery:sphn:hasAdministrativeCase ?case .\n      ?dx :hasAdministrativeCase ?case .\n      FILTER(?surgery:sphn:hasStartDateTime >= ?dx_date)\n    }\n    BIND(bif:datediff(\"day\", ?dx_date, ?surgery:sphn:hasStartDateTime) AS ?wait_time)\n    BIND (?g AS ?surgery_patient)\n  }\n  UNION\n  {\n    GRAPH ?g { \n      ?dx a sphn:OncologyDiagnosis ; \n           sphn:hasRecordDateTime ?dx_date . \n      ?radiotherapy a sphn:MedicalProcedure ; \n                    ?radiotherapy:sphn:hasAdministrativeCase ?case .\n      ?dx :hasAdministrativeCase ?case .\n      FILTER(?radiotherapy:sphn:hasStartDateTime >= ?dx_date)\n    }\n    BIND(bif:datediff(\"day\", ?dx_date, ?radiotherapy:sphn:hasStartDateTime) AS ?wait_time)\n    BIND (?g AS ?radiotherapy_patient)\n  }\n}\n",
+      "problems": [
+       {
+        "severity": "warning",
+        "code": "fanout",
+        "message": "Inside GRAPH ?g the patterns form 3 unconnected groups (?case; ?radiotherapy; ?surgery); every combination of their matches is a row, so AVG(?wait_time) over-counts. Link them (e.g. through sphn:hasAdministrativeCase) or aggregate per patient / use DISTINCT."
+       },
+       {
+        "severity": "error",
+        "code": "virtuoso",
+        "message": "Virtuoso rejected the query: Virtuoso 37000 Error SP030: SPARQL compiler, line 15: Undefined namespace prefix at '' before '?case'"
+       }
+      ]
+     }
+    ]
+   },
+   "exec_numeric": false
+  },
+  {
+   "id": "gold-02",
+   "question": "During hospital stays billed for cholera, do drug administrations run shorter or longer than in other stays?",
+   "reference": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>\nPREFIX bif: <bif:>\n\nSELECT ?cohort\n       (COUNT(DISTINCT ?case) AS ?admissions)\n       (COUNT(*) AS ?administrations)\n       (ROUND(AVG(?hours)) AS ?avg_hours)\n       (MIN(?hours) AS ?min_hours)\n       (MAX(?hours) AS ?max_hours)\n       (SUM(IF(?hours <= 72, 1, 0)) AS ?within_3_days)\n       (ROUND(1000.0 * SUM(IF(?hours <= 72, 1, 0)) / COUNT(*)) / 10 AS ?within_3_days_pct)\nWHERE {\n  {\n    SELECT DISTINCT ?g ?case ?administration ?start ?end\n    WHERE {\n      GRAPH ?g {\n        ?administration a sphn:DrugAdministrationEvent ;\n                        sphn:hasAdministrativeCase ?case ;\n                        sphn:hasStartDateTime ?start ;\n                        sphn:hasEndDateTime ?end .\n      }\n      FILTER (?end >= ?start)\n    }\n  }\n  BIND (bif:datediff(\"hour\", ?start, ?end) AS ?hours)\n  BIND (IF(EXISTS {\n             GRAPH ?g {\n               ?dx a sphn:BilledDiagnosis ;\n                   sphn:hasAdministrativeCase ?case ;\n                   sphn:hasCode ?dx_code .\n               ?dx_code a icd-10-gm:A00 OPTION (inference \"https://biomedit.ch/rdf/sphn-resource/global\") .\n             }\n           }, \"billed for cholera\", \"other admissions\") AS ?cohort)\n}\nGROUP BY ?cohort\n",
+   "generated": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX bif: <bif:>\nPREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>\nSELECT (AVG(?adminDuration) AS ?avgAdminDuration) (AVG(?choleraDuration) AS ?avgCholeraDuration)\nWHERE {\n  GRAPH <https://biomedit.ch/rdf/sphn-resource/global> {\n    ?code a icd-10-gm:A00 OPTION (inference \"https://biomedit.ch/rdf/sphn-resource/global\") .\n  }\n  OPTIONAL { \n    GRAPH ?g {\n      ?case a sphn:AdministrativeCase ;\n            sphn:hasDischargeDateTime ?discharge .\n      ?diagnosis a sphn:BilledDiagnosis ;\n                 sphn:hasAdministrativeCase ?case ;\n                 sphn:hasCode ?code .\n      ?drug a sphn:DrugAdministrationEvent ;\n             sphn:hasAdministrativeCase ?case ;\n             sphn:hasStartDateTime ?start ;\n             sphn:hasEndDateTime ?end .\n      BIND(bif:datediff(\"second\", ?start, ?end) AS ?adminDuration)\n    }\n  }\n  OPTIONAL { \n    GRAPH ?g {\n      ?case a sphn:AdministrativeCase ;\n            sphn:hasDischargeDateTime ?discharge .\n      ?diagnosis a sphn:BilledDiagnosis ;\n                 sphn:hasAdministrativeCase ?case ;\n                 sphn:hasCode ?code .\n      ?drug a sphn:DrugAdministrationEvent ;\n             sphn:hasAdministrativeCase ?case ;\n             sphn:hasStartDateTime ?start ;\n             sphn:hasEndDateTime ?end .\n      FILTER(?adminDuration < 3600)\n      BIND(bif:datediff(\"second\", ?start, ?end) AS ?choleraDuration)\n    }\n  }\n}\n",
+   "syntax_valid": true,
+   "pred_error": null,
+   "schema_consistent": true,
+   "schema_errors": [],
+   "exact_match": false,
+   "element_f1": 0.875,
+   "exec_strict": false,
+   "exec_relaxed": false,
+   "exec_iri_relaxed": false,
+   "exec_strict_raw_reference": false,
+   "reference_ok": true,
+   "reference_empty": false,
+   "ref_rows": 2,
+   "pred_rows": 1,
+   "latency_s": 32.225,
+   "attempts": 1,
+   "problems": [],
+   "usage": {
+    "llm_calls": 2,
+    "prompt_tokens": 4190,
+    "completion_tokens": 425,
+    "total_tokens": 4615,
+    "llm_seconds": 32.135
+   },
+   "trace": {
+    "analysis": {
+     "classes": [
+      "sphn:AdministrativeCase",
+      "sphn:DrugAdministrationEvent"
+     ],
+     "concepts": [
+      {
+       "text": "cholera",
+       "english": "cholera",
+       "german": "Choler",
+       "system": "ICD-10-GM",
+       "code": ""
+      }
+     ],
+     "raw": "{\n  \"classes\": [\"AdministrativeCase\", \"DrugAdministrationEvent\"],\n  \"concepts\": [\n    {\n      \"text\": \"cholera\",\n      \"english\": \"cholera\",\n      \"german\": \"Choler\",\n      \"system\": \"ICD-10-GM\",\n      \"code\": \"\"\n    }\n  ]\n}"
+    },
+    "classes": [
+     "sphn:AdministrativeCase",
+     "sphn:DrugAdministrationEvent",
+     "sphn:DrugPrescription",
+     "sphn:SequencingRun",
+     "sphn:BilledDiagnosis",
+     "sphn:Drug",
+     "sphn:Quantity"
+    ],
+    "codes": [
+     "icd-10-gm:A00",
+     "icd-10-gm:A00.9"
+    ],
+    "examples": [
+     "marzio-train-train-0397",
+     "evalset-compliant-22-cholera-without-drug-administration",
+     "evalset-compliant-external-002",
+     "marzio-test-test-0072",
+     "evalset-non-compliant-external-032",
+     "evalset-non-compliant-12-diagnoses-per-administrative-case"
+    ],
+    "attempts": [
+     {
+      "query": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX bif: <bif:>\nPREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>\nSELECT (AVG(?adminDuration) AS ?avgAdminDuration) (AVG(?choleraDuration) AS ?avgCholeraDuration)\nWHERE {\n  GRAPH <https://biomedit.ch/rdf/sphn-resource/global> {\n    ?code a icd-10-gm:A00 OPTION (inference \"https://biomedit.ch/rdf/sphn-resource/global\") .\n  }\n  OPTIONAL { \n    GRAPH ?g {\n      ?case a sphn:AdministrativeCase ;\n            sphn:hasDischargeDateTime ?discharge .\n      ?diagnosis a sphn:BilledDiagnosis ;\n                 sphn:hasAdministrativeCase ?case ;\n                 sphn:hasCode ?code .\n      ?drug a sphn:DrugAdministrationEvent ;\n             sphn:hasAdministrativeCase ?case ;\n             sphn:hasStartDateTime ?start ;\n             sphn:hasEndDateTime ?end .\n      BIND(bif:datediff(\"second\", ?start, ?end) AS ?adminDuration)\n    }\n  }\n  OPTIONAL { \n    GRAPH ?g {\n      ?case a sphn:AdministrativeCase ;\n            sphn:hasDischargeDateTime ?discharge .\n      ?diagnosis a sphn:BilledDiagnosis ;\n                 sphn:hasAdministrativeCase ?case ;\n                 sphn:hasCode ?code .\n      ?drug a sphn:DrugAdministrationEvent ;\n             sphn:hasAdministrativeCase ?case ;\n             sphn:hasStartDateTime ?start ;\n             sphn:hasEndDateTime ?end .\n      FILTER(?adminDuration < 3600)\n      BIND(bif:datediff(\"second\", ?start, ?end) AS ?choleraDuration)\n    }\n  }\n}\n",
+      "problems": []
+     }
+    ]
+   },
+   "exec_numeric": false
+  },
+  {
+   "id": "gold-03",
+   "question": "Is cholera on a hospital bill (any diagnosis rank) more common in men, women, or patients of indeterminate sex?",
+   "reference": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>\nPREFIX snomed: <http://snomed.info/id/>\nPREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>\n\nSELECT ?sex\n       (COUNT(DISTINCT ?g) AS ?patients)\n       (COUNT(DISTINCT ?cholera_patient) AS ?cholera_principal_patients)\n       (ROUND(1000.0 * COUNT(DISTINCT ?cholera_patient) / COUNT(DISTINCT ?g)) / 10 AS ?cholera_pct)\nWHERE {\n  GRAPH ?g {\n    ?sex_record a sphn:AdministrativeSex ;\n                sphn:hasCode ?sex_code .\n    ?sex_code a ?sex_concept .\n  }\n  VALUES (?sex_concept ?sex) {\n    (snomed:248153007         \"male\")\n    (snomed:248152002         \"female\")\n    (snomed:32570681000036106 \"indeterminate\")\n  }\n  OPTIONAL {\n    GRAPH ?g {\n      ?dx a sphn:BilledDiagnosis ;\n          sphn:hasRank sphn-individual:Principal ;\n          sphn:hasCode ?dx_code .\n      ?dx_code a icd-10-gm:A00 OPTION (inference \"https://biomedit.ch/rdf/sphn-resource/global\") .\n    }\n    BIND(?g AS ?cholera_patient)\n  }\n}\nGROUP BY ?sex\nORDER BY DESC(?cholera_pct)\n",
+   "generated": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT ?sex (COUNT(DISTINCT ?g) AS ?patients)\nWHERE {\n  GRAPH ?g {\n    ?diagnosis a sphn:BilledDiagnosis ;\n               sphn:hasCode ?code .\n    ?code rdf:type icd-10-gm:A00 OPTION (inference \"https://biomedit.ch/rdf/sphn-resource/global\") .\n    ?sex_record a sphn:AdministrativeSex ;\n                sphn:hasCode ?sex_code .\n    ?sex_code a ?sex .\n  }\n  FILTER (STRSTARTS(STR(?sex), \"http://snomed.info/id/\"))\n}\nGROUP BY ?sex\nORDER BY DESC(?patients)\n",
+   "syntax_valid": true,
+   "pred_error": null,
+   "schema_consistent": true,
+   "schema_errors": [],
+   "exact_match": false,
+   "element_f1": 0.615,
+   "exec_strict": false,
+   "exec_relaxed": false,
+   "exec_iri_relaxed": false,
+   "exec_strict_raw_reference": false,
+   "reference_ok": true,
+   "reference_empty": false,
+   "ref_rows": 3,
+   "pred_rows": 3,
+   "latency_s": 28.666,
+   "attempts": 1,
+   "problems": [],
+   "usage": {
+    "llm_calls": 2,
+    "prompt_tokens": 3649,
+    "completion_tokens": 212,
+    "total_tokens": 3861,
+    "llm_seconds": 18.827
+   },
+   "trace": {
+    "analysis": {
+     "classes": [
+      "sphn:AdministrativeSex",
+      "sphn:BilledDiagnosis"
+     ],
+     "concepts": [
+      {
+       "text": "cholera",
+       "english": "Cholera",
+       "german": "K cholera",
+       "system": "ICD-10-GM",
+       "code": "A06"
+      }
+     ],
+     "raw": "```json\n{\n  \"classes\": [\"AdministrativeSex\", \"BilledDiagnosis\"],\n  \"concepts\": [\n    {\n      \"text\": \"cholera\",\n      \"english\": \"Cholera\",\n      \"german\": \"K cholera\",\n      \"system\": \"ICD-10-GM\",\n      \"code\": \"A06\"\n    }\n  ]\n}\n```"
+    },
+    "classes": [
+     "sphn:AdministrativeSex",
+     "sphn:BilledDiagnosis",
+     "sphn:Protein",
+     "sphn:BodyPosition"
+    ],
+    "codes": [
+     "icd-10-gm:A00",
+     "icd-10-gm:A06",
+     "icd-10-gm:A00.9"
+    ],
+    "examples": [
+     "marzio-train-train-0035",
+     "evalset-compliant-17-cholera-diagnosis-rank",
+     "marzio-train-train-0431",
+     "evalset-compliant-15-hypertension-by-sex",
+     "marzio-train-train-0100",
+     "marzio-train-train-0168"
+    ],
+    "attempts": [
+     {
+      "query": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT ?sex (COUNT(DISTINCT ?g) AS ?patients)\nWHERE {\n  GRAPH ?g {\n    ?diagnosis a sphn:BilledDiagnosis ;\n               sphn:hasCode ?code .\n    ?code rdf:type icd-10-gm:A00 OPTION (inference \"https://biomedit.ch/rdf/sphn-resource/global\") .\n    ?sex_record a sphn:AdministrativeSex ;\n                sphn:hasCode ?sex_code .\n    ?sex_code a ?sex .\n  }\n  FILTER (STRSTARTS(STR(?sex), \"http://snomed.info/id/\"))\n}\nGROUP BY ?sex\nORDER BY DESC(?patients)\n",
+      "problems": []
+     }
+    ]
+   },
+   "exec_numeric": false
+  },
+  {
+   "id": "gold-04",
+   "question": "How many of our patients were born in a country they aren't a citizen of?",
+   "reference": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX snomed: <http://snomed.info/id/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\nSELECT (COUNT(DISTINCT ?g) AS ?patients_with_birth_country_and_nationality)\n       (COUNT(DISTINCT ?born_abroad_patient) AS ?born_outside_every_country_of_citizenship)\n       (ROUND(1000.0 * COUNT(DISTINCT ?born_abroad_patient) / COUNT(DISTINCT ?g)) / 10 AS ?pct)\nWHERE {\n  GRAPH ?g {\n    ?birth a sphn:Birth ;\n           sphn:hasCountry ?birth_country .\n    ?birth_country a sphn:Country ;\n                   sphn:hasCode ?birth_code .\n    ?birth_code a ?birth_country_concept .\n    ?nationality a sphn:Nationality ;\n                 sphn:hasAssociatedCountry ?nat_country .\n  }\n  VALUES ?country_root { snomed:223369002 snomed:223860005 }\n  GRAPH <https://biomedit.ch/rdf/sphn-resource/global> {\n    ?birth_country_concept rdfs:subClassOf* ?country_root .\n  }\n  BIND (IF(NOT EXISTS {\n             GRAPH ?g {\n               ?any_nationality a sphn:Nationality ;\n                                sphn:hasAssociatedCountry ?citizen_country .\n               ?citizen_country sphn:hasCode ?citizen_code .\n               ?citizen_code a ?birth_country_concept .\n             }\n           }, ?g, ?citizen_of_birth_country) AS ?born_abroad_patient)\n}\n",
+   "generated": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nSELECT (COUNT(DISTINCT ?g) AS ?patients)\nWHERE {\n  GRAPH ?g {\n    ?birth a sphn:Birth ; sphn:hasCountry ?country .\n    ?nationality a sphn:Nationality ; sphn:hasAssociatedCountry ?citizen_country .\n  }\n  FILTER (?country != ?citizen_country)\n}\n",
+   "syntax_valid": true,
+   "pred_error": null,
+   "schema_consistent": true,
+   "schema_errors": [],
+   "exact_match": false,
+   "element_f1": 0.667,
+   "exec_strict": false,
+   "exec_relaxed": false,
+   "exec_iri_relaxed": false,
+   "exec_strict_raw_reference": false,
+   "reference_ok": true,
+   "reference_empty": false,
+   "ref_rows": 1,
+   "pred_rows": 1,
+   "latency_s": 22.745,
+   "attempts": 1,
+   "problems": [],
+   "usage": {
+    "llm_calls": 2,
+    "prompt_tokens": 4619,
+    "completion_tokens": 185,
+    "total_tokens": 4804,
+    "llm_seconds": 22.655
+   },
+   "trace": {
+    "analysis": {
+     "classes": [
+      "sphn:Birth",
+      "sphn:Country"
+     ],
+     "concepts": [
+      {
+       "text": "country",
+       "english": "country",
+       "german": "Land",
+       "system": "ICD-10-GM",
+       "code": ""
+      },
+      {
+       "text": "citizen of",
+       "english": "citizen of",
+       "german": "bürger von",
+       "system": "",
+       "code": ""
+      }
+     ],
+     "raw": "{\n  \"classes\": [\"Birth\", \"Country\"],\n  \"concepts\": [\n    {\n      \"text\": \"country\",\n      \"english\": \"country\",\n      \"german\": \"Land\",\n      \"system\": \"ICD-10-GM\",\n      \"code\": \"\"\n    },\n    {\n      \"text\": \"citizen of\",\n      \"english\": \"citizen of\",\n      \"german\": \"bürger von\",\n      \"system\": \"\",\n      \"code\": \"\"\n    }\n  ]\n}"
+    },
+    "classes": [
+     "sphn:Birth",
+     "sphn:Country",
+     "sphn:Nationality",
+     "sphn:AdministrativeCase",
+     "sphn:TobaccoExposure",
+     "sphn:DrugAdministrationEvent",
+     "sphn:BirthDate"
+    ],
+    "codes": [
+     "snomed:227004004",
+     "snomed:105436006",
+     "snomed:227005003",
+     "snomed:227007006"
+    ],
+    "examples": [
+     "marzio-train-train-0430",
+     "evalset-compliant-52-born-in-1975-as-range",
+     "evalset-non-compliant-49-born-on-a-date-day-as-range",
+     "evalset-non-compliant-51-three-attributes-as-equal-ranges",
+     "evalset-ambiguous-07-exact-birth-date-filter",
+     "evalset-compliant-45-rare-disease-women-born-1975"
+    ],
+    "attempts": [
+     {
+      "query": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nSELECT (COUNT(DISTINCT ?g) AS ?patients)\nWHERE {\n  GRAPH ?g {\n    ?birth a sphn:Birth ; sphn:hasCountry ?country .\n    ?nationality a sphn:Nationality ; sphn:hasAssociatedCountry ?citizen_country .\n  }\n  FILTER (?country != ?citizen_country)\n}\n",
+      "problems": []
+     }
+    ]
+   },
+   "exec_numeric": false
+  },
+  {
+   "id": "gold-05",
+   "question": "When a doctor prescribes a drug to be given a certain way (by mouth, IV and so on), how often is it actually given that way during the same stay?",
+   "reference": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\n\nSELECT ?route_agreement (COUNT(*) AS ?prescriptions) (COUNT(DISTINCT ?g) AS ?patients)\nWHERE {\n  {\n    SELECT ?g ?prescription (MAX(?administered) AS ?was_given) (MAX(?same_route) AS ?any_match)\n    WHERE {\n      GRAPH ?g {\n        ?prescription a sphn:DrugPrescription ;\n                      sphn:hasAdministrativeCase ?case ;\n                      sphn:hasDrug ?prescribed_drug ;\n                      sphn:hasAdministrationRouteCode ?prescribed_code .\n        ?prescribed_code a ?prescribed_route .\n        FILTER (STRSTARTS(STR(?prescribed_route), \"http://snomed.info/id/\"))\n        OPTIONAL {\n          ?administration a sphn:DrugAdministrationEvent ;\n                          sphn:hasAdministrativeCase ?case ;\n                          sphn:hasDrug ?given_drug ;\n                          sphn:hasAdministrationRouteCode ?given_code .\n          ?given_code a ?given_route .\n          FILTER (STRSTARTS(STR(?given_route), \"http://snomed.info/id/\"))\n          {\n            ?prescribed_drug sphn:hasActiveIngredient/sphn:hasCode ?prescribed_ingredient_code .\n            ?prescribed_ingredient_code a ?ingredient .\n            ?given_drug sphn:hasActiveIngredient/sphn:hasCode ?given_ingredient_code .\n            ?given_ingredient_code a ?ingredient .\n            FILTER (STRSTARTS(STR(?ingredient), \"http://snomed.info/id/\"))\n          }\n          UNION\n          {\n            ?prescribed_drug sphn:hasArticle/sphn:hasCode ?prescribed_article .\n            ?prescribed_article sphn:hasIdentifier ?article_id ;\n                                sphn:hasCodingSystemAndVersion ?article_system .\n            ?given_drug sphn:hasArticle/sphn:hasCode ?given_article .\n            ?given_article sphn:hasIdentifier ?article_id ;\n                           sphn:hasCodingSystemAndVersion ?article_system .\n          }\n        }\n      }\n      BIND (IF(BOUND(?administration), 1, 0) AS ?administered)\n      BIND (IF(BOUND(?administration) && ?prescribed_route = ?given_route, 1, 0) AS ?same_route)\n    }\n    GROUP BY ?g ?prescription\n  }\n  BIND (IF(?any_match = 1, \"1: given by the prescribed route\",\n        IF(?was_given = 1, \"2: given only by a different route\",\n                           \"3: drug not given during the same stay\")) AS ?route_agreement)\n}\nGROUP BY ?route_agreement\nORDER BY ?route_agreement\n",
+   "generated": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nSELECT ?route_code (COUNT(DISTINCT ?g) AS ?patients)\nWHERE {\n  GRAPH ?g {\n    ?prescription a sphn:DrugPrescription ;\n                   sphn:hasAdministrationRouteCode ?route_code .\n    ?administration a sphn:DrugAdministrationEvent ;\n                    sphn:hasDrug ?drug ;\n                    sphn:hasAdministrationRouteCode ?admin_route_code .\n    FILTER(?route_code = ?admin_route_code)\n  }\n}\nGROUP BY ?route_code\nORDER BY DESC(?patients)\n",
+   "syntax_valid": true,
+   "pred_error": null,
+   "schema_consistent": true,
+   "schema_errors": [],
+   "exact_match": false,
+   "element_f1": 0.571,
+   "exec_strict": false,
+   "exec_relaxed": false,
+   "exec_iri_relaxed": false,
+   "exec_strict_raw_reference": false,
+   "reference_ok": true,
+   "reference_empty": false,
+   "ref_rows": 2,
+   "pred_rows": 0,
+   "latency_s": 26.797,
+   "attempts": 2,
+   "problems": [
+    {
+     "severity": "warning",
+     "code": "empty",
+     "message": "The query returns no data on the store although its codes occur in the data: a predicate path, class or filter is probably wrong."
+    }
+   ],
+   "usage": {
+    "llm_calls": 3,
+    "prompt_tokens": 6906,
+    "completion_tokens": 347,
+    "total_tokens": 7253,
+    "llm_seconds": 26.127
+   },
+   "trace": {
+    "analysis": {
+     "classes": [
+      "sphn:DrugPrescription"
+     ],
+     "concepts": [
+      {
+       "text": "prescribed",
+       "english": "prescribed",
+       "german": "vorgegeben",
+       "system": "SNOMED CT",
+       "code": ""
+      },
+      {
+       "text": "given a certain way",
+       "english": "administered in a specific manner",
+       "german": "in einer bestimmten Weise verabreitet",
+       "system": "",
+       "code": ""
+      }
+     ],
+     "raw": "{\n  \"classes\": [\"DrugPrescription\", \"AdministrationEvent\"],\n  \"concepts\": [\n    {\n      \"text\": \"prescribed\",\n      \"english\": \"prescribed\",\n      \"german\": \"vorgegeben\",\n      \"system\": \"SNOMED CT\",\n      \"code\": \"\"\n    },\n    {\n      \"text\": \"given a certain way\",\n      \"english\": \"administered in a specific manner\",\n      \"german\": \"in einer bestimmten Weise verabreitet\",\n      \"system\": \"\",\n      \"code\": \"\"\n    }\n  ]\n}"
+    },
+    "classes": [
+     "sphn:DrugPrescription",
+     "sphn:BodyPosition",
+     "sphn:Drug",
+     "sphn:DrugAdministrationEvent",
+     "sphn:Quantity",
+     "sphn:DrugArticle"
+    ],
+    "codes": [
+     "snomed:715622005",
+     "snomed:398193008"
+    ],
+    "examples": [
+     "marzio-test-test-0070",
+     "evalset-ambiguous-05-drug-article-codes",
+     "marzio-train-train-0117",
+     "evalset-compliant-external-008",
+     "marzio-train-train-0018",
+     "evalset-non-compliant-external-039"
+    ],
+    "attempts": [
+     {
+      "query": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nSELECT ?route_code (COUNT(DISTINCT ?g) AS ?patients)\nWHERE {\n  GRAPH ?g {\n    ?prescription a sphn:DrugPrescription ;\n                   sphn:hasAdministrationRouteCode ?route_code .\n    ?administration a sphn:DrugAdministrationEvent ;\n                    sphn:hasDrug ?drug ;\n                    sphn:hasAdministrationRouteCode ?admin_route_code .\n    FILTER(?route_code = ?admin_route_code)\n  }\n}\nGROUP BY ?route_code\nORDER BY DESC(?patients)\n",
+      "problems": [
+       {
+        "severity": "error",
+        "code": "virtuoso",
+        "message": "Virtuoso rejected the query: Virtuoso S1T00 Error SR171: Transaction timed out"
+       }
+      ]
+     },
+     {
+      "query": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nSELECT ?route_code (COUNT(DISTINCT ?g) AS ?patients)\nWHERE {\n  GRAPH ?g {\n    ?prescription a sphn:DrugPrescription ;\n                   sphn:hasAdministrationRouteCode ?route_code .\n    ?administration a sphn:DrugAdministrationEvent ;\n                    sphn:hasDrug ?drug ;\n                    sphn:hasAdministrationRouteCode ?admin_route_code .\n    FILTER(?route_code = ?admin_route_code)\n  }\n}\nGROUP BY ?route_code\nORDER BY DESC(?patients)\n",
+      "problems": [
+       {
+        "severity": "warning",
+        "code": "empty",
+        "message": "The query returns no data on the store although its codes occur in the data: a predicate path, class or filter is probably wrong."
+       }
+      ]
+     }
+    ]
+   },
+   "exec_numeric": false
+  },
+  {
+   "id": "gold-06",
+   "question": "Which kinds of therapeutic ultrasound do we bill most, how often is it the main procedure of the stay, and how long does it usually take?",
+   "reference": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>\nPREFIX chop: <https://biomedit.ch/rdf/sphn-resource/chop/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX bif: <bif:>\n\nSELECT ?chop_code (SAMPLE(?label) AS ?procedure)\n       (COUNT(DISTINCT ?g) AS ?patients)\n       (COUNT(DISTINCT ?principal_patient) AS ?patients_as_principal_procedure)\n       (ROUND(AVG(?duration_hours)) AS ?avg_duration_hours)\nWHERE {\n  GRAPH ?g {\n    ?proc a sphn:BilledProcedure ;\n          sphn:hasRank ?rank ;\n          sphn:hasStartDateTime ?start ;\n          sphn:hasEndDateTime ?end ;\n          sphn:hasCode ?code .\n    ?code a chop:00.0 OPTION (inference \"https://biomedit.ch/rdf/sphn-resource/global\") .\n    ?code a ?concept .\n  }\n  FILTER (STRSTARTS(STR(?concept), STR(chop:)))\n  BIND (REPLACE(STR(?concept), \"^.*/\", \"\") AS ?chop_code)\n  FILTER (REGEX(?chop_code, \"^00\\\\.0[0-9]$\"))\n  OPTIONAL {\n    GRAPH <https://biomedit.ch/rdf/sphn-resource/global> { ?concept rdfs:label ?label . }\n    FILTER (LANGMATCHES(LANG(?label), \"de\"))\n  }\n  OPTIONAL {\n    GRAPH ?principal_patient { ?proc sphn:hasRank sphn-individual:Principal . }\n  }\n  BIND (bif:datediff(\"hour\", ?start, ?end) AS ?duration_hours)\n}\nGROUP BY ?chop_code\nORDER BY DESC(?patients)\n",
+   "generated": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX bif: <bif:>\nPREFIX chop: <https://biomedit.ch/rdf/sphn-resource/chop/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT (COUNT(DISTINCT ?g) AS ?patients)\n       (COUNT(DISTINCT ?ultrasound) AS ?ultrasound_procedures)\n       (ROUND(AVG(?d)) AS ?avg_duration_days)\n       (MIN(?d) AS ?min_duration_days)\n       (MAX(?d) AS ?max_duration_days)\nWHERE {\n  GRAPH ?g {\n    ?procedure a sphn:BilledProcedure ;\n               sphn:hasCode ?procedure_code .\n    ?procedure_code rdf:type chop:00.0 OPTION (inference \"https://biomedit.ch/rdf/sphn-resource/global\") .\n    ?procedure sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end .\n  }\n  FILTER(?end >= ?start)\n  BIND(bif:datediff(\"day\", ?start, ?end) AS ?d)\n}\n",
+   "syntax_valid": true,
+   "pred_error": null,
+   "schema_consistent": true,
+   "schema_errors": [],
+   "exact_match": false,
+   "element_f1": 0.833,
+   "exec_strict": false,
+   "exec_relaxed": false,
+   "exec_iri_relaxed": false,
+   "exec_strict_raw_reference": false,
+   "reference_ok": true,
+   "reference_empty": false,
+   "ref_rows": 4,
+   "pred_rows": 1,
+   "latency_s": 23.462,
+   "attempts": 1,
+   "problems": [],
+   "usage": {
+    "llm_calls": 2,
+    "prompt_tokens": 4198,
+    "completion_tokens": 250,
+    "total_tokens": 4448,
+    "llm_seconds": 23.022
+   },
+   "trace": {
+    "analysis": {
+     "classes": [
+      "sphn:BilledProcedure",
+      "sphn:MedicalProcedure",
+      "sphn:TimePattern"
+     ],
+     "concepts": [
+      {
+       "text": "therapeutic ultrasound",
+       "english": "therapeutic ultrasound",
+       "german": "therapeutisches Ultraschalluntersuchung",
+       "system": "CHOP",
+       "code": ""
+      }
+     ],
+     "raw": "```json\n{\n  \"classes\": [\"BilledProcedure\", \"MedicalProcedure\", \"TimePattern\"],\n  \"concepts\": [\n    {\n      \"text\": \"therapeutic ultrasound\",\n      \"english\": \"therapeutic ultrasound\",\n      \"german\": \"therapeutisches Ultraschalluntersuchung\",\n      \"system\": \"CHOP\",\n      \"code\": \"\"\n    }\n  ]\n}\n```"
+    },
+    "classes": [
+     "sphn:BilledProcedure",
+     "sphn:MedicalProcedure",
+     "sphn:TimePattern",
+     "sphn:TherapeuticArea",
+     "sphn:Country",
+     "sphn:MedicalDevice",
+     "sphn:BilledDiagnosis"
+    ],
+    "codes": [],
+    "examples": [
+     "evalset-compliant-34-cholera-patients-with-ultrasound",
+     "marzio-train-train-0158",
+     "evalset-compliant-17-cholera-diagnosis-rank",
+     "evalset-compliant-30-length-of-stay",
+     "marzio-train-train-0399",
+     "marzio-train-train-0177"
+    ],
+    "attempts": [
+     {
+      "query": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX bif: <bif:>\nPREFIX chop: <https://biomedit.ch/rdf/sphn-resource/chop/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT (COUNT(DISTINCT ?g) AS ?patients)\n       (COUNT(DISTINCT ?ultrasound) AS ?ultrasound_procedures)\n       (ROUND(AVG(?d)) AS ?avg_duration_days)\n       (MIN(?d) AS ?min_duration_days)\n       (MAX(?d) AS ?max_duration_days)\nWHERE {\n  GRAPH ?g {\n    ?procedure a sphn:BilledProcedure ;\n               sphn:hasCode ?procedure_code .\n    ?procedure_code rdf:type chop:00.0 OPTION (inference \"https://biomedit.ch/rdf/sphn-resource/global\") .\n    ?procedure sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end .\n  }\n  FILTER(?end >= ?start)\n  BIND(bif:datediff(\"day\", ?start, ?end) AS ?d)\n}\n",
+      "problems": []
+     }
+    ]
+   },
+   "exec_numeric": false
+  },
+  {
+   "id": "gold-07",
+   "question": "What are the most common ways we give drugs, how long do those treatments last, and how many start while the patient is still in hospital?",
+   "reference": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX bif: <bif:>\n\nSELECT ?route_concept\n       (COUNT(DISTINCT ?g) AS ?patients)\n       (COUNT(DISTINCT ?administration) AS ?administrations)\n       (ROUND(1000.0 * SUM(?during_stay) / COUNT(?administration)) / 10 AS ?started_during_hospital_stay_pct)\n       (ROUND(AVG(?treatment_hours)) AS ?avg_treatment_hours)\nWHERE {\n  GRAPH ?g {\n    ?administration a sphn:DrugAdministrationEvent ;\n                    sphn:hasAdministrativeCase ?case ;\n                    sphn:hasAdministrationRouteCode ?route_code ;\n                    sphn:hasStartDateTime ?start ;\n                    sphn:hasEndDateTime ?end .\n    ?route_code a ?route_concept .\n    ?case a sphn:AdministrativeCase ;\n          sphn:hasAdmissionDateTime ?admission ;\n          sphn:hasDischargeDateTime ?discharge .\n  }\n  FILTER (STRSTARTS(STR(?route_concept), \"http://snomed.info/id/\"))\n  FILTER (?end >= ?start)\n  BIND (IF(?start >= ?admission && ?start <= ?discharge, 1, 0) AS ?during_stay)\n  BIND (bif:datediff(\"hour\", ?start, ?end) AS ?treatment_hours)\n}\nGROUP BY ?route_concept\nORDER BY DESC(?patients)\n",
+   "generated": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT ?routeLabel (COUNT(DISTINCT ?g) AS ?eventCount) (AVG(?duration) AS ?avgDuration) (SUM(IF(?admission_time <= ?start_time, 1, 0)) AS ?startsInHospital)\nWHERE {\n  GRAPH ?g {\n    ?r a sphn:DrugAdministrationEvent ;\n       sphn:hasAdministrationRouteCode ?c ;\n       sphn:hasStartDateTime ?start_time .\n    OPTIONAL { ?r sphn:hasDuration ?dur . ?dur sphn:hasValue ?v } BIND(IF(BOUND(?v), ?v, 0) AS ?duration)\n    OPTIONAL {\n      GRAPH ?g {\n        ?case a sphn:AdministrativeCase ;\n              sphn:hasAdmissionDateTime ?admission_time .\n      }\n    }\n  }\n  GRAPH <https://biomedit.ch/rdf/sphn-resource/global> {\n    ?c rdfs:label ?routeLabel\n  }\n}\nGROUP BY ?routeLabel\nORDER BY DESC(?eventCount)\nLIMIT 10\n",
+   "syntax_valid": true,
+   "pred_error": null,
+   "schema_consistent": true,
+   "schema_errors": [],
+   "exact_match": false,
+   "element_f1": 0.667,
+   "exec_strict": false,
+   "exec_relaxed": false,
+   "exec_iri_relaxed": false,
+   "exec_strict_raw_reference": false,
+   "reference_ok": true,
+   "reference_empty": false,
+   "ref_rows": 94,
+   "pred_rows": 0,
+   "latency_s": 45.465,
+   "attempts": 2,
+   "problems": [
+    {
+     "severity": "warning",
+     "code": "empty",
+     "message": "The query returns no data on the store although its codes occur in the data: a predicate path, class or filter is probably wrong."
+    }
+   ],
+   "usage": {
+    "llm_calls": 3,
+    "prompt_tokens": 7479,
+    "completion_tokens": 675,
+    "total_tokens": 8154,
+    "llm_seconds": 43.042
+   },
+   "trace": {
+    "analysis": {
+     "classes": [
+      "sphn:DrugAdministrationEvent",
+      "sphn:AdministrativeCase"
+     ],
+     "concepts": [
+      {
+       "text": "most common ways we give drugs",
+       "english": "common routes of administration for drugs",
+       "german": "meistgebräuchliche Wege der Medikamentenverabreichung",
+       "system": "SNOMED CT",
+       "code": ""
+      },
+      {
+       "text": "how long do those treatments last",
+       "english": "duration of drug treatments",
+       "german": "Dauer der Behandlungen",
+       "system": "UCUM",
+       "code": ""
+      },
+      {
+       "text": "how many start while the patient is still in hospital",
+       "english": "number of drug treatments starting during hospitalization",
+       "german": "Anzahl der Medikamentenbehandlungen, die während des Aufenthalts im Krankenhaus beginnen",
+       "system": "",
+       "code": ""
+      }
+     ],
+     "raw": "```json\n{\n  \"classes\": [\"DrugAdministrationEvent\", \"Duration\", \"AdministrativeCase\"],\n  \"concepts\": [\n    {\n      \"text\": \"most common ways we give drugs\",\n      \"english\": \"common routes of administration for drugs\",\n      \"german\": \"meistgebräuchliche Wege der Medikamentenverabreichung\",\n      \"system\": \"SNOMED CT\",\n      \"code\": \"\"\n    },\n    {\n      \"text\": \"how long do those treatments last\",\n      \"english\": \"duration of drug treatments\",\n      \"german\": \"Dauer der Behandlungen\",\n      \"system\": \"UCUM\",\n      \"code\": \"\"\n    },\n    {\n      \"text\": \"how many start while the patient is still in hospital\",\n      \"english\": \"number of drug treatments starting during hospitalization\",\n      \"german\": \"Anzahl der Medikamentenbehandlungen, die während des Aufenthalts im Krankenhaus beginnen\",\n      \"system\": \"\",\n      \"code\": \"\"\n    }\n  ]\n}\n```"
+    },
+    "classes": [
+     "sphn:DrugAdministrationEvent",
+     "sphn:AdministrativeCase",
+     "sphn:DrugPrescription",
+     "sphn:Drug",
+     "sphn:AdministrativeSex",
+     "sphn:Quantity"
+    ],
+    "codes": [],
+    "examples": [
+     "marzio-train-train-0397",
+     "marzio-test-test-0072",
+     "evalset-compliant-30-length-of-stay",
+     "marzio-test-test-0068",
+     "marzio-train-train-0400",
+     "evalset-compliant-external-002"
+    ],
+    "attempts": [
+     {
+      "query": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT ?routeLabel (COUNT(DISTINCT ?g) AS ?eventCount) (AVG(?duration) AS ?avgDuration) (SUM(IF(?admission_time <= ?start_time, 1, 0)) AS ?startsInHospital)\nWHERE {\n  GRAPH ?g {\n    ?r a sphn:DrugAdministrationEvent ;\n       sphn:hasAdministrationRouteCode ?c ;\n       sphn:hasStartDateTime ?start_time .\n    OPTIONAL { ?r sphn:hasDuration ?dur . ?dur sphn:hasValue ?v } BIND(IF(BOUND(?v), ?v, 0) AS ?duration)\n    OPTIONAL { GRAPH ?g2 { ?case a sphn:AdministrativeCase ; sphn:hasAdmissionDateTime ?admission_time } }\n  }\n  GRAPH <https://biomedit.ch/rdf/sphn-resource/global> {\n    ?c rdfs:label ?routeLabel\n  }\n}\nGROUP BY ?routeLabel\nORDER BY DESC(?eventCount)\nLIMIT 10\n",
+      "problems": [
+       {
+        "severity": "warning",
+        "code": "cross_patient",
+        "message": "Graph variables ?g, ?g2 are not joined: this pairs every patient with every other patient. Use the same ?g when the facts belong to the same patient."
+       },
+       {
+        "severity": "warning",
+        "code": "empty",
+        "message": "The query returns no data on the store although its codes occur in the data: a predicate path, class or filter is probably wrong."
+       }
+      ]
+     },
+     {
+      "query": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT ?routeLabel (COUNT(DISTINCT ?g) AS ?eventCount) (AVG(?duration) AS ?avgDuration) (SUM(IF(?admission_time <= ?start_time, 1, 0)) AS ?startsInHospital)\nWHERE {\n  GRAPH ?g {\n    ?r a sphn:DrugAdministrationEvent ;\n       sphn:hasAdministrationRouteCode ?c ;\n       sphn:hasStartDateTime ?start_time .\n    OPTIONAL { ?r sphn:hasDuration ?dur . ?dur sphn:hasValue ?v } BIND(IF(BOUND(?v), ?v, 0) AS ?duration)\n    OPTIONAL {\n      GRAPH ?g {\n        ?case a sphn:AdministrativeCase ;\n              sphn:hasAdmissionDateTime ?admission_time .\n      }\n    }\n  }\n  GRAPH <https://biomedit.ch/rdf/sphn-resource/global> {\n    ?c rdfs:label ?routeLabel\n  }\n}\nGROUP BY ?routeLabel\nORDER BY DESC(?eventCount)\nLIMIT 10\n",
+      "problems": [
+       {
+        "severity": "warning",
+        "code": "empty",
+        "message": "The query returns no data on the store although its codes occur in the data: a predicate path, class or filter is probably wrong."
+       }
+      ]
+     }
+    ]
+   },
+   "exec_numeric": false
+  },
+  {
+   "id": "gold-08",
+   "question": "What kinds of genetic variants do we find in our patients, how often is someone carrying one copy versus two, and how many of these people also have cancer?",
+   "reference": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX geno: <http://purl.obolibrary.org/obo/GENO_>\n\nSELECT ?variant_type\n       (COUNT(DISTINCT ?g) AS ?patients)\n       (COUNT(DISTINCT ?heterozygous_patient) AS ?patients_heterozygous)\n       (COUNT(DISTINCT ?homozygous_patient) AS ?patients_homozygous)\n       (COUNT(DISTINCT ?cancer_patient) AS ?patients_with_cancer_diagnosis)\n       (ROUND(1000.0 * COUNT(DISTINCT ?cancer_patient) / COUNT(DISTINCT ?g)) / 10 AS ?cancer_pct)\nWHERE {\n  VALUES ?variant_class {\n    sphn:SingleNucleotideVariation sphn:GenomicInsertion sphn:GenomicDeletion sphn:GenomicDelins\n    sphn:GenomicDuplication sphn:GenomicInversion sphn:GenomicTranslocation sphn:GenomicTransposition\n    sphn:CopyNumberVariation sphn:GeneFusion\n  }\n  GRAPH ?g {\n    ?descriptor a sphn:VariantDescriptor ;\n                sphn:hasGeneticVariation ?variant ;\n                sphn:hasZygosityCode ?zygosity_code .\n    ?variant a ?variant_class .\n    ?zygosity_code a ?zygosity .\n  }\n  BIND (STRAFTER(STR(?variant_class), \"#\") AS ?variant_type)\n  OPTIONAL {\n    GRAPH ?g { ?zygosity_code a geno:0000135 . }\n    BIND (?g AS ?heterozygous_patient)\n  }\n  OPTIONAL {\n    GRAPH ?g { ?zygosity_code a geno:0000136 . }\n    BIND (?g AS ?homozygous_patient)\n  }\n  OPTIONAL {\n    GRAPH ?g { ?onco a sphn:OncologyDiagnosis . }\n    BIND (?g AS ?cancer_patient)\n  }\n}\nGROUP BY ?variant_type\nORDER BY DESC(?patients)\n",
+   "generated": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX geno: <http://purl.obolibrary.org/obo/GENO_>\nSELECT ?typeCodeValue (COUNT(DISTINCT ?g) AS ?patientCount) (SUM(?isCarrierOfOneCopy) AS ?oneCopyCarriers) (SUM(?isCarrierOfTwoCopies) AS ?twoCopyCarriers) (SUM(?hasCancer) AS ?patientsWithCancer)\nWHERE {\n  GRAPH ?g {\n    ?r a sphn:VariantDescriptor ;\n        sphn:hasGeneticVariation ?variation .\n    ?variation a ?typeCode .\n    OPTIONAL { ?r sphn:hasZygosityCode ?zygosity . FILTER(?zygosity = geno:0000604) BIND(1 AS ?isCarrierOfOneCopy) }\n    OPTIONAL { ?r sphn:hasZygosityCode ?zygosity . FILTER(?zygosity = geno:0000978) BIND(1 AS ?isCarrierOfTwoCopies) }\n    OPTIONAL { ?r a sphn:TumorGradeAssessmentResult . BIND(1 AS ?hasCancer) }\n  }\n}\nGROUP BY ?typeCodeValue\nORDER BY DESC(?patientCount)\n",
+   "syntax_valid": true,
+   "pred_error": null,
+   "schema_consistent": true,
+   "schema_errors": [],
+   "exact_match": false,
+   "element_f1": 0.273,
+   "exec_strict": false,
+   "exec_relaxed": false,
+   "exec_iri_relaxed": false,
+   "exec_strict_raw_reference": false,
+   "reference_ok": true,
+   "reference_empty": false,
+   "ref_rows": 4,
+   "pred_rows": 1,
+   "latency_s": 55.37,
+   "attempts": 3,
+   "problems": [],
+   "usage": {
+    "llm_calls": 4,
+    "prompt_tokens": 10008,
+    "completion_tokens": 958,
+    "total_tokens": 10966,
+    "llm_seconds": 54.935
+   },
+   "trace": {
+    "analysis": {
+     "classes": [
+      "sphn:GeneticVariation",
+      "sphn:CopyNumberVariation",
+      "sphn:SingleNucleotideVariation",
+      "sphn:TumorGradeAssessmentResult"
+     ],
+     "concepts": [
+      {
+       "text": "genetic variants",
+       "english": "genetic variations",
+       "german": "genetische Variationen",
+       "system": "GENO",
+       "code": ""
+      },
+      {
+       "text": "one copy versus two",
+       "english": "heterozygous vs homozygous",
+       "german": "heterozygotisch vs homozygotisch",
+       "system": "",
+       "code": ""
+      },
+      {
+       "text": "cancer",
+       "english": "cancer",
+       "german": "Krebs",
+       "system": "ICD-10-GM",
+       "code": "C"
+      }
+     ],
+     "raw": "```json\n{\n  \"classes\": [\"GeneticVariation\", \"CopyNumberVariation\", \"SingleNucleotideVariation\", \"TumorGradeAssessmentResult\"],\n  \"concepts\": [\n    {\n      \"text\": \"genetic variants\",\n      \"english\": \"genetic variations\",\n      \"german\": \"genetische Variationen\",\n      \"system\": \"GENO\",\n      \"code\": \"\"\n    },\n    {\n      \"text\": \"one copy versus two\",\n      \"english\": \"heterozygous vs homozygous\",\n      \"german\": \"heterozygotisch vs homozygotisch\",\n      \"system\": \"\",\n      \"code\": \"\"\n    },\n    {\n      \"text\": \"cancer\",\n      \"english\": \"cancer\",\n      \"german\": \"Krebs\",\n      \"system\": \"ICD-10-GM\",\n      \"code\": \"C\"\n    }\n  ]\n}\n```"
+    },
+    "classes": [
+     "sphn:GeneticVariation",
+     "sphn:CopyNumberVariation",
+     "sphn:SingleNucleotideVariation",
+     "sphn:TumorGradeAssessmentResult",
+     "sphn:VariantDescriptor",
+     "sphn:GenomicDeletion",
+     "sphn:Quantity"
+    ],
+    "codes": [],
+    "examples": [
+     "evalset-compliant-external-016",
+     "marzio-train-train-0241",
+     "marzio-train-train-0398",
+     "marzio-train-train-0002",
+     "marzio-dev-train-0469",
+     "marzio-train-train-0423"
+    ],
+    "attempts": [
+     {
+      "query": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX geno: <http://purl.obolibrary.org/obo/GENO_>\nSELECT ?typeCodeValue (COUNT(DISTINCT ?g) AS ?patientCount) (SUM(?isCarrierOfOneCopy) AS ?oneCopyCarriers) (SUM(?isCarrierOfTwoCopies) AS ?twoCopyCarriers) (SUM(?hasCancer) AS ?patientsWithCancer)\nWHERE {\n  GRAPH ?g {\n    ?r a sphn:VariantDescriptor ;\n        sphn:hasGeneticVariation ?variation .\n    ?variation a ?typeCode .\n    OPTIONAL { ?r sphn:hasZygosityCode ?zygosity ; FILTER(?zygosity = geno:0000604) BIND(1 AS ?isCarrierOfOneCopy) }\n    OPTIONAL { ?r sphn:hasZygosityCode ?zygosity ; FILTER(?zygosity = geno:0000978) BIND(1 AS ?isCarrierOfTwoCopies) }\n    OPTIONAL { ?r a sphn:TumorGradeAssessmentResult ; FILTER EXISTS { GRAPH ?g { ?r a sphn:TumorGradeAssessmentResult . } } BIND(1 AS ?hasCancer) }\n  }\n}\nGROUP BY ?typeCodeValue\nORDER BY DESC(?patientCount)\n",
+      "problems": [
+       {
+        "severity": "error",
+        "code": "virtuoso",
+        "message": "Virtuoso rejected the query: Virtuoso 37000 Error SP030: SPARQL compiler, line 9: syntax error at 'FILTER' before '('"
+       }
+      ]
+     },
+     {
+      "query": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX geno: <http://purl.obolibrary.org/obo/GENO_>\nSELECT ?typeCodeValue (COUNT(DISTINCT ?g) AS ?patientCount) (SUM(?isCarrierOfOneCopy) AS ?oneCopyCarriers) (SUM(?isCarrierOfTwoCopies) AS ?twoCopyCarriers) (SUM(?hasCancer) AS ?patientsWithCancer)\nWHERE {\n  GRAPH ?g {\n    ?r a sphn:VariantDescriptor ;\n        sphn:hasGeneticVariation ?variation .\n    ?variation a ?typeCode .\n    OPTIONAL { ?r sphn:hasZygosityCode ?zygosity ; FILTER(?zygosity = geno:0000604) BIND(1 AS ?isCarrierOfOneCopy) }\n    OPTIONAL { ?r sphn:hasZygosityCode ?zygosity ; FILTER(?zygosity = geno:0000978) BIND(1 AS ?isCarrierOfTwoCopies) }\n    OPTIONAL { ?r a sphn:TumorGradeAssessmentResult . BIND(1 AS ?hasCancer) }\n  }\n}\nGROUP BY ?typeCodeValue\nORDER BY DESC(?patientCount)\n",
+      "problems": [
+       {
+        "severity": "error",
+        "code": "virtuoso",
+        "message": "Virtuoso rejected the query: Virtuoso 37000 Error SP030: SPARQL compiler, line 9: syntax error at 'FILTER' before '('"
+       }
+      ]
+     },
+     {
+      "query": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX geno: <http://purl.obolibrary.org/obo/GENO_>\nSELECT ?typeCodeValue (COUNT(DISTINCT ?g) AS ?patientCount) (SUM(?isCarrierOfOneCopy) AS ?oneCopyCarriers) (SUM(?isCarrierOfTwoCopies) AS ?twoCopyCarriers) (SUM(?hasCancer) AS ?patientsWithCancer)\nWHERE {\n  GRAPH ?g {\n    ?r a sphn:VariantDescriptor ;\n        sphn:hasGeneticVariation ?variation .\n    ?variation a ?typeCode .\n    OPTIONAL { ?r sphn:hasZygosityCode ?zygosity . FILTER(?zygosity = geno:0000604) BIND(1 AS ?isCarrierOfOneCopy) }\n    OPTIONAL { ?r sphn:hasZygosityCode ?zygosity . FILTER(?zygosity = geno:0000978) BIND(1 AS ?isCarrierOfTwoCopies) }\n    OPTIONAL { ?r a sphn:TumorGradeAssessmentResult . BIND(1 AS ?hasCancer) }\n  }\n}\nGROUP BY ?typeCodeValue\nORDER BY DESC(?patientCount)\n",
+      "problems": []
+     }
+    ]
+   },
+   "exec_numeric": false
+  },
+  {
+   "id": "gold-09",
+   "question": "When an adverse event is serious, how often does it end in death, and how often do people make a full recovery?",
+   "reference": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>\n\nSELECT ?seriousness\n       (COUNT(DISTINCT ?g) AS ?patients)\n       (COUNT(DISTINCT ?fatal_patient) AS ?patients_fatal_outcome)\n       (COUNT(DISTINCT ?recovered_patient) AS ?patients_fully_recovered)\n       (ROUND(1000.0 * COUNT(DISTINCT ?fatal_patient) / COUNT(DISTINCT ?g)) / 10 AS ?fatal_pct)\n       (ROUND(1000.0 * COUNT(DISTINCT ?recovered_patient) / COUNT(DISTINCT ?g)) / 10 AS ?recovered_pct)\nWHERE {\n  GRAPH ?g {\n    ?event a sphn:AdverseEvent ;\n           sphn:hasConsequences ?consequence ;\n           sphn:hasOutcome ?outcome .\n  }\n  BIND (STRAFTER(STR(?consequence), \"#\") AS ?seriousness)\n  OPTIONAL {\n    GRAPH ?g { ?event sphn:hasOutcome sphn-individual:Fatal . }\n    BIND (?g AS ?fatal_patient)\n  }\n  OPTIONAL {\n    GRAPH ?g { ?event sphn:hasOutcome sphn-individual:Recovered . }\n    BIND (?g AS ?recovered_patient)\n  }\n}\nGROUP BY ?seriousness\nORDER BY DESC(?fatal_pct)\n",
+   "generated": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX snomed: <http://snomed.info/id/>\nSELECT ?outcome (COUNT(?event) AS ?adverse_events) (COUNT(DISTINCT ?g) AS ?patients)\nWHERE {\n  GRAPH ?g {\n    ?event a sphn:AdverseEvent ;\n           sphn:hasOutcome ?outcome ;\n           sphn:hasSeverityCode ?severity_code .\n    FILTER(?severity_code = snomed:42745003)\n  }\n}\nGROUP BY ?outcome\nORDER BY DESC(?adverse_events)\n",
+   "syntax_valid": true,
+   "pred_error": null,
+   "schema_consistent": true,
+   "schema_errors": [],
+   "exact_match": false,
+   "element_f1": 0.444,
+   "exec_strict": false,
+   "exec_relaxed": false,
+   "exec_iri_relaxed": false,
+   "exec_strict_raw_reference": false,
+   "reference_ok": true,
+   "reference_empty": false,
+   "ref_rows": 7,
+   "pred_rows": 0,
+   "latency_s": 22.147,
+   "attempts": 1,
+   "problems": [],
+   "usage": {
+    "llm_calls": 2,
+    "prompt_tokens": 3482,
+    "completion_tokens": 298,
+    "total_tokens": 3780,
+    "llm_seconds": 21.884
+   },
+   "trace": {
+    "analysis": {
+     "classes": [
+      "sphn:AdverseEvent"
+     ],
+     "concepts": [
+      {
+       "text": "adverse event",
+       "english": "adverse event",
+       "german": "Schadenfall",
+       "system": "ICD-10-GM",
+       "code": ""
+      },
+      {
+       "text": "serious",
+       "english": "serious",
+       "german": "serios",
+       "system": "",
+       "code": ""
+      },
+      {
+       "text": "death",
+       "english": "death",
+       "german": "Tod",
+       "system": "",
+       "code": ""
+      },
+      {
+       "text": "full recovery",
+       "english": "full recovery",
+       "german": "volle Wiederherstellung",
+       "system": "",
+       "code": ""
+      }
+     ],
+     "raw": "```json\n{\n  \"classes\": [\"AdverseEvent\", \"Outcome\"],\n  \"concepts\": [\n    {\n      \"text\": \"adverse event\",\n      \"english\": \"adverse event\",\n      \"german\": \"Schadenfall\",\n      \"system\": \"ICD-10-GM\",\n      \"code\": \"\"\n    },\n    {\n      \"text\": \"serious\",\n      \"english\": \"serious\",\n      \"german\": \"serios\",\n      \"system\": \"\",\n      \"code\": \"\"\n    },\n    {\n      \"text\": \"death\",\n      \"english\": \"death\",\n      \"german\": \"Tod\",\n      \"system\": \"\",\n      \"code\": \"\"\n    },\n    {\n      \"text\": \"full recovery\",\n      \"english\": \"full recovery\",\n      \"german\": \"volle Wiederherstellung\",\n      \"system\": \"\",\n      \"code\": \"\"\n    }\n  ]\n}\n```"
+    },
+    "classes": [
+     "sphn:AdverseEvent",
+     "sphn:DeathDate",
+     "sphn:Death"
+    ],
+    "codes": [
+     "snomed:419620001",
+     "snomed:42745003",
+     "snomed:276507005",
+     "snomed:26636000",
+     "snomed:398056004"
+    ],
+    "examples": [
+     "evalset-compliant-27-adverse-event-outcomes",
+     "marzio-test-test-0018",
+     "marzio-test-test-0024",
+     "evalset-compliant-33-share-of-deceased-patients",
+     "evalset-compliant-external-003",
+     "marzio-train-train-0287"
+    ],
+    "attempts": [
+     {
+      "query": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX snomed: <http://snomed.info/id/>\nSELECT ?outcome (COUNT(?event) AS ?adverse_events) (COUNT(DISTINCT ?g) AS ?patients)\nWHERE {\n  GRAPH ?g {\n    ?event a sphn:AdverseEvent ;\n           sphn:hasOutcome ?outcome ;\n           sphn:hasSeverityCode ?severity_code .\n    FILTER(?severity_code = snomed:42745003)\n  }\n}\nGROUP BY ?outcome\nORDER BY DESC(?adverse_events)\n",
+      "problems": []
+     }
+    ]
+   },
+   "exec_numeric": false
+  },
+  {
+   "id": "gold-10",
+   "question": "How many babies are born early, and does that depend on how they were delivered?",
+   "reference": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>\n\nSELECT ?delivery_mode_concept\n       (COUNT(DISTINCT ?g) AS ?births)\n       (SUM(IF(?ga_days < 196, 1, 0)) AS ?extremely_preterm)\n       (SUM(IF(?ga_days >= 196 && ?ga_days < 224, 1, 0)) AS ?very_preterm)\n       (SUM(IF(?ga_days >= 224 && ?ga_days < 259, 1, 0)) AS ?moderate_to_late_preterm)\n       (SUM(IF(?ga_days >= 259, 1, 0)) AS ?term_or_later)\n       (ROUND(AVG(?ga_days) / 7) AS ?avg_gestational_age_weeks)\nWHERE {\n  GRAPH ?g {\n    ?birth a sphn:Birth ;\n           sphn:hasDeliveryModeCode ?mode_code ;\n           sphn:hasGestationalAge ?ga .\n    ?mode_code a ?delivery_mode_concept .\n    ?ga a sphn:GestationalAgeAtBirth ;\n        sphn:hasQuantity ?ga_q .\n    ?ga_q sphn:hasValue ?ga_days ;\n          sphn:hasUnit/sphn:hasCode ?unit_code .\n    ?unit_code a ucum:d .\n  }\n  FILTER (STRSTARTS(STR(?delivery_mode_concept), \"http://snomed.info/id/\"))\n}\nGROUP BY ?delivery_mode_concept\nORDER BY DESC(?births)\n",
+   "generated": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX snomed: <http://snomed.info/id/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT (COUNT(DISTINCT ?g) AS ?babies_born_early) (GROUP_CONCAT(DISTINCT ?delivery_method; separator=\", \") AS ?delivery_methods)\nWHERE {\n  GRAPH ?g {\n    ?birth a sphn:Birth ;\n            sphn:hasAdministrativeCase ?ac .\n    ?ac sphn:hasAdmissionDateTime ?admission_date .\n    FILTER (?admission_date < xsd:dateTime(\"1970-01-01T00:00:00Z\"))\n    OPTIONAL {\n      ?birth sphn:hasDeliveryModeCode ?delivery_code .\n      FILTER(?delivery_code IN (snomed:762614005, snomed:199330009, snomed:25192009, snomed:10761101000119105))\n      BIND(?delivery_code AS ?delivery_method)\n    }\n  }\n}\n",
+   "syntax_valid": true,
+   "pred_error": null,
+   "schema_consistent": true,
+   "schema_errors": [],
+   "exact_match": false,
+   "element_f1": 0.235,
+   "exec_strict": false,
+   "exec_relaxed": false,
+   "exec_iri_relaxed": false,
+   "exec_strict_raw_reference": false,
+   "reference_ok": true,
+   "reference_empty": false,
+   "ref_rows": 101,
+   "pred_rows": 1,
+   "latency_s": 31.695,
+   "attempts": 1,
+   "problems": [
+    {
+     "severity": "warning",
+     "code": "code_label",
+     "message": "snomed:762614005 means 'Sextuplets with all six stillborn (finding)', which does not appear to be what the question asks for; use the code of the concept named in the question (see CANDIDATE CODES)."
+    },
+    {
+     "severity": "warning",
+     "code": "code_label",
+     "message": "snomed:25192009 means 'Premature birth of fraternal twins, both living (finding)', which does not appear to be what the question asks for; use the code of the concept named in the question (see CANDIDATE CODES)."
+    },
+    {
+     "severity": "warning",
+     "code": "empty",
+     "message": "The query returns no data on the store although its codes occur in the data: a predicate path, class or filter is probably wrong."
+    }
+   ],
+   "usage": {
+    "llm_calls": 2,
+    "prompt_tokens": 4530,
+    "completion_tokens": 386,
+    "total_tokens": 4916,
+    "llm_seconds": 31.228
+   },
+   "trace": {
+    "analysis": {
+     "classes": [
+      "sphn:Birth"
+     ],
+     "concepts": [
+      {
+       "text": "babies",
+       "english": "infants",
+       "german": "Kinder",
+       "system": "ICD-10-GM",
+       "code": ""
+      },
+      {
+       "text": "born early",
+       "english": "premature birth",
+       "german": "vorzeitiges Geburtskind",
+       "system": "ICD-10-GM",
+       "code": "R27"
+      },
+      {
+       "text": "delivery method",
+       "english": "mode of delivery",
+       "german": "Weise der Geburt",
+       "system": "",
+       "code": ""
+      }
+     ],
+     "raw": "{\n  \"classes\": [\"Birth\", \"DeliveryMethod\"],\n  \"concepts\": [\n    {\n      \"text\": \"babies\",\n      \"english\": \"infants\",\n      \"german\": \"Kinder\",\n      \"system\": \"ICD-10-GM\",\n      \"code\": \"\"\n    },\n    {\n      \"text\": \"born early\",\n      \"english\": \"premature birth\",\n      \"german\": \"vorzeitiges Geburtskind\",\n      \"system\": \"ICD-10-GM\",\n      \"code\": \"R27\"\n    },\n    {\n      \"text\": \"delivery method\",\n      \"english\": \"mode of delivery\",\n      \"german\": \"Weise der Geburt\",\n      \"system\": \"\",\n      \"code\": \"\"\n    }\n  ]\n}"
+    },
+    "classes": [
+     "sphn:Birth",
+     "sphn:PharmaceuticalDoseForm",
+     "sphn:AdministrativeCase",
+     "sphn:TobaccoExposure",
+     "sphn:DrugAdministrationEvent",
+     "sphn:BirthDate",
+     "sphn:Quantity"
+    ],
+    "codes": [
+     "icd-10-gm:R27",
+     "snomed:386216000"
+    ],
+    "examples": [
+     "marzio-train-train-0430",
+     "evalset-compliant-52-born-in-1975-as-range",
+     "evalset-non-compliant-49-born-on-a-date-day-as-range",
+     "evalset-non-compliant-51-three-attributes-as-equal-ranges",
+     "evalset-ambiguous-07-exact-birth-date-filter",
+     "evalset-compliant-45-rare-disease-women-born-1975"
+    ],
+    "attempts": [
+     {
+      "query": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX snomed: <http://snomed.info/id/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT (COUNT(DISTINCT ?g) AS ?babies_born_early) (GROUP_CONCAT(DISTINCT ?delivery_method; separator=\", \") AS ?delivery_methods)\nWHERE {\n  GRAPH ?g {\n    ?birth a sphn:Birth ;\n            sphn:hasAdministrativeCase ?ac .\n    ?ac sphn:hasAdmissionDateTime ?admission_date .\n    FILTER (?admission_date < xsd:dateTime(\"1970-01-01T00:00:00Z\"))\n    OPTIONAL {\n      ?birth sphn:hasDeliveryModeCode ?delivery_code .\n      FILTER(?delivery_code IN (snomed:762614005, snomed:199330009, snomed:25192009, snomed:10761101000119105))\n      BIND(?delivery_code AS ?delivery_method)\n    }\n  }\n}\n",
+      "problems": [
+       {
+        "severity": "warning",
+        "code": "code_label",
+        "message": "snomed:762614005 means 'Sextuplets with all six stillborn (finding)', which does not appear to be what the question asks for; use the code of the concept named in the question (see CANDIDATE CODES)."
+       },
+       {
+        "severity": "warning",
+        "code": "code_label",
+        "message": "snomed:25192009 means 'Premature birth of fraternal twins, both living (finding)', which does not appear to be what the question asks for; use the code of the concept named in the question (see CANDIDATE CODES)."
+       },
+       {
+        "severity": "warning",
+        "code": "empty",
+        "message": "The query returns no data on the store although its codes occur in the data: a predicate path, class or filter is probably wrong."
+       }
+      ]
+     }
+    ]
+   },
+   "exec_numeric": false
+  },
+  {
+   "id": "gold-11",
+   "question": "How many lab tests has patient 0042 had, and when were the first and last?",
+   "reference": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\n\nSELECT (COUNT(DISTINCT ?event) AS ?lab_tests)\n       (MIN(?performed) AS ?first_lab_test)\n       (MAX(?performed) AS ?last_lab_test)\nWHERE {\n  GRAPH <http://example.org/graph/mock_data-1_0042> {\n    ?event a sphn:LabTestEvent ;\n           sphn:hasDateTime ?performed .\n  }\n}\n",
+   "generated": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nSELECT (COUNT(?event) AS ?lab_test_events)\n       (MIN(?testDateTime) AS ?first_lab_test_date)\n       (MAX(?testDateTime) AS ?last_lab_test_date)\nWHERE {\n  GRAPH <http://example.org/patient/0042> {\n    ?event a sphn:LabTestEvent ;\n           sphn:hasDateTime ?testDateTime .\n  }\n}\n",
+   "syntax_valid": true,
+   "pred_error": null,
+   "schema_consistent": true,
+   "schema_errors": [],
+   "exact_match": false,
+   "element_f1": 1.0,
+   "exec_strict": true,
+   "exec_relaxed": true,
+   "exec_iri_relaxed": true,
+   "exec_strict_raw_reference": true,
+   "reference_ok": true,
+   "reference_empty": true,
+   "ref_rows": 1,
+   "pred_rows": 1,
+   "latency_s": 19.051,
+   "attempts": 1,
+   "problems": [
+    {
+     "severity": "warning",
+     "code": "empty",
+     "message": "The query returns no data on the store although its codes occur in the data: a predicate path, class or filter is probably wrong."
+    }
+   ],
+   "usage": {
+    "llm_calls": 2,
+    "prompt_tokens": 3380,
+    "completion_tokens": 160,
+    "total_tokens": 3540,
+    "llm_seconds": 19.027
+   },
+   "trace": {
+    "analysis": {
+     "classes": [
+      "sphn:LabTestEvent"
+     ],
+     "concepts": [
+      {
+       "text": "lab tests",
+       "english": "lab tests",
+       "german": "Laboruntersuchungen",
+       "system": "LOINC",
+       "code": ""
+      }
+     ],
+     "raw": "```json\n{\n  \"classes\": [\"LabTestEvent\", \"Patient\"],\n  \"concepts\": [\n    {\n      \"text\": \"lab tests\",\n      \"english\": \"lab tests\",\n      \"german\": \"Laboruntersuchungen\",\n      \"system\": \"LOINC\",\n      \"code\": \"\"\n    }\n  ]\n}\n```"
+    },
+    "classes": [
+     "sphn:LabTestEvent",
+     "sphn:LabTest",
+     "sphn:MicroorganismIdentificationLabTest",
+     "sphn:LabAnalyzer",
+     "sphn:LabResult"
+    ],
+    "codes": [
+     "loinc:LP64614-8",
+     "loinc:22032-7"
+    ],
+    "examples": [
+     "evalset-compliant-19-lab-test-events-per-patient",
+     "marzio-train-train-0407",
+     "evalset-non-compliant-external-028",
+     "marzio-train-train-0419",
+     "evalset-non-compliant-38-patient-with-most-lab-tests",
+     "evalset-compliant-30-length-of-stay"
+    ],
+    "attempts": [
+     {
+      "query": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nSELECT (COUNT(?event) AS ?lab_test_events)\n       (MIN(?testDateTime) AS ?first_lab_test_date)\n       (MAX(?testDateTime) AS ?last_lab_test_date)\nWHERE {\n  GRAPH <http://example.org/patient/0042> {\n    ?event a sphn:LabTestEvent ;\n           sphn:hasDateTime ?testDateTime .\n  }\n}\n",
+      "problems": [
+       {
+        "severity": "warning",
+        "code": "empty",
+        "message": "The query returns no data on the store although its codes occur in the data: a predicate path, class or filter is probably wrong."
+       }
+      ]
+     }
+    ]
+   },
+   "exec_numeric": true
+  },
+  {
+   "id": "gold-12",
+   "question": "Show me each cholera case with when it was recorded, how old the patient was, and their insurance.",
+   "reference": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>\nPREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>\n\nSELECT ?recorded ?age_value ?coverage\nWHERE {\n  GRAPH ?g {\n    ?dx a sphn:BilledDiagnosis ;\n        sphn:hasRank sphn-individual:Principal ;\n        sphn:hasRecordDateTime ?recorded ;\n        sphn:hasAdministrativeCase ?case ;\n        sphn:hasSubjectAge ?age ;\n        sphn:hasCode ?dx_code .\n    ?dx_code a icd-10-gm:A00 OPTION (inference \"https://biomedit.ch/rdf/sphn-resource/global\") .\n    ?age a sphn:Age ;\n         sphn:hasQuantity/sphn:hasValue ?age_value .\n    ?insurance a sphn:InsuranceStatus ;\n               sphn:hasAdministrativeCase ?case ;\n               sphn:hasCoverageType ?coverage .\n  }\n}\nORDER BY ?recorded\n",
+   "generated": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT ?g (MIN(?record_date) AS ?recorded_on) (AVG(?age_value) AS ?patient_age) ?insurance_type WHERE { \n  GRAPH ?g {\n    ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?c . \n    ?c rdf:type icd-10-gm:A00.9 OPTION (inference \"https://biomedit.ch/rdf/sphn-resource/global\") . \n    ?dx sphn:hasAdministrativeCase/sphn:hasIdentifier ?cid .\n    OPTIONAL { ?insurance a sphn:InsuranceStatus ; sphn:hasCoverageType ?category . BIND(STRAFTER(STR(?category), \"#\") AS ?insurance_type) }\n  }\n  GRAPH ?g {\n    ?dx sphn:hasRecordDateTime ?record_date .\n    ?dx sphn:hasSubjectAge ?a . \n    ?a sphn:hasQuantity/sphn:hasValue ?age_value .\n  }\n} GROUP BY ?g ?insurance_type\n",
+   "syntax_valid": true,
+   "pred_error": null,
+   "schema_consistent": true,
+   "schema_errors": [],
+   "exact_match": false,
+   "element_f1": 0.75,
+   "exec_strict": false,
+   "exec_relaxed": false,
+   "exec_iri_relaxed": false,
+   "exec_strict_raw_reference": false,
+   "reference_ok": true,
+   "reference_empty": false,
+   "ref_rows": 508,
+   "pred_rows": 185,
+   "latency_s": 33.383,
+   "attempts": 2,
+   "problems": [
+    {
+     "severity": "warning",
+     "code": "unit",
+     "message": "Values are compared or aggregated without fixing their unit (sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:...); the same measurement is stored in several units."
+    }
+   ],
+   "usage": {
+    "llm_calls": 3,
+    "prompt_tokens": 7430,
+    "completion_tokens": 475,
+    "total_tokens": 7905,
+    "llm_seconds": 32.906
+   },
+   "trace": {
+    "analysis": {
+     "classes": [
+      "sphn:AdministrativeCase",
+      "sphn:Age",
+      "sphn:InsuranceStatus"
+     ],
+     "concepts": [
+      {
+       "text": "cholera",
+       "english": "Cholera",
+       "german": "Choler",
+       "system": "ICD-10-GM",
+       "code": ""
+      }
+     ],
+     "raw": "```json\n{\n  \"classes\": [\"AdministrativeCase\", \"Age\", \"InsuranceStatus\"],\n  \"concepts\": [\n    {\n      \"text\": \"cholera\",\n      \"english\": \"Cholera\",\n      \"german\": \"Choler\",\n      \"system\": \"ICD-10-GM\",\n      \"code\": \"\"\n    }\n  ]\n}\n```"
+    },
+    "classes": [
+     "sphn:AdministrativeCase",
+     "sphn:Age",
+     "sphn:InsuranceStatus",
+     "sphn:Biobanksample",
+     "sphn:OncologyDiagnosis",
+     "sphn:BilledDiagnosis",
+     "sphn:Quantity"
+    ],
+    "codes": [
+     "icd-10-gm:A00",
+     "icd-10-gm:A00.9"
+    ],
+    "examples": [
+     "marzio-train-train-0194",
+     "evalset-non-compliant-adversarial-06-case-id-via-path",
+     "evalset-compliant-adversarial-41-decoy-identifier-exists",
+     "evalset-compliant-external-020",
+     "marzio-dev-train-0445",
+     "marzio-test-test-0047"
+    ],
+    "attempts": [
+     {
+      "query": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT ?g (MIN(?record_date) AS ?recorded_on) (AVG(?age_value) AS ?patient_age) ?insurance_type WHERE { \n  GRAPH ?g {\n    ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?c . \n    ?c rdf:type icd-10-gm:A00.9 OPTION (inference \"https://biomedit.ch/rdf/sphn-resource/global\") . \n    ?dx sphn:hasAdministrativeCase/sphn:hasIdentifier ?cid .\n    OPTIONAL { ?insurance a sphn:InsuranceStatus ; sphn:hasCoverageType ?category . BIND(STRAFTER(STR(?category), \"#\") AS ?insurance_type) }\n  }\n  ?dx sphn:hasRecordDateTime ?record_date .\n  ?dx sphn:hasSubjectAge ?a . \n  ?a sphn:hasQuantity/sphn:hasValue ?age_value .\n} GROUP BY ?g ?insurance_type\n",
+      "problems": [
+       {
+        "severity": "error",
+        "code": "no_graph",
+        "message": "Patient data patterns must be inside GRAPH ?g { ... } (each patient is a named graph): ?dx sphn:hasRecordDateTime ?record_date; ?dx sphn:hasSubjectAge ?a; ?a sphn:hasQuantity/sphn:hasValue ?age_value"
+       },
+       {
+        "severity": "warning",
+        "code": "unit",
+        "message": "Values are compared or aggregated without fixing their unit (sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:...); the same measurement is stored in several units."
+       }
+      ]
+     },
+     {
+      "query": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT ?g (MIN(?record_date) AS ?recorded_on) (AVG(?age_value) AS ?patient_age) ?insurance_type WHERE { \n  GRAPH ?g {\n    ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?c . \n    ?c rdf:type icd-10-gm:A00.9 OPTION (inference \"https://biomedit.ch/rdf/sphn-resource/global\") . \n    ?dx sphn:hasAdministrativeCase/sphn:hasIdentifier ?cid .\n    OPTIONAL { ?insurance a sphn:InsuranceStatus ; sphn:hasCoverageType ?category . BIND(STRAFTER(STR(?category), \"#\") AS ?insurance_type) }\n  }\n  GRAPH ?g {\n    ?dx sphn:hasRecordDateTime ?record_date .\n    ?dx sphn:hasSubjectAge ?a . \n    ?a sphn:hasQuantity/sphn:hasValue ?age_value .\n  }\n} GROUP BY ?g ?insurance_type\n",
+      "problems": [
+       {
+        "severity": "warning",
+        "code": "unit",
+        "message": "Values are compared or aggregated without fixing their unit (sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:...); the same measurement is stored in several units."
+       }
+      ]
+     }
+    ]
+   },
+   "exec_numeric": false
+  },
+  {
+   "id": "gold-13",
+   "question": "How much data do we have in total, and across how many patients?",
+   "reference": "SELECT (COUNT(*) AS ?triples)\n       (COUNT(DISTINCT ?g) AS ?patients)\nWHERE {\n  GRAPH ?g { ?s ?p ?o }\n}\n",
+   "generated": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT (COUNT(DISTINCT ?g) AS ?patients) (COUNT(*) AS ?records)\nWHERE {\n  GRAPH ?g { ?s (rdf:type|!rdf:type) ?o . }\n}\n",
+   "syntax_valid": true,
+   "pred_error": null,
+   "schema_consistent": true,
+   "schema_errors": [],
+   "exact_match": false,
+   "element_f1": 1.0,
+   "exec_strict": true,
+   "exec_relaxed": true,
+   "exec_iri_relaxed": true,
+   "exec_strict_raw_reference": true,
+   "reference_ok": true,
+   "reference_empty": false,
+   "ref_rows": 1,
+   "pred_rows": 1,
+   "latency_s": 13.133,
+   "attempts": 1,
+   "problems": [],
+   "usage": {
+    "llm_calls": 2,
+    "prompt_tokens": 3630,
+    "completion_tokens": 72,
+    "total_tokens": 3702,
+    "llm_seconds": 12.132
+   },
+   "trace": {
+    "analysis": {
+     "classes": [
+      "sphn:DataFile"
+     ],
+     "concepts": [],
+     "raw": "```json\n{\n  \"classes\": [\"DataFile\", \"Patient\"],\n  \"concepts\": []\n}\n```"
+    },
+    "classes": [
+     "sphn:DataFile",
+     "sphn:CopyNumberVariation",
+     "sphn:DataProvider",
+     "sphn:DataDetermination",
+     "sphn:TimeSeriesDataFile",
+     "sphn:Quantity"
+    ],
+    "codes": [],
+    "examples": [
+     "evalset-non-compliant-13-time-series-file-uris",
+     "evalset-non-compliant-41-drop-patient-graph",
+     "marzio-train-train-0312",
+     "evalset-non-compliant-39-diagnoses-of-patient-in-file",
+     "evalset-non-compliant-27-alternative-path-any-predicate",
+     "marzio-test-test-0062"
+    ],
+    "attempts": [
+     {
+      "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT (COUNT(DISTINCT ?g) AS ?patients) (COUNT(*) AS ?records)\nWHERE {\n  GRAPH ?g { ?s (rdf:type|!rdf:type) ?o . }\n}\n",
+      "problems": []
+     }
+    ]
+   },
+   "exec_numeric": true
+  },
+  {
+   "id": "gold-14",
+   "question": "Give me all the cancer diagnoses as a graph I can take away.",
+   "reference": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\n\nCONSTRUCT {\n  ?dx a sphn:OncologyDiagnosis ;\n      sphn:hasIncidenceDateTime ?incidence ;\n      sphn:hasCode ?code .\n}\nWHERE {\n  GRAPH ?g {\n    ?dx a sphn:OncologyDiagnosis ;\n        sphn:hasIncidenceDateTime ?incidence ;\n        sphn:hasCode ?code .\n  }\n}\n",
+   "generated": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nCONSTRUCT { ?r ?p ?o } WHERE { GRAPH ?g { ?r a sphn:OncologyDiagnosis ; sphn:hasCode ?v_c . ?v_c a ?v . ?r ?p ?o . } }\n",
+   "syntax_valid": true,
+   "pred_error": null,
+   "schema_consistent": true,
+   "schema_errors": [],
+   "exact_match": false,
+   "element_f1": 0.8,
+   "exec_strict": false,
+   "exec_relaxed": false,
+   "exec_iri_relaxed": false,
+   "exec_strict_raw_reference": false,
+   "reference_ok": true,
+   "reference_empty": false,
+   "ref_rows": 603,
+   "pred_rows": 1772,
+   "latency_s": 16.706,
+   "attempts": 1,
+   "problems": [],
+   "usage": {
+    "llm_calls": 2,
+    "prompt_tokens": 3918,
+    "completion_tokens": 133,
+    "total_tokens": 4051,
+    "llm_seconds": 16.354
+   },
+   "trace": {
+    "analysis": {
+     "classes": [
+      "sphn:OncologyDiagnosis"
+     ],
+     "concepts": [
+      {
+       "text": "cancer",
+       "english": "Cancer",
+       "german": "Krebs",
+       "system": "ICD-10-GM",
+       "code": ""
+      }
+     ],
+     "raw": "```json\n{\n  \"classes\": [\"OncologyDiagnosis\"],\n  \"concepts\": [\n    {\n      \"text\": \"cancer\",\n      \"english\": \"Cancer\",\n      \"german\": \"Krebs\",\n      \"system\": \"ICD-10-GM\",\n      \"code\": \"\"\n    }\n  ]\n}\n```"
+    },
+    "classes": [
+     "sphn:OncologyDiagnosis",
+     "sphn:HeartRate",
+     "sphn:ElectrocardiographicProcedure",
+     "sphn:AssessmentEvent",
+     "sphn:CivilStatus",
+     "sphn:Substance",
+     "sphn:Quantity"
+    ],
+    "codes": [],
+    "examples": [
+     "marzio-train-train-0300",
+     "marzio-dev-train-0479",
+     "marzio-train-train-0264",
+     "marzio-train-train-0358",
+     "marzio-test-test-0061",
+     "marzio-train-train-0334"
+    ],
+    "attempts": [
+     {
+      "query": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nCONSTRUCT { ?r ?p ?o } WHERE { GRAPH ?g { ?r a sphn:OncologyDiagnosis ; sphn:hasCode ?v_c . ?v_c a ?v . ?r ?p ?o . } }\n",
+      "problems": []
+     }
+    ]
+   },
+   "exec_numeric": false
+  },
+  {
+   "id": "gold-15",
+   "question": "How many patients have cholera, and which ones are they?",
+   "reference": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>\n\nSELECT (COUNT(DISTINCT ?g) AS ?cholera_patients)\n       (GROUP_CONCAT(DISTINCT ?pseudo_id; separator=\", \") AS ?which_patients)\nWHERE {\n  GRAPH ?g {\n    ?dx a sphn:BilledDiagnosis ;\n        sphn:hasSubjectPseudoIdentifier ?subject ;\n        sphn:hasCode ?dx_code .\n    ?dx_code a icd-10-gm:A00 OPTION (inference \"https://biomedit.ch/rdf/sphn-resource/global\") .\n    ?subject a sphn:SubjectPseudoIdentifier ;\n             sphn:hasIdentifier ?pseudo_id .\n  }\n}\n",
+   "generated": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT (COUNT(DISTINCT ?g) AS ?patients) ?g WHERE {\n  GRAPH ?g {\n    ?diagnosis a sphn:BilledDiagnosis ;\n               sphn:hasCode ?code .\n    ?code rdf:type icd-10-gm:A00.9 OPTION (inference \"https://biomedit.ch/rdf/sphn-resource/global\") .\n  }\n}\n",
+   "syntax_valid": true,
+   "pred_error": null,
+   "schema_consistent": true,
+   "schema_errors": [],
+   "exact_match": false,
+   "element_f1": 0.444,
+   "exec_strict": false,
+   "exec_relaxed": false,
+   "exec_iri_relaxed": false,
+   "exec_strict_raw_reference": false,
+   "reference_ok": true,
+   "reference_empty": false,
+   "ref_rows": 1,
+   "pred_rows": 185,
+   "latency_s": 15.055,
+   "attempts": 1,
+   "problems": [],
+   "usage": {
+    "llm_calls": 2,
+    "prompt_tokens": 3464,
+    "completion_tokens": 148,
+    "total_tokens": 3612,
+    "llm_seconds": 14.915
+   },
+   "trace": {
+    "analysis": {
+     "classes": [
+      "sphn:Diagnosis"
+     ],
+     "concepts": [
+      {
+       "text": "cholera",
+       "english": "Cholera",
+       "german": "Choler",
+       "system": "ICD-10-GM",
+       "code": "A06"
+      }
+     ],
+     "raw": "```json\n{\n  \"classes\": [\"Patient\", \"Diagnosis\"],\n  \"concepts\": [\n    {\n      \"text\": \"cholera\",\n      \"english\": \"Cholera\",\n      \"german\": \"Choler\",\n      \"system\": \"ICD-10-GM\",\n      \"code\": \"A06\"\n    }\n  ]\n}\n```"
+    },
+    "classes": [
+     "sphn:Diagnosis",
+     "sphn:Protein",
+     "sphn:LabTestEvent",
+     "sphn:MicrobiologyMicroscopyLabTestEvent",
+     "sphn:BilledDiagnosis"
+    ],
+    "codes": [
+     "icd-10-gm:A00",
+     "icd-10-gm:A06",
+     "icd-10-gm:A00.9"
+    ],
+    "examples": [
+     "evalset-ambiguous-01-ask-any-cholera-patient",
+     "evalset-compliant-11-cholera-billed-diagnosis-patients",
+     "evalset-compliant-17-cholera-diagnosis-rank",
+     "evalset-non-compliant-30-insert-data",
+     "marzio-train-train-0194",
+     "marzio-train-train-0351"
+    ],
+    "attempts": [
+     {
+      "query": "PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>\nPREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT (COUNT(DISTINCT ?g) AS ?patients) ?g WHERE {\n  GRAPH ?g {\n    ?diagnosis a sphn:BilledDiagnosis ;\n               sphn:hasCode ?code .\n    ?code rdf:type icd-10-gm:A00.9 OPTION (inference \"https://biomedit.ch/rdf/sphn-resource/global\") .\n  }\n}\n",
+      "problems": []
+     }
+    ]
+   },
+   "exec_numeric": false
+  }
+ ]
+}

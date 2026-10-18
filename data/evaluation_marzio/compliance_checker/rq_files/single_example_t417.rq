@@ -1,0 +1,9 @@
+# question: I need to check the antibiotic resistance patterns, please show me the patient IDs associated with resistant results.
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT DISTINCT ?g WHERE { GRAPH ?g { ?r a sphn:AntimicrobialSusceptibilityResult ; sphn:hasCode ?c . ?c rdf:type snomed:30714006 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT DISTINCT ?g WHERE { GRAPH ?g { ?r a sphn:AntimicrobialSusceptibilityResult ; sphn:hasCode ?c . ?c rdf:type snomed:30714006 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } }

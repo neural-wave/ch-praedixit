@@ -1,0 +1,8 @@
+# question: For patient ID-10119850000034 diagnosed with a specific blood disorder, retrieve all associated lab records and provide the total count of matching entries.
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/> SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:LabResult ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:Uper10 . ?r sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier "ID-10119850000034" . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:LabResult ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:Uper10 . ?r sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier "ID-10119850000034" . } }

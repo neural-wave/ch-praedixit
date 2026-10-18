@@ -1,0 +1,6 @@
+# question: As an epidemiologist conducting a comprehensive data governance audit of our hospital's electronic health record infrastructure, I need to perform a rigorous assessment of the total data volume stored within our patient-centric knowledge graphs. Specifically, could you provide the aggregate metrics for all patient graphs in the database, including the precise count of all triples contained across these graphs and the total number of distinct patient graphs present? Understanding this total data footprint is critical for evaluating storage capacity and data density related to type 2 diabetes cohorts.
+# expected_compliant: false
+# expected_rules: unrestricted_match
+# origin: train
+# notes: SELECT (COUNT(*) AS ?triples) (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?s ?p ?o } }
+SELECT (COUNT(*) AS ?triples) (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?s ?p ?o } }

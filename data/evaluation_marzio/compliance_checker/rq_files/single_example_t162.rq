@@ -1,0 +1,8 @@
+# question: I am trying to understand the standard timeline for oncology surgical procedures to help with scheduling and resource allocation. Could you provide the average, minimum, and maximum duration in days for these surgeries, along with the total number of records and unique patients involved?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX bif: <bif:> SELECT (COUNT(DISTINCT ?r) AS ?records) (COUNT(DISTINCT ?g) AS ?patients) (ROUND(AVG(?d)) AS ?avg_days) (MIN(?d) AS ?min_days) (MAX(?d) AS ?max_days) WHERE { GRAPH ?g { ?r a sphn:OncologySurgery . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } FILTER(?end >= ?start) BIND(bif:datediff("day", ?start, ?end) AS ?d) }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX bif: <bif:>
+SELECT (COUNT(DISTINCT ?r) AS ?records) (COUNT(DISTINCT ?g) AS ?patients) (ROUND(AVG(?d)) AS ?avg_days) (MIN(?d) AS ?min_days) (MAX(?d) AS ?max_days) WHERE { GRAPH ?g { ?r a sphn:OncologySurgery . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } FILTER(?end >= ?start) BIND(bif:datediff("day", ?start, ?end) AS ?d) }

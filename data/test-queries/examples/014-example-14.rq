@@ -1,0 +1,19 @@
+# question: Give me all the cancer diagnoses as a graph I can take away.
+# source: compliance/tests/test_rules.py::test_seed[example-14]
+# expected_compliant: false
+# expected_rules: QC4 (not_select)
+# reasoning: CONSTRUCT query
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+CONSTRUCT {
+  ?dx a sphn:OncologyDiagnosis ;
+      sphn:hasIncidenceDateTime ?incidence ;
+      sphn:hasCode ?code .
+}
+WHERE {
+  GRAPH ?g {
+    ?dx a sphn:OncologyDiagnosis ;
+        sphn:hasIncidenceDateTime ?incidence ;
+        sphn:hasCode ?code .
+  }
+}

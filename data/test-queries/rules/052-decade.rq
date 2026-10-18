@@ -1,0 +1,9 @@
+# question: How many patients with a billed diagnosis are there per 10-year age group?
+# source: compliance/tests/test_rules.py::test_binned_or_aggregated_values_stay_compliant[decade]
+# description: binned or aggregated values stay compliant (decade)
+# expected_compliant: true
+# expected_rules: none
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+SELECT ?decade (COUNT(DISTINCT ?g) AS ?n) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasSubjectAge/sphn:hasQuantity/sphn:hasValue ?age . } BIND(FLOOR(?age / 10) * 10 AS ?decade) } GROUP BY ?decade

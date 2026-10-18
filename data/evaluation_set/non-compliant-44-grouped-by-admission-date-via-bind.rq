@@ -1,0 +1,15 @@
+# question: How many patients were admitted on each day?
+# expected_compliant: false
+# expected_rules: not_aggregated
+# origin: bypass
+# notes: Groups by YEAR, MONTH and DAY of the same date-time: one group per exact date. Gate B used to check only sphn:hasYear/hasMonth/hasDay.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?year ?month ?day (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g { ?case a sphn:AdministrativeCase ; sphn:hasAdmissionDateTime ?admission . }
+  BIND (YEAR(?admission) AS ?year)
+  BIND (MONTH(?admission) AS ?month)
+  BIND (DAY(?admission) AS ?day)
+}
+GROUP BY ?year ?month ?day

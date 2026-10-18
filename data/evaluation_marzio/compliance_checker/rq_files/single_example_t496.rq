@@ -1,0 +1,8 @@
+# question: How many patients had their body surface area calculated using the Mosteller method?
+# expected_compliant: true
+# expected_rules: none
+# origin: dev
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#> SELECT (COUNT(DISTINCT ?g) AS ?count) WHERE { GRAPH ?g { ?r a sphn:BodySurfaceArea ; sphn:hasCalculationMethod sphn-individual:Mosteller } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>
+SELECT (COUNT(DISTINCT ?g) AS ?count) WHERE { GRAPH ?g { ?r a sphn:BodySurfaceArea ; sphn:hasCalculationMethod sphn-individual:Mosteller } }

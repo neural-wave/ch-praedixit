@@ -1,0 +1,49 @@
+# question: Once someone is diagnosed with cancer, what usually happens next: surgery, radiotherapy, both, or nothing? And how long do they typically wait for their first treatment?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set T1 (official example)
+# notes: SELECT ?pathway (COUNT(*) AS ?patients) (IF(SUM(?treated) > 0, ROUND(1.0 * SUM(?days_to_first_treatment) / SUM(?treated)), "") AS ?avg_days_to_first_treatment) WHERE { { SELECT ?g (MIN(?incidence) AS ?diagnosed) (MIN(?surgery_start) AS ?first_surgery) (MIN(?rt_start) AS ?first_rt) WHERE { GRAPH ?g { ?dx a sphn:OncologyDiagnosis ; sphn:hasIncidenceDateTime ?incidence . } OPTIONAL { GRAPH ?g { ?dx sphn:hasIncidenceDateTime ?incidence . ?surgery a sphn:OncologySurgery ; sphn:hasStartDateTime ?surgery_start . } FILTER (?surgery_start > ?incidence) } OPTIONAL { GRAPH ?g { ?dx sphn:hasIncidenceDateTime ?incidence . ?rt a sphn:RadiotherapyProcedure ; sphn:hasStartDateTime ?rt_start . } FILTER (?rt_start > ?incidence) } } GROUP BY ?g } BIND (IF(BOUND(?first_surgery) && BOUND(?first_rt), "surgery and radiotherapy", IF(BOUND(?first_surgery), "surgery only", IF(BOUND(?first_rt), "radiotherapy only", "no treatment recorded after diagnosis"))) AS ?pathway) BIND (IF(BOUND(?first_surgery) && BOUND(?first_rt), IF(?first_surgery < ?first_rt, ?first_surgery, ?first_rt), COALESCE(?first_surgery, ?first_rt)) AS ?first_treatment) BIND (IF(BOUND(?first_treatment), 1, 0) AS ?treated) BIND (bif:datediff("day", ?diagnosed, COALESCE(?first_treatment, ?diagnosed)) AS ?days_to_first_treatment) } GROUP BY ?pathway ORDER BY DESC(?patients)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX bif: <bif:>
+SELECT ?pathway
+       (COUNT(*) AS ?patients)
+       (IF(SUM(?treated) > 0, ROUND(1.0 * SUM(?days_to_first_treatment) / SUM(?treated)), "")
+         AS ?avg_days_to_first_treatment)
+WHERE {
+  {
+    SELECT ?g (MIN(?incidence) AS ?diagnosed)
+              (MIN(?surgery_start) AS ?first_surgery)
+              (MIN(?rt_start) AS ?first_rt)
+    WHERE {
+      GRAPH ?g {
+        ?dx a sphn:OncologyDiagnosis ;
+            sphn:hasIncidenceDateTime ?incidence .
+      }
+      OPTIONAL {
+        GRAPH ?g {
+          ?dx sphn:hasIncidenceDateTime ?incidence .
+          ?surgery a sphn:OncologySurgery ; sphn:hasStartDateTime ?surgery_start .
+        }
+        FILTER (?surgery_start > ?incidence)
+      }
+      OPTIONAL {
+        GRAPH ?g {
+          ?dx sphn:hasIncidenceDateTime ?incidence .
+          ?rt a sphn:RadiotherapyProcedure ; sphn:hasStartDateTime ?rt_start .
+        }
+        FILTER (?rt_start > ?incidence)
+      }
+    }
+    GROUP BY ?g
+  }
+  BIND (IF(BOUND(?first_surgery) && BOUND(?first_rt), "surgery and radiotherapy",
+        IF(BOUND(?first_surgery), "surgery only",
+        IF(BOUND(?first_rt), "radiotherapy only", "no treatment recorded after diagnosis"))) AS ?pathway)
+  BIND (IF(BOUND(?first_surgery) && BOUND(?first_rt),
+           IF(?first_surgery < ?first_rt, ?first_surgery, ?first_rt),
+           COALESCE(?first_surgery, ?first_rt)) AS ?first_treatment)
+  BIND (IF(BOUND(?first_treatment), 1, 0) AS ?treated)
+  BIND (bif:datediff("day", ?diagnosed, COALESCE(?first_treatment, ?diagnosed)) AS ?days_to_first_treatment)
+}
+GROUP BY ?pathway
+ORDER BY DESC(?patients)

@@ -1,0 +1,27 @@
+# question: How many patients have a circumference measurement recorded in the year 2020 and possess a tumor stage assessment linked to code C34 (Malignant neoplasm of bronchus and lung)?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?count) WHERE { GRAPH ?g { ?patient a sphn:Patient . # Circumference in 2020 ?circ a sphn:Circumference . ?circ sphn:hasSubjectPseudoIdentifier ?patient . ?circ sphn:hasDateTime ?date . FILTER(YEAR(?date) = 2020) # Tumor Stage with Lung Cancer Code ?event a sphn:TumorStageAssessmentEvent . ?event sphn:hasSubjectPseudoIdentifier ?patient . ?event sphn:hasAssessment ?diag . ?diag sphn:hasCode ?code . ?code isa icd-10-gm:C34 } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?count)
+WHERE {
+  GRAPH ?g {
+    ?patient a sphn:Patient .
+    
+    # Circumference in 2020
+    ?circ a sphn:Circumference .
+    ?circ sphn:hasSubjectPseudoIdentifier ?patient .
+    ?circ sphn:hasDateTime ?date .
+    FILTER(YEAR(?date) = 2020)
+    
+    # Tumor Stage with Lung Cancer Code
+    ?event a sphn:TumorStageAssessmentEvent .
+    ?event sphn:hasSubjectPseudoIdentifier ?patient .
+    ?event sphn:hasAssessment ?diag .
+    ?diag sphn:hasCode ?code .
+    ?code rdf:type icd-10-gm:C34 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global")
+  }
+}

@@ -1,0 +1,34 @@
+# question: How many of our patients were born in a country they aren't a citizen of?
+# source: compliance/tests/test_rules.py::test_seed[example-04]
+# expected_compliant: true
+# expected_rules: none
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT (COUNT(DISTINCT ?g) AS ?patients_with_birth_country_and_nationality)
+       (COUNT(DISTINCT ?born_abroad_patient) AS ?born_outside_every_country_of_citizenship)
+       (ROUND(1000.0 * COUNT(DISTINCT ?born_abroad_patient) / COUNT(DISTINCT ?g)) / 10 AS ?pct)
+WHERE {
+  GRAPH ?g {
+    ?birth a sphn:Birth ;
+           sphn:hasCountry ?birth_country .
+    ?birth_country a sphn:Country ;
+                   sphn:hasCode ?birth_code .
+    ?birth_code a ?birth_country_concept .
+    ?nationality a sphn:Nationality ;
+                 sphn:hasAssociatedCountry ?nat_country .
+  }
+  VALUES ?country_root { snomed:223369002 snomed:223860005 }
+  GRAPH <https://biomedit.ch/rdf/sphn-resource/global> {
+    ?birth_country_concept rdfs:subClassOf* ?country_root .
+  }
+  BIND (IF(NOT EXISTS {
+             GRAPH ?g {
+               ?any_nationality a sphn:Nationality ;
+                                sphn:hasAssociatedCountry ?citizen_country .
+               ?citizen_country sphn:hasCode ?citizen_code .
+               ?citizen_code a ?birth_country_concept .
+             }
+           }, ?g, ?citizen_of_birth_country) AS ?born_abroad_patient)
+}

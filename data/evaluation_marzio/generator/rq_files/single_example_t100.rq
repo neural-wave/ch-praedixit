@@ -1,0 +1,7 @@
+# question: How many diagnoses and patients are in each billing rank?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT ?value (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:BilledDiagnosis ; sphn:hasRank ?v . } BIND(STRAFTER(STR(?v), "#") AS ?value) } GROUP BY ?value ORDER BY DESC(?records)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?value (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:BilledDiagnosis ; sphn:hasRank ?v . } BIND(STRAFTER(STR(?v), "#") AS ?value) } GROUP BY ?value ORDER BY DESC(?records)

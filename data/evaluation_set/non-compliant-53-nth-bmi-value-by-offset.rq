@@ -1,0 +1,17 @@
+# question: What is the 42nd lowest BMI value?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: bypass
+# notes: The subquery returns raw record values row by row and OFFSET/LIMIT pick one record by position.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (MAX(?value) AS ?bmi)
+WHERE {
+  {
+    SELECT ?value
+    WHERE { GRAPH ?g { ?measurement a sphn:BodyMassIndex ; sphn:hasQuantity/sphn:hasValue ?value . } }
+    ORDER BY ?value
+    OFFSET 41
+    LIMIT 1
+  }
+}

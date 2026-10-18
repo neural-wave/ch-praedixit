@@ -1,0 +1,9 @@
+# question: Pourriez-vous me donner le nombre d'enregistrements pour le patient 16520 qui ont une position anatomique SNOMED de 51845000 ?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/patient-16520> { ?r a sphn:BodyPosition ; sphn:hasCode ?r_c . ?r_c rdf:type snomed:51845000 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?s a sphn:AdministrativeSex ; sphn:hasCode ?sc . ?sc a ?sex_concept . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/patient-16520> { ?r a sphn:BodyPosition ; sphn:hasCode ?r_c . ?r_c rdf:type snomed:51845000 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?s a sphn:AdministrativeSex ; sphn:hasCode ?sc . ?sc a ?sex_concept . } }

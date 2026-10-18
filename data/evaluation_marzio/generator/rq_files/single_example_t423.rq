@@ -1,0 +1,14 @@
+# question: Please identify the patients who have a genetic variant notation recorded in their file.
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: SELECT DISTINCT ?patientId WHERE { GRAPH ?g { ?patientId a sphn:Patient . ?variant a sphn:VariantNotation . OPTIONAL { ?variant sphn:hasCodingSystemAndVersion ?sys } } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT DISTINCT ?patientId
+WHERE {
+  GRAPH ?g {
+    ?patientId a sphn:Patient .
+    ?variant a sphn:VariantNotation .
+    OPTIONAL { ?variant sphn:hasCodingSystemAndVersion ?sys }
+  }
+}

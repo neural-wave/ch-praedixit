@@ -1,0 +1,7 @@
+# question: i am looking into our hospital's demographic data to understand the distribution of patients by their legal civil status and want to know how many distinct individuals are in each category along with the total number of records associated with each status code
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT ?value (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:CivilStatus ; sphn:hasCode ?v_c . ?v_c a ?v . } BIND(REPLACE(STR(?v), "^.*/", "") AS ?value) } GROUP BY ?value ORDER BY DESC(?records)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?value (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:CivilStatus ; sphn:hasCode ?v_c . ?v_c a ?v . } BIND(REPLACE(STR(?v), "^.*/", "") AS ?value) } GROUP BY ?value ORDER BY DESC(?records)

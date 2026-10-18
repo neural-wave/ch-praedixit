@@ -1,0 +1,16 @@
+# question: Among patients with a body mass index measurement, what share has a value of 30 or more?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (COUNT(DISTINCT ?g) AS ?patients_measured)
+       (COUNT(DISTINCT ?high_bmi_patient) AS ?patients_with_bmi_30_or_more)
+       (ROUND(1000.0 * COUNT(DISTINCT ?high_bmi_patient) / COUNT(DISTINCT ?g)) / 10 AS ?pct)
+WHERE {
+  GRAPH ?g {
+    ?bmi a sphn:BodyMassIndex ;
+         sphn:hasQuantity/sphn:hasValue ?bmi_value .
+  }
+  BIND (IF(?bmi_value >= 30, ?g, ?no_patient) AS ?high_bmi_patient)
+}

@@ -1,0 +1,14 @@
+# question: How many patients have a Billed Diagnosis for Type 2 diabetes mellitus (non-insulin-dependent diabetes mellitus)?
+# source: compliance/tests/test_rules.py::test_seed[brief/worked-example]
+# expected_compliant: true
+# expected_rules: none
+DEFINE sql:select-option "order"
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(?pseudo_id) AS ?countResult)
+WHERE { { SELECT DISTINCT(?g AS ?pseudo_id) WHERE { GRAPH ?g {
+  ?diagnosis0_code rdf:type <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/E11>
+      OPTION(inference "https://biomedit.ch/rdf/sphn-resource/global") .
+  ?diagnosis sphn:hasCode ?diagnosis0_code .
+  ?diagnosis rdf:type sphn:BilledDiagnosis .
+} } } }

@@ -1,0 +1,10 @@
+# question: How many patients have anything in their data that contains the letter 'x'?
+# source: compliance/tests/test_rules.py::test_case[keyword_filter]
+# description: case (keyword_filter)
+# expected_compliant: false
+# expected_rules: QC3 (unrestricted_match)
+# reasoning: pattern not tied to any class or property restriction (?s ?p ?o)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+SELECT (COUNT(DISTINCT ?g) AS ?n) WHERE { GRAPH ?g { ?s ?p ?o } FILTER(CONTAINS(STR(?o), "x")) }

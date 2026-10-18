@@ -1,0 +1,21 @@
+# question: How many patients have both essential hypertension and type 2 diabetes?
+# expected_compliant: true
+# expected_rules: none
+# other_correct_translations: compliant-42-hypertension-and-diabetes-billed-classes.rq
+# origin: test set
+# notes: Uses the ICD-10-GM code strings of sphn:Diagnosis records.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?hypertension a sphn:Diagnosis ;
+                  sphn:hasCode ?hypertension_code .
+    ?hypertension_code sphn:hasIdentifier ?hypertension_icd .
+    ?diabetes a sphn:Diagnosis ;
+              sphn:hasCode ?diabetes_code .
+    ?diabetes_code sphn:hasIdentifier ?diabetes_icd .
+  }
+  FILTER (STRSTARTS(?hypertension_icd, "I10"))
+  FILTER (STRSTARTS(?diabetes_icd, "E11"))
+}

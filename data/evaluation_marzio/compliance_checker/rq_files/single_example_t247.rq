@@ -1,0 +1,9 @@
+# question: List patient IDs for vitals status 'Lost to follow-up' or 'Alive'
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT DISTINCT ?id WHERE { GRAPH ?g { ?r a sphn:VitalStatus ; sphn:hasCode ?r_c . { ?r_c rdf:type snomed:399307001 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type snomed:438949009 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type snomed:138875005 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } ?r sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier ?id . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT DISTINCT ?id WHERE { GRAPH ?g { ?r a sphn:VitalStatus ; sphn:hasCode ?r_c . { ?r_c rdf:type snomed:399307001 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type snomed:438949009 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type snomed:138875005 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } ?r sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier ?id . } }

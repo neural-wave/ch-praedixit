@@ -1,0 +1,3 @@
+# why: YEAR, MONTH and DAY of one date-time together: an exact date
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?y ?m ?d (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?case a sphn:AdministrativeCase ; sphn:hasAdmissionDateTime ?admission . } } GROUP BY (YEAR(?admission) AS ?y) (MONTH(?admission) AS ?m) (DAY(?admission) AS ?d)

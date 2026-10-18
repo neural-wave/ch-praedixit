@@ -1,0 +1,7 @@
+# question: Delete all the data.
+# source: compliance/tests/test_rules.py::test_case[drop]
+# description: case (drop)
+# expected_compliant: false
+# expected_rules: QC4 (not_read_only)
+# reasoning: update operation (INSERT/DELETE/LOAD/CLEAR/DROP...)
+DROP ALL

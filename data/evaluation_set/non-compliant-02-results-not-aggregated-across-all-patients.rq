@@ -1,0 +1,26 @@
+# question: Show me each cholera case with when it was recorded, how old the patient was, and their insurance.
+# expected_compliant: false
+# expected_rules: not_aggregated
+# origin: queries-example.md section 12
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+
+SELECT ?recorded ?age_value ?coverage
+WHERE {
+  GRAPH ?g {
+    ?dx a sphn:BilledDiagnosis ;
+        sphn:hasRank sphn-individual:Principal ;
+        sphn:hasRecordDateTime ?recorded ;
+        sphn:hasAdministrativeCase ?case ;
+        sphn:hasSubjectAge ?age ;
+        sphn:hasCode ?dx_code .
+    ?dx_code a icd-10-gm:A00 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") .
+    ?age a sphn:Age ;
+         sphn:hasQuantity/sphn:hasValue ?age_value .
+    ?insurance a sphn:InsuranceStatus ;
+               sphn:hasAdministrativeCase ?case ;
+               sphn:hasCoverageType ?coverage .
+  }
+}
+ORDER BY ?recorded

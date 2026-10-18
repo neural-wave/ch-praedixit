@@ -1,0 +1,9 @@
+# question: What is the average body mass index per measurement code?
+# source: compliance/tests/test_rules.py::test_binned_or_aggregated_values_stay_compliant[group_by_class]
+# description: binned or aggregated values stay compliant (group_by_class)
+# expected_compliant: true
+# expected_rules: none
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+SELECT ?cls (AVG(?v) AS ?avg) WHERE { GRAPH ?g { ?m a sphn:BodyMassIndex ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v . ?m sphn:hasCode ?c . ?c a ?cls . } } GROUP BY ?cls

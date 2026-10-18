@@ -1,0 +1,7 @@
+# question: show all patients with blood cancer sequencing records and their graphs
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> SELECT DISTINCT ?g WHERE { GRAPH ?g { ?r a sphn:SequencingAssay . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT DISTINCT ?g WHERE { GRAPH ?g { ?r a sphn:SequencingAssay . } }

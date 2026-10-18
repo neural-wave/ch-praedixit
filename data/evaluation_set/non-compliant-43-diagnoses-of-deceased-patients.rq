@@ -1,0 +1,14 @@
+# question: List all the billed diagnoses of the patients who died.
+# expected_compliant: false
+# expected_rules: not_aggregated, exposes_identifier
+# origin: test set
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?diagnosis ?code
+WHERE {
+  GRAPH ?g {
+    ?death a sphn:Death .
+    ?diagnosis a sphn:BilledDiagnosis ;
+               sphn:hasCode ?code .
+  }
+}

@@ -1,0 +1,16 @@
+# question: How many patients does each data provider contribute?
+# expected_compliant: ambiguous
+# expected_rules: exposes_identifier
+# origin: test set
+# notes: Groups by the data provider record IRI. Query_Compliance.md lists 'laboratory ID' among the forbidden identifiers; whether an institution identifier counts is an open question.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?provider (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?case a sphn:AdministrativeCase ;
+          sphn:hasDataProvider ?provider .
+  }
+}
+GROUP BY ?provider
+ORDER BY DESC(?patients)

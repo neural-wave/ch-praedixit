@@ -1,0 +1,19 @@
+# question: Across all patients, including those with no recorded admission, what is the average number of hospital cases per patient?
+# expected_compliant: true
+# expected_rules: none
+# origin: external LLM (entry-001.rq, rules none)
+# notes: Patient-level counts remain internal and only their population average is returned.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (AVG(?cases) AS ?mean_cases_per_patient)
+WHERE {
+  {
+    SELECT ?g (COUNT(DISTINCT ?case) AS ?cases)
+    WHERE {
+      GRAPH ?g {
+        ?subject a sphn:SubjectPseudoIdentifier .
+        OPTIONAL { ?case a sphn:AdministrativeCase . }
+      }
+    }
+    GROUP BY ?g
+  }
+}

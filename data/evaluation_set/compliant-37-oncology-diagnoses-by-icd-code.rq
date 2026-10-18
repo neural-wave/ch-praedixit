@@ -1,0 +1,23 @@
+# question: Which cancer diagnoses are most common, with their German name?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set
+# notes: Reads labels from the fixed terminology graph, which is not a patient graph.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?icd_concept (SAMPLE(?label) AS ?name) (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?diagnosis a sphn:OncologyDiagnosis ;
+               sphn:hasCode ?code .
+    ?code a ?icd_concept .
+  }
+  FILTER (STRSTARTS(STR(?icd_concept), "https://biomedit.ch/rdf/sphn-resource/icd-10-gm/"))
+  OPTIONAL {
+    GRAPH <https://biomedit.ch/rdf/sphn-resource/global> { ?icd_concept rdfs:label ?label . }
+    FILTER (LANGMATCHES(LANG(?label), "de"))
+  }
+}
+GROUP BY ?icd_concept
+ORDER BY DESC(?patients)

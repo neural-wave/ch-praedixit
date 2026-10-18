@@ -1,0 +1,9 @@
+# question: How many patients have tumor grades measured in millimeters?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?r a sphn:TumorGradeAssessmentResult ; sphn:hasCode ?r_c . ?r_c rdf:type snomed:229051007 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?r a sphn:TumorGradeAssessmentResult ; sphn:hasCode ?r_c . ?r_c rdf:type snomed:229051007 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

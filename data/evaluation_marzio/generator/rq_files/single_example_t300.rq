@@ -1,0 +1,7 @@
+# question: I need a complete export of every record matching these civil status codes in RDF format so I can take the whole dataset away for offline analysis
+# expected_compliant: false
+# expected_rules: not_select
+# origin: train
+# notes: CONSTRUCT { ?r ?p ?o } WHERE { GRAPH ?g { ?r a sphn:CivilStatus ; sphn:hasCode ?v_c . ?v_c a ?v . ?r ?p ?o . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+CONSTRUCT { ?r ?p ?o } WHERE { GRAPH ?g { ?r a sphn:CivilStatus ; sphn:hasCode ?v_c . ?v_c a ?v . ?r ?p ?o . } }

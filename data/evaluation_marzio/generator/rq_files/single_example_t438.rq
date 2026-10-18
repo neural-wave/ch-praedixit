@@ -1,0 +1,9 @@
+# question: How many lupus patients have unit finance lab tests and what percent?
+# expected_compliant: true
+# expected_rules: none
+# origin: dev
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?patients_b) (COUNT(DISTINCT ?ab) AS ?patients_a_and_b) (ROUND(1000.0 * COUNT(DISTINCT ?ab) / COUNT(DISTINCT ?g)) / 10 AS ?pct) WHERE { GRAPH ?g { ?b a sphn:Substance ; sphn:hasCode ?b_c . ?b_c isa snomed:259748006 . } OPTIONAL { GRAPH ?g { ?a a sphn:MicrobiologyBiomoleculePresenceLabTest ; sphn:hasCode ?a_c . ?a_c isa snomed:282566008 . } BIND(?g AS ?ab) } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients_b) (COUNT(DISTINCT ?ab) AS ?patients_a_and_b) (ROUND(1000.0 * COUNT(DISTINCT ?ab) / COUNT(DISTINCT ?g)) / 10 AS ?pct) WHERE { GRAPH ?g { ?b a sphn:Substance ; sphn:hasCode ?b_c . ?b_c rdf:type snomed:259748006 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } OPTIONAL { GRAPH ?g { ?a a sphn:MicrobiologyBiomoleculePresenceLabTest ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:282566008 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } BIND(?g AS ?ab) } }

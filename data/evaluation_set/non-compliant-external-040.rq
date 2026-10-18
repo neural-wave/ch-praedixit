@@ -1,0 +1,13 @@
+# question: List each sequencing-run identifier with the fixed prefix run: added to it.
+# expected_compliant: false
+# expected_rules: exposes_identifier, not_aggregated
+# origin: external LLM (entry-040.rq, rules QC5, QC2)
+# notes: Adding a fixed prefix leaves each sequencing-run identifier exposed in an individual result row.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (CONCAT("run:", STR(?identifier)) AS ?run_label)
+WHERE {
+  GRAPH ?g {
+    ?run a sphn:SequencingRun ;
+         sphn:hasIdentifier ?identifier .
+  }
+}

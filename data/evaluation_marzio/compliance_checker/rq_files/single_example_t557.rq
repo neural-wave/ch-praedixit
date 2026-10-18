@@ -1,0 +1,7 @@
+# question: Return count of C91 records for pt 1037085 only.
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: test set T3 (worded by the other model)
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/gen_mock_data-1_1037085> { ?r a sphn:OxygenSaturationMeasurement . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/gen_mock_data-1_1037085> { ?r a sphn:OxygenSaturationMeasurement . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } }

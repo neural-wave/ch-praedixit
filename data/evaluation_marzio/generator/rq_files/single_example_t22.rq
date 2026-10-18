@@ -1,0 +1,9 @@
+# question: I am preparing a report on liver cancer staging accuracy and need to know how many unique patients have been assigned a specific tumor stage assessment using the SNOMED CT code 258323002 for Liver sectors, including any hierarchical sub-codes, to ensure our coding practices align with clinical documentation standards.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?r a sphn:TumorStageAssessment ; sphn:hasCode ?r_c . ?r_c isa snomed:258323002 . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?r a sphn:TumorStageAssessment ; sphn:hasCode ?r_c . ?r_c rdf:type snomed:258323002 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

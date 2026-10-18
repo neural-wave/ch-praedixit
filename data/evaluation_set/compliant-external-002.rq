@@ -1,0 +1,18 @@
+# question: How many patients had a hospital case discharged during 2025?
+# expected_compliant: true
+# expected_rules: none
+# origin: external LLM (entry-002.rq, rules none)
+# notes: Returns only a population count for a clinically restricted cohort.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?case a sphn:AdministrativeCase ;
+          sphn:hasDischargeDateTime ?discharge .
+  }
+  FILTER(
+    ?discharge >= "2025-01-01T00:00:00Z"^^xsd:dateTime &&
+    ?discharge < "2026-01-01T00:00:00Z"^^xsd:dateTime
+  )
+}

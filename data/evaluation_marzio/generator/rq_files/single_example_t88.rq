@@ -1,0 +1,9 @@
+# question: We need to identify the volume of cases involving organism coding for Gametocyte of kingdom Protozoa while explicitly filtering out any instances where reference interpretations are coded as either Positive or Precontemplation stage, so what is that count?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:Organism ; sphn:hasCode ?a_c . ?a_c isa snomed:103536007 . } FILTER NOT EXISTS { GRAPH ?g { ?b a sphn:ReferenceInterpretationResult ; sphn:hasCode ?b_c . { ?b_c isa snomed:134414000 } UNION { ?b_c isa snomed:10828004 } } } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:Organism ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:103536007 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } FILTER NOT EXISTS { GRAPH ?g { ?b a sphn:ReferenceInterpretationResult ; sphn:hasCode ?b_c . { ?b_c rdf:type snomed:134414000 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?b_c rdf:type snomed:10828004 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } } } }

@@ -1,0 +1,9 @@
+# question: count distinct patients with code 372308003 or 250803009 or 404966002
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?r a sphn:AssessmentComponent ; sphn:hasCode ?r_c . { ?r_c isa snomed:372308003 } UNION { ?r_c isa snomed:250803009 } UNION { ?r_c isa snomed:404966002 } } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?r a sphn:AssessmentComponent ; sphn:hasCode ?r_c . { ?r_c rdf:type snomed:372308003 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type snomed:250803009 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type snomed:404966002 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } } }

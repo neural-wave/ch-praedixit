@@ -1,0 +1,7 @@
+# question: give me the count and names of patients with germ test results please
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> SELECT (COUNT(DISTINCT ?g) AS ?patients) (SAMPLE(?g) AS ?example_patient) WHERE { GRAPH ?g { ?r a sphn:MicroorganismIdentificationResult . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) (SAMPLE(?g) AS ?example_patient) WHERE { GRAPH ?g { ?r a sphn:MicroorganismIdentificationResult . } }

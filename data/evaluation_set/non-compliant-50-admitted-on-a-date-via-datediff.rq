@@ -1,0 +1,13 @@
+# question: How many patients were admitted on 12 February 2024?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: bypass
+# notes: A distance in days to a constant date fixed to a number fixes the date: bif:datediff at day precision or finer.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g { ?case a sphn:AdministrativeCase ; sphn:hasAdmissionDateTime ?admission . }
+  FILTER (bif:datediff("day", ?admission, "2024-02-12T00:00:00"^^xsd:dateTime) = 0)
+}

@@ -1,0 +1,15 @@
+# question: How many lab tests has patient 0042 had, and when were the first and last?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: test set T1 (official example)
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> SELECT (COUNT(DISTINCT ?event) AS ?lab_tests) (MIN(?performed) AS ?first_lab_test) (MAX(?performed) AS ?last_lab_test) WHERE { GRAPH <http://example.org/graph/mock_data-1_0042> { ?event a sphn:LabTestEvent ; sphn:hasDateTime ?performed . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?event) AS ?lab_tests)
+       (MIN(?performed) AS ?first_lab_test)
+       (MAX(?performed) AS ?last_lab_test)
+WHERE {
+  GRAPH <http://example.org/graph/mock_data-1_0042> {
+    ?event a sphn:LabTestEvent ;
+           sphn:hasDateTime ?performed .
+  }
+}

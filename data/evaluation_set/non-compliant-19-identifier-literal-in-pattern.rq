@@ -1,0 +1,14 @@
+# question: How many billed diagnoses does the patient with pseudo identifier ID-10210250000022 have?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: bypass
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (COUNT(?diagnosis) AS ?billed_diagnoses)
+WHERE {
+  GRAPH ?g {
+    ?diagnosis a sphn:BilledDiagnosis ;
+               sphn:hasSubjectPseudoIdentifier ?subject .
+    ?subject sphn:hasIdentifier "ID-10210250000022" .
+  }
+}

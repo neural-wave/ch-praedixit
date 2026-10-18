@@ -1,0 +1,6 @@
+# question: i am trying to understand the scope of our patient records for type 2 diabetes and i need to know the total volume of data we have can you count all the triples across every patient graph and tell me how many patient graphs there are in total so i know exactly how much data is stored
+# expected_compliant: false
+# expected_rules: unrestricted_match
+# origin: dev
+# notes: SELECT (COUNT(*) AS ?triples) (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?s ?p ?o } }
+SELECT (COUNT(*) AS ?triples) (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?s ?p ?o } }

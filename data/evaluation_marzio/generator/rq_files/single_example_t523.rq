@@ -1,0 +1,7 @@
+# question: Can you pull up the total count of birth records specifically for patient 94796?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: test set T2 (held-out concept)
+# notes: SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/patient-94796> { ?r a sphn:BirthDate ; sphn:hasComparator ?v . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/patient-94796> { ?r a sphn:BirthDate ; sphn:hasComparator ?v . } }

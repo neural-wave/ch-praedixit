@@ -1,0 +1,11 @@
+# question: How many patients have each diagnosis code, showing only codes held by at least 10 patients?
+# source: compliance/tests/test_risk_probes.py::test_default_mode[having_min_cell]
+# description: HAVING on group size is a good privacy practice
+# expected_compliant: true
+# expected_rules: none
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX bif: <bif:>
+SELECT ?cls (COUNT(DISTINCT ?g) AS ?n) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?c . ?c a ?cls . } } GROUP BY ?cls HAVING (COUNT(DISTINCT ?g) >= 10)

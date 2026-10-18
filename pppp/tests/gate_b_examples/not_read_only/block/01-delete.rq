@@ -1,0 +1,3 @@
+# why: a SPARQL update: it modifies data
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+DELETE WHERE { GRAPH ?g { ?diagnosis a sphn:BilledDiagnosis . } }

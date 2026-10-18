@@ -1,0 +1,8 @@
+# question: Count the number of patients treated by Cardiology specialists.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?count) WHERE { GRAPH ?g { ?r a sphn:TherapeuticArea ; sphn:hasSpecialtyName sphn-individual:Cardiology } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>
+SELECT (COUNT(DISTINCT ?g) AS ?count) WHERE { GRAPH ?g { ?r a sphn:TherapeuticArea ; sphn:hasSpecialtyName sphn-individual:Cardiology } }

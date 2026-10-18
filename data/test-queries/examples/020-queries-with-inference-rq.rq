@@ -1,0 +1,20 @@
+# question: How many patients have at least one coded lab test?
+# source: compliance/tests/test_rules.py::test_seed[queries/with-inference.rq]
+# expected_compliant: true
+# expected_rules: none
+# Shows the two Virtuoso-specific constructs used throughout SPHN queries:
+#   DEFINE sql:select-option "order"  -- evaluate the triple patterns in the written order
+#   OPTION (inference "<rule set>")   -- resolve this pattern through the RDFS rule set,
+#                                        so a subclass/subproperty in the data matches too
+DEFINE sql:select-option "order"
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?lab_test rdf:type sphn:LabTest OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") .
+    ?lab_test sphn:hasCode ?code .
+  }
+}

@@ -1,0 +1,8 @@
+# question: Please provide the count of patients and list their identifiers for the specified fecal drug concentration data.
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?patients) (SAMPLE(?g) AS ?example_patient) WHERE { GRAPH ?g { ?r a sphn:Drug ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:Uperrbl10dotgrbrcblfecescbr . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) (SAMPLE(?g) AS ?example_patient) WHERE { GRAPH ?g { ?r a sphn:Drug ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:Uperrbl10dotgrbrcblfecescbr . } }

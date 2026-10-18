@@ -1,0 +1,16 @@
+# question: How are our patients distributed by administrative sex?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?sex (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?sex_record a sphn:AdministrativeSex ;
+                sphn:hasCode ?sex_code .
+    ?sex_code a ?sex .
+  }
+}
+GROUP BY ?sex
+ORDER BY DESC(?patients)

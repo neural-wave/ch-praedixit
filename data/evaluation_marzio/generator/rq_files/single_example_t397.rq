@@ -1,0 +1,19 @@
+# question: What are the most common administration routes for drug administration events?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT ?routeLabel (COUNT(DISTINCT ?g) AS ?eventCount) WHERE { GRAPH ?g { ?r a sphn:DrugAdministrationEvent . ?r sphn:hasAdministrationRouteCode ?c } GRAPH <https://biomedit.ch/rdf/sphn-resource/global> { ?c rdfs:label ?routeLabel } } GROUP BY ?routeLabel ORDER BY DESC(?eventCount) LIMIT 10
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?routeLabel (COUNT(DISTINCT ?g) AS ?eventCount) WHERE {
+  GRAPH ?g {
+    ?r a sphn:DrugAdministrationEvent .
+    ?r sphn:hasAdministrationRouteCode ?c
+  }
+  GRAPH <https://biomedit.ch/rdf/sphn-resource/global> {
+    ?c rdfs:label ?routeLabel
+  }
+}
+GROUP BY ?routeLabel
+ORDER BY DESC(?eventCount)
+LIMIT 10

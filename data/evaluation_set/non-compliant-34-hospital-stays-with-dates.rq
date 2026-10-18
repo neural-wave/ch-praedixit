@@ -1,0 +1,18 @@
+# question: List each hospital stay with its admission and discharge dates.
+# expected_compliant: false
+# expected_rules: not_aggregated
+# origin: test set
+# notes: Schema 2026.1 form (sphn:hasAdmission and sphn:hasDischarge nodes with sphn:hasDateTime); returns no rows on the mock data, which uses schema 2024.2.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?admission_time ?discharge_time
+WHERE {
+  GRAPH ?g {
+    ?case a sphn:AdministrativeCase ;
+          sphn:hasAdmission ?admission ;
+          sphn:hasDischarge ?discharge .
+    ?admission sphn:hasDateTime ?admission_time .
+    ?discharge sphn:hasDateTime ?discharge_time .
+  }
+}
+ORDER BY ?admission_time

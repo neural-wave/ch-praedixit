@@ -1,0 +1,3 @@
+# why: a code prefix with letters is a shared code
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?article a sphn:DrugArticle ; sphn:hasCode ?article_code . ?article_code sphn:hasIdentifier ?code_id . } FILTER (STRSTARTS(?code_id, "E11")) }

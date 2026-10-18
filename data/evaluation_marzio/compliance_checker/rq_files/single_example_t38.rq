@@ -1,0 +1,9 @@
+# question: SRS/SRT patient counts by sex?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT ?sex (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?r a sphn:RadiotherapyProcedure ; sphn:hasCode ?r_c . { ?r_c rdf:type snomed:115959002 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type snomed:395096001 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } ?s a sphn:AdministrativeSex ; sphn:hasCode ?sc . ?sc a ?sex_concept . } VALUES (?sex_concept ?sex) { (snomed:248153007 "male") (snomed:248152002 "female") (snomed:32570681000036106 "indeterminate") } } GROUP BY ?sex ORDER BY DESC(?patients)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?sex (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?r a sphn:RadiotherapyProcedure ; sphn:hasCode ?r_c . { ?r_c rdf:type snomed:115959002 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type snomed:395096001 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } ?s a sphn:AdministrativeSex ; sphn:hasCode ?sc . ?sc a ?sex_concept . } VALUES (?sex_concept ?sex) { (snomed:248153007 "male") (snomed:248152002 "female") (snomed:32570681000036106 "indeterminate") } } GROUP BY ?sex ORDER BY DESC(?patients)

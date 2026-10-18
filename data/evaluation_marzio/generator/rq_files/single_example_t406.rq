@@ -1,0 +1,17 @@
+# question: Count of patients with positive staining results in microbiology microscopy, grouped by the specific morphology observed.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT ?morphology (COUNT(DISTINCT ?g) AS ?patientCount) WHERE { GRAPH ?g { ?r a sphn:MicrobiologyMicroscopyResult ; sphn:hasStainingResultCode ?stainCode ; sphn:hasCellMorphology ?morphology . ?stainCode a snomed:10828004 . } } GROUP BY ?morphology
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+SELECT ?morphology (COUNT(DISTINCT ?g) AS ?patientCount)
+WHERE {
+  GRAPH ?g {
+    ?r a sphn:MicrobiologyMicroscopyResult ;
+       sphn:hasStainingResultCode ?stainCode ;
+       sphn:hasCellMorphology ?morphology .
+    ?stainCode a snomed:10828004 .
+  }
+}
+GROUP BY ?morphology

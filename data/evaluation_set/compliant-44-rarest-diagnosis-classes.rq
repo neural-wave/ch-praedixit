@@ -1,0 +1,12 @@
+# question: Which ten diagnosis classes have the fewest patients?
+# expected_compliant: true
+# expected_rules: none
+# origin: bypass
+# notes: Allowed by RULES.md as written: the small-group rule applies to HAVING, and this query has none.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?class (COUNT(DISTINCT ?g) AS ?patients)
+WHERE { GRAPH ?g { ?diagnosis a sphn:Diagnosis ; sphn:hasCode ?code . ?code a ?class . } }
+GROUP BY ?class
+ORDER BY ASC(?patients)
+LIMIT 10

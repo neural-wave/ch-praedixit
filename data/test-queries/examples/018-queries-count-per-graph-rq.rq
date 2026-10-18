@@ -1,0 +1,13 @@
+# question: How many triples does each patient graph contain? Show the ten largest.
+# source: compliance/tests/test_rules.py::test_seed[queries/count-per-graph.rq]
+# expected_compliant: false
+# expected_rules: QC5 (exposes_identifier), QC3 (unrestricted_match)
+# reasoning: groups by identifier ?g
+SELECT ?g (COUNT(*) AS ?triples)
+WHERE {
+  GRAPH ?g { ?s ?p ?o }
+  FILTER(STRSTARTS(STR(?g), "http://example.org/graph/"))
+}
+GROUP BY ?g
+ORDER BY DESC(?triples)
+LIMIT 10

@@ -1,0 +1,9 @@
+# question: I am trying to understand the intersection of our diagnostic imaging workflows and our treatment verification protocols. Specifically, could you tell me exactly how many distinct patients in our database have undergone a therapeutic barium enema procedure while also having their radiation therapy treatments recorded or verified within our primary healthcare information systems?
+# expected_compliant: true
+# expected_rules: none
+# origin: dev
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:ImagingProcedure ; sphn:hasCode ?a_c . ?a_c isa snomed:240959006 . ?b a sphn:HealthcarePrimaryInformationSystem ; sphn:hasCode ?b_c . ?b_c isa snomed:462645004 . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:ImagingProcedure ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:240959006 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?b a sphn:HealthcarePrimaryInformationSystem ; sphn:hasCode ?b_c . ?b_c rdf:type snomed:462645004 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

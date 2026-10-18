@@ -1,0 +1,7 @@
+# question: We are conducting a quality audit of our microbiology laboratory workflows to ensure accurate reporting standards. Could you please generate a summary that aggregates the data by cell count estimate code for all microscopy result records? Specifically, I need the total number of test records and the count of distinct patients associated with each specific cell count estimate value to help us assess our testing volume and patient overlap.
+# expected_compliant: true
+# expected_rules: none
+# origin: dev
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> SELECT ?value (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:MicrobiologyMicroscopyResult ; sphn:hasCellCountEstimateCode ?v_c . ?v_c a ?v . } BIND(REPLACE(STR(?v), "^.*/", "") AS ?value) } GROUP BY ?value ORDER BY DESC(?records)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?value (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:MicrobiologyMicroscopyResult ; sphn:hasCellCountEstimateCode ?v_c . ?v_c a ?v . } BIND(REPLACE(STR(?v), "^.*/", "") AS ?value) } GROUP BY ?value ORDER BY DESC(?records)

@@ -1,0 +1,9 @@
+# question: check patient id 10277210000006 for blood cancer or tumor records but not if they needed dialysis or life support just give me the number of records found
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: dev
+# notes: SELECT (COUNT(DISTINCT ?a) AS ?records) WHERE { GRAPH ?g { ?a a sphn:OncologyDiagnosis ; sphn:hasCode ?a_c . { ?a_c isa icd-10-gm:C60-C63 } UNION { ?a_c isa icd-10-gm:C50.9 } UNION { ?a_c isa icd-10-gm:A00.0 } ?a sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier "ID-10277210000006" . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?a) AS ?records) WHERE { GRAPH ?g { ?a a sphn:OncologyDiagnosis ; sphn:hasCode ?a_c . { ?a_c rdf:type icd-10-gm:C60-C63 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?a_c rdf:type icd-10-gm:C50.9 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?a_c rdf:type icd-10-gm:A00.0 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } ?a sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier "ID-10277210000006" . } }

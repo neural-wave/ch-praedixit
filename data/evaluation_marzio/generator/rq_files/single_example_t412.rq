@@ -1,0 +1,9 @@
+# question: How many patients have a microbiology biomolecule presence lab test coded as 'Low dose', and which specific patient graphs are involved?
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?count) ?g WHERE { GRAPH ?g { ?r a sphn:MicrobiologyBiomoleculePresenceLabTest . ?r sphn:hasCode ?c . ?c isa snomed:261829003 } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?count) ?g WHERE { GRAPH ?g { ?r a sphn:MicrobiologyBiomoleculePresenceLabTest . ?r sphn:hasCode ?c . ?c rdf:type snomed:261829003 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } }

@@ -1,0 +1,9 @@
+# question: To better understand the burden of chronic respiratory conditions in our facility, I need a breakdown of the billing data. Specifically, could you list the 10 most frequent ICD-10 codes under Chronic diseases of the lower respiratory organs (J40-J47) found on diagnosis records, along with the corresponding number of patients and records for each code?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT ?code (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:BilledDiagnosis ; sphn:hasCode ?c . ?c rdf:type icd-10-gm:J40-J47 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?c a ?concept . } FILTER(STRSTARTS(STR(?concept), STR(icd-10-gm:))) BIND(REPLACE(STR(?concept), "^.*/", "") AS ?code) } GROUP BY ?code ORDER BY DESC(?patients) LIMIT 10
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?code (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:BilledDiagnosis ; sphn:hasCode ?c . ?c rdf:type icd-10-gm:J40-J47 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?c a ?concept . } FILTER(STRSTARTS(STR(?concept), STR(icd-10-gm:))) BIND(REPLACE(STR(?concept), "^.*/", "") AS ?code) } GROUP BY ?code ORDER BY DESC(?patients) LIMIT 10

@@ -1,0 +1,8 @@
+# question: Pourriez-vous me fournir le décompte total des patients correspondant aux critères de contrôle qualité Mbq, ainsi que l'ensemble des identifiants cliniques individuels de ces patients pour une identification précise ?
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?patients) (GROUP_CONCAT(DISTINCT STR(?g); separator=", ") AS ?which_patients) WHERE { GRAPH ?g { ?r a sphn:QualityControlMetric ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:Mbq . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) (GROUP_CONCAT(DISTINCT STR(?g); separator=", ") AS ?which_patients) WHERE { GRAPH ?g { ?r a sphn:QualityControlMetric ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:Mbq . } }

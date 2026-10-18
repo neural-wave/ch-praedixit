@@ -1,0 +1,8 @@
+# question: What is the average duration of drug administrations that were stopped due to side effects?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (AVG(?duration) AS ?avgDuration) WHERE { GRAPH ?g { ?r a sphn:DrugAdministrationEvent ; sphn:hasReasonToStopCode ?code . FILTER(?code = snomed:395009001) BIND(COALESCE(STRBEFORE(LCASE(STR(?r)), '?'), 0) AS ?dummy) } OPTIONAL { GRAPH ?g { ?r sphn:hasDuration ?dur . ?dur sphn:hasValue ?v } } BIND(IF(BOUND(?v), ?v, 0) AS ?duration) }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+SELECT (AVG(?duration) AS ?avgDuration) WHERE { GRAPH ?g { ?r a sphn:DrugAdministrationEvent ; sphn:hasReasonToStopCode ?code . FILTER(?code = snomed:395009001) BIND(COALESCE(STRBEFORE(LCASE(STR(?r)), '?'), 0) AS ?dummy) } OPTIONAL { GRAPH ?g { ?r sphn:hasDuration ?dur . ?dur sphn:hasValue ?v } } BIND(IF(BOUND(?v), ?v, 0) AS ?duration) }

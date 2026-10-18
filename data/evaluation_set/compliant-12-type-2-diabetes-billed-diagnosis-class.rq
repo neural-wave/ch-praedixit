@@ -1,0 +1,17 @@
+# question: How many patients have type 2 diabetes?
+# expected_compliant: true
+# expected_rules: none
+# other_correct_translations: compliant-13-type-2-diabetes-diagnosis-code-string.rq, compliant-14-type-2-diabetes-both-code-forms.rq
+# origin: test set
+# notes: Matches billed diagnoses whose code node is typed with an ICD-10-GM class under E11. Does not see sphn:Diagnosis records, whose codes are strings.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?diagnosis a sphn:BilledDiagnosis ;
+               sphn:hasCode ?code .
+    ?code a icd-10-gm:E11 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") .
+  }
+}

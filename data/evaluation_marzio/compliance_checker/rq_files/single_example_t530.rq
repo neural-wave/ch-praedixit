@@ -1,0 +1,10 @@
+# question: Among patients with at least one organism coded as Gametocyte of Plasmodium malariae (SNOMED CT 608964002, including sub‑codes), how many also have at least one billed diagnosis coded as Essentielle (primäre) Hypertonie (ICD‑10‑GM I10, including sub‑codes), and what is that share expressed as a percentage? Please return the total group size, the count of patients with both conditions, and the resulting percentage.
+# expected_compliant: true
+# expected_rules: none
+# origin: test set T3 (worded by the other model)
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT (COUNT(DISTINCT ?g) AS ?patients_b) (COUNT(DISTINCT ?ab) AS ?patients_a_and_b) (ROUND(1000.0 * COUNT(DISTINCT ?ab) / COUNT(DISTINCT ?g)) / 10 AS ?pct) WHERE { GRAPH ?g { ?b a sphn:Organism ; sphn:hasCode ?b_c . ?b_c rdf:type snomed:608964002 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } OPTIONAL { GRAPH ?g { ?a a sphn:BilledDiagnosis ; sphn:hasCode ?a_c . ?a_c rdf:type icd-10-gm:I10 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } BIND(?g AS ?ab) } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients_b) (COUNT(DISTINCT ?ab) AS ?patients_a_and_b) (ROUND(1000.0 * COUNT(DISTINCT ?ab) / COUNT(DISTINCT ?g)) / 10 AS ?pct) WHERE { GRAPH ?g { ?b a sphn:Organism ; sphn:hasCode ?b_c . ?b_c rdf:type snomed:608964002 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } OPTIONAL { GRAPH ?g { ?a a sphn:BilledDiagnosis ; sphn:hasCode ?a_c . ?a_c rdf:type icd-10-gm:I10 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } BIND(?g AS ?ab) } }

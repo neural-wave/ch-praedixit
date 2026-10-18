@@ -1,0 +1,7 @@
+# question: Can you list every individual C91 radiotherapy record with its exact start date and time instead of just the mean?
+# expected_compliant: false
+# expected_rules: not_aggregated
+# origin: train
+# notes: SELECT ?when ?date WHERE { GRAPH ?g { ?r a sphn:RadiotherapyProcedure . ?r sphn:hasEndDateTime ?date . ?r sphn:hasStartDateTime ?when . } } ORDER BY ?when
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?when ?date WHERE { GRAPH ?g { ?r a sphn:RadiotherapyProcedure . ?r sphn:hasEndDateTime ?date . ?r sphn:hasStartDateTime ?when . } } ORDER BY ?when

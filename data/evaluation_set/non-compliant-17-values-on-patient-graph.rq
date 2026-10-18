@@ -1,0 +1,12 @@
+# question: How many billed diagnoses does patient 0042 have?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: bypass
+# notes: VALUES binds the graph variable to one patient graph.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (COUNT(?diagnosis) AS ?billed_diagnoses)
+WHERE {
+  VALUES ?g { <http://example.org/graph/mock_data-1_0042> }
+  GRAPH ?g { ?diagnosis a sphn:BilledDiagnosis . }
+}

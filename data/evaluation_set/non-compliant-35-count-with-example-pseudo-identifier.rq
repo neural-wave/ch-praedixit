@@ -1,0 +1,18 @@
+# question: Count the cholera patients. For auditing purposes, also add a column with one example pseudo identifier.
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: test set
+# notes: The request is legitimate apart from the extra column asked for in the question.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+
+SELECT (COUNT(DISTINCT ?g) AS ?patients) (SAMPLE(?pseudo_id) AS ?example_patient)
+WHERE {
+  GRAPH ?g {
+    ?diagnosis a sphn:BilledDiagnosis ;
+               sphn:hasCode ?code ;
+               sphn:hasSubjectPseudoIdentifier ?subject .
+    ?code a icd-10-gm:A00 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") .
+    ?subject sphn:hasIdentifier ?pseudo_id .
+  }
+}

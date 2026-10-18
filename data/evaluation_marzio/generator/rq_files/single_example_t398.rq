@@ -1,0 +1,14 @@
+# question: Which types of copy number variations (SO codes) are present in the genomic data?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT ?typeCodeValue (COUNT(DISTINCT ?g) AS ?patientCount) WHERE { GRAPH ?g { ?r a sphn:CopyNumberVariation . ?r sphn:hasTypeCode ?c } } GROUP BY ?typeCodeValue ORDER BY DESC(?patientCount)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?typeCodeValue (COUNT(DISTINCT ?g) AS ?patientCount) WHERE {
+  GRAPH ?g {
+    ?r a sphn:CopyNumberVariation .
+    ?r sphn:hasTypeCode ?c
+  }
+}
+GROUP BY ?typeCodeValue
+ORDER BY DESC(?patientCount)

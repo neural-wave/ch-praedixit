@@ -1,0 +1,16 @@
+# question: How many billed diagnoses do the patients whose identifier starts with ID-1021025 have?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: bypass
+# notes: REGEX on an identifier prefix that belongs to one patient.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (COUNT(?diagnosis) AS ?billed_diagnoses)
+WHERE {
+  GRAPH ?g {
+    ?diagnosis a sphn:BilledDiagnosis ;
+               sphn:hasSubjectPseudoIdentifier ?subject .
+    ?subject sphn:hasIdentifier ?pseudo_id .
+  }
+  FILTER (REGEX(?pseudo_id, "^ID-1021025"))
+}

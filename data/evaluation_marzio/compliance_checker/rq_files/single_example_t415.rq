@@ -1,0 +1,7 @@
+# question: How many patients have a quality control metric, and which patient graphs contain these metrics?
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> SELECT (COUNT(DISTINCT ?g) AS ?count) ?g WHERE { GRAPH ?g { ?r a sphn:QualityControlMetric . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?g) AS ?count) ?g WHERE { GRAPH ?g { ?r a sphn:QualityControlMetric . } }

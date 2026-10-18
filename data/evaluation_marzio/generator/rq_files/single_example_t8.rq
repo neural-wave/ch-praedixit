@@ -1,0 +1,9 @@
+# question: Given that gastrointestinal infections can lead to severe complications and significant healthcare resource utilization, I am interested in understanding the burden of these diseases on our facility. Specifically, could you calculate the total number of unique individuals who have been billed for any diagnosis within the range of infectious intestinal diseases, including all specific subtypes like cholera, typhoid, or other bacterial and viral enteritis codes? This count will help us evaluate the prevalence of acute gastrointestinal infections in our patient population.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?r a sphn:BilledDiagnosis ; sphn:hasCode ?r_c . ?r_c isa icd-10-gm:A00-A09 . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?r a sphn:BilledDiagnosis ; sphn:hasCode ?r_c . ?r_c rdf:type icd-10-gm:A00-A09 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

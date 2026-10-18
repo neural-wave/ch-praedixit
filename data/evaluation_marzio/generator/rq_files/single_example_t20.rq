@@ -1,0 +1,9 @@
+# question: I am analyzing SNOMED CT code 229050008 for tumor grade assessments; how many distinct patients have at least one result coded as Millimeters of aluminum?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?r a sphn:TumorGradeAssessmentResult ; sphn:hasCode ?r_c . ?r_c isa snomed:229050008 . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?r a sphn:TumorGradeAssessmentResult ; sphn:hasCode ?r_c . ?r_c rdf:type snomed:229050008 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

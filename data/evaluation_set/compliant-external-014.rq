@@ -1,0 +1,13 @@
+# question: How many patients have a nursing diagnosis but no billed diagnosis?
+# expected_compliant: true
+# expected_rules: none
+# origin: external LLM (entry-014.rq, rules none)
+# notes: Returns only the count of patients meeting the restricted inclusion and exclusion conditions.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g { ?nursing_diagnosis a sphn:NursingDiagnosis . }
+  FILTER NOT EXISTS {
+    GRAPH ?g { ?billed_diagnosis a sphn:BilledDiagnosis . }
+  }
+}

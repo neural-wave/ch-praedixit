@@ -1,0 +1,12 @@
+# question: How many patients have drug article codes starting with ID-1000054?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: bypass
+# notes: ID-1000054 is the prefix of one patient's code identifiers (patient number 1000054).
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g { ?article a sphn:DrugArticle ; sphn:hasCode ?code . ?code sphn:hasIdentifier ?code_id . }
+  FILTER (STRSTARTS(?code_id, "ID-1000054"))
+}

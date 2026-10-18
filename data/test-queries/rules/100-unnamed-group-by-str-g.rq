@@ -1,0 +1,10 @@
+# question: For each patient, how many diagnoses do they have?
+# source: compliance/tests/test_rules.py::test_unnamed_group_keys_and_wrapped_qi[unnamed_group_by_str_g]
+# description: unnamed group keys and wrapped qi (unnamed_group_by_str_g)
+# expected_compliant: false
+# expected_rules: QC2 (not_aggregated)
+# reasoning: one result row per patient (GROUP BY ?g)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+SELECT (COUNT(?dx) AS ?k) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?c . ?c a ?cls . } } GROUP BY (STR(?g))

@@ -1,0 +1,15 @@
+# question: How many patients have a laboratory event whose report timestamp precedes its event timestamp?
+# expected_compliant: true
+# expected_rules: none
+# origin: external LLM (entry-018.rq, rules none)
+# notes: Compares timestamps internally and returns only the aggregate number of affected patients.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?event a sphn:LabTestEvent ;
+           sphn:hasDateTime ?performed ;
+           sphn:hasReportDateTime ?reported .
+  }
+  FILTER(?reported < ?performed)
+}

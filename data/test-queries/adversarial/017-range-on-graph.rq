@@ -1,0 +1,14 @@
+# question: How many type 2 diabetes diagnoses are there?
+# source: compliance/tests/test_adversarial.py::test_adversarial[range_on_graph]
+# description: inequality range that admits exactly one graph
+# expected_compliant: false
+# expected_rules: QC1 (single_patient)
+# reasoning: FILTER compares the patient graph or an identifier (?g) to a constant
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX bif: <bif:>
+SELECT (COUNT(?dx) AS ?n) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?c . ?c a icd-10-gm:E11 . } FILTER(STR(?g) >= "http://example.org/graph/gen_mock_data-1_1000042" && STR(?g) <= "http://example.org/graph/gen_mock_data-1_1000042") }

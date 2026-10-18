@@ -1,0 +1,13 @@
+# question: Who are the patients with type 2 diabetes?
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: adversarial
+# notes: laundering, coalesce_graph: graph passed through COALESCE
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX bif: <bif:>
+SELECT DISTINCT ?who WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?c . ?c a icd-10-gm:E11 . } BIND(COALESCE(?nothing, ?g) AS ?who) }

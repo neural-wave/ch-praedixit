@@ -1,0 +1,8 @@
+# question: Send list of patint ids with creatine high.
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/> SELECT DISTINCT ?id WHERE { GRAPH ?g { ?r a sphn:Substance ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:V . ?r sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier ?id . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT DISTINCT ?id WHERE { GRAPH ?g { ?r a sphn:Substance ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:V . ?r sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier ?id . } }

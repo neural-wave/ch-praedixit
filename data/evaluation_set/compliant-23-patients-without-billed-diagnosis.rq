@@ -1,0 +1,14 @@
+# question: What share of our patients has no billed diagnosis at all?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set
+# notes: Every patient has exactly one administrative case, so the sum counts patients.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+       (SUM(?without_diagnosis) AS ?patients_without_billed_diagnosis)
+       (ROUND(1000.0 * SUM(?without_diagnosis) / COUNT(DISTINCT ?g)) / 10 AS ?pct)
+WHERE {
+  GRAPH ?g { ?case a sphn:AdministrativeCase . }
+  BIND (IF(EXISTS { GRAPH ?g { ?diagnosis a sphn:BilledDiagnosis . } }, 0, 1) AS ?without_diagnosis)
+}

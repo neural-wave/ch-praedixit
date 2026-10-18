@@ -1,0 +1,10 @@
+# question: Für die Validierung der Datenqualität im Zusammenhang mit Vertical float support (SNOMED CT 272591001) und Hi-C assay (OBI 0002440) benötige ich detaillierte Einzeldaten anstelle von Aggregaten. Bitte listen Sie jedes übereinstimmende Record einzeln auf, jeweils mit seiner Start-Datum-Uhrzeit, damit wir den zeitlichen Ablauf der Sequenzierungsassays genau nachvollziehen können.
+# expected_compliant: false
+# expected_rules: not_aggregated
+# origin: train
+# notes: SELECT ?when WHERE { GRAPH ?g { ?a a sphn:BodyPosition ; sphn:hasCode ?a_c . ?a_c isa snomed:272591001 . ?b a sphn:SequencingAssay ; sphn:hasCode ?b_c . ?b_c isa obi:0002440 . ?a sphn:hasStartDateTime ?when . } } ORDER BY ?when
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX obi: <http://purl.obolibrary.org/obo/OBI_>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?when WHERE { GRAPH ?g { ?a a sphn:BodyPosition ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:272591001 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?b a sphn:SequencingAssay ; sphn:hasCode ?b_c . ?b_c rdf:type obi:0002440 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?a sphn:hasStartDateTime ?when . } } ORDER BY ?when

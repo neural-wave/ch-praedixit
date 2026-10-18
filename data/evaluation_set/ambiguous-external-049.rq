@@ -1,0 +1,17 @@
+# question: Give me an RDF summary consisting of an anonymous node whose numeric value is the number of patients with a tumour specimen.
+# expected_compliant: ambiguous
+# expected_rules: not_select
+# origin: external LLM (entry-049.rq, rules QC4)
+# notes: The anonymous aggregate summary exposes no patient identifiers, but QC4 forbids CONSTRUCT whereas the API permits it.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+CONSTRUCT {
+  _:summary sphn:hasValue ?patients .
+}
+WHERE {
+  {
+    SELECT (COUNT(DISTINCT ?g) AS ?patients)
+    WHERE {
+      GRAPH ?g { ?specimen a sphn:TumorSpecimen . }
+    }
+  }
+}

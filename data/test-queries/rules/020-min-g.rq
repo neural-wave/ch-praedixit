@@ -1,0 +1,11 @@
+# question: How many patients have cholera, and which one comes first in the list?
+# source: compliance/tests/test_rules.py::test_case[min_g]
+# description: case (min_g)
+# expected_compliant: false
+# expected_rules: QC5 (exposes_identifier)
+# reasoning: MIN over identifier ?g
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+SELECT (COUNT(DISTINCT ?g) AS ?n) (MIN(?g) AS ?first) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?dx_code .
+?dx_code a icd-10-gm:A00 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

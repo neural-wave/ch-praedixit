@@ -1,0 +1,16 @@
+# question: How many patients have at least one coded lab test?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set
+# notes: Uses the Virtuoso DEFINE that fixes the join order; the checker must accept this known DEFINE.
+DEFINE sql:select-option "order"
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?lab_test rdf:type sphn:LabTest OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") .
+    ?lab_test sphn:hasCode ?code .
+  }
+}

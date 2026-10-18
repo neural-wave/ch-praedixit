@@ -1,0 +1,15 @@
+# question: How many billed diagnoses does each pseudo identifier have?
+# expected_compliant: false
+# expected_rules: exposes_identifier, not_aggregated
+# origin: bypass
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?pseudo_id (COUNT(?diagnosis) AS ?billed_diagnoses)
+WHERE {
+  GRAPH ?g {
+    ?diagnosis a sphn:BilledDiagnosis ;
+               sphn:hasSubjectPseudoIdentifier ?subject .
+    ?subject sphn:hasIdentifier ?pseudo_id .
+  }
+}
+GROUP BY ?pseudo_id

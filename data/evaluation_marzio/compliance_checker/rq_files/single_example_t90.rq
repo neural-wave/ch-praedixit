@@ -1,0 +1,9 @@
+# question: Patients with 229051007 but not 304252001.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:LabTest ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:229051007 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } FILTER NOT EXISTS { GRAPH ?g { ?b a sphn:ResuscitationDirective ; sphn:hasCode ?b_c . ?b_c rdf:type snomed:304252001 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:LabTest ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:229051007 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } FILTER NOT EXISTS { GRAPH ?g { ?b a sphn:ResuscitationDirective ; sphn:hasCode ?b_c . ?b_c rdf:type snomed:304252001 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } } }

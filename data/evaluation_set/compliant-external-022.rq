@@ -1,0 +1,14 @@
+# question: Including specialised laboratory-test subclasses through inference, how many patients have a laboratory test linked to an instrument?
+# expected_compliant: true
+# expected_rules: none
+# origin: external LLM (entry-022.rq, rules none)
+# notes: The documented Virtuoso inference extension supports a restricted aggregate query without exposing identifiers.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?test a sphn:LabTest
+      OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") .
+    ?test sphn:hasInstrument ?instrument .
+  }
+}

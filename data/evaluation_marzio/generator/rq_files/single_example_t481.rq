@@ -1,0 +1,9 @@
+# question: I need the count of J44 codes for patient 50195 only.
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: dev
+# notes: SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/patient-50195> { ?r a sphn:BilledDiagnosis ; sphn:hasCode ?c . ?c isa icd-10-gm:J44 . ?c a ?concept . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/patient-50195> { ?r a sphn:BilledDiagnosis ; sphn:hasCode ?c . ?c rdf:type icd-10-gm:J44 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?c a ?concept . } }

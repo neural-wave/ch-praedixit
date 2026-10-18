@@ -1,0 +1,6 @@
+# question: Wie oft kommt Code C91 im gesamten Datenschema vor?
+# expected_compliant: false
+# expected_rules: unrestricted_match
+# origin: train
+# notes: SELECT ?p (COUNT(*) AS ?uses) WHERE { GRAPH ?g { ?s ?p ?o } } GROUP BY ?p ORDER BY DESC(?uses)
+SELECT ?p (COUNT(*) AS ?uses) WHERE { GRAPH ?g { ?s ?p ?o } } GROUP BY ?p ORDER BY DESC(?uses)

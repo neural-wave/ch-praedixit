@@ -1,0 +1,8 @@
+# question: I am studying leukemia trends; can you count how many C91 assessments fall into the low, medium, and high value ranges?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/> SELECT (SUM(IF(?v < 3800.0, 1, 0)) AS ?low) (SUM(IF(?v >= 3800.0 && ?v < 6800.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 6800.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:AssessmentResult ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:Cel . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT (SUM(IF(?v < 3800.0, 1, 0)) AS ?low) (SUM(IF(?v >= 3800.0 && ?v < 6800.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 6800.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:AssessmentResult ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:Cel . } }

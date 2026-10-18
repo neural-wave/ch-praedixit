@@ -1,0 +1,7 @@
+# question: How many patients have a body height measurement, and which patient graphs contain these records?
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?count) ?g WHERE { GRAPH ?g { ?r a sphn:BodyHeight . ?r sphn:hasQuantity ?q } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?g) AS ?count) ?g WHERE { GRAPH ?g { ?r a sphn:BodyHeight . ?r sphn:hasQuantity ?q } }

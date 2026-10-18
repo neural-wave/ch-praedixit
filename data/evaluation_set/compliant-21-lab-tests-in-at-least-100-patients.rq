@@ -1,0 +1,18 @@
+# question: Which lab tests have been performed in at least 100 different patients?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?lab_test_concept (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?lab_test a sphn:LabTest ;
+              sphn:hasCode ?code .
+    ?code a ?lab_test_concept .
+  }
+  FILTER (STRSTARTS(STR(?lab_test_concept), "http://snomed.info/id/"))
+}
+GROUP BY ?lab_test_concept
+HAVING (COUNT(DISTINCT ?g) >= 100)
+ORDER BY DESC(?patients)

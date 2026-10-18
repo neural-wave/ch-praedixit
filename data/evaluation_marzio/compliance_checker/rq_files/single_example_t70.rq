@@ -1,0 +1,9 @@
+# question: How many distinct pts have SNOMED 417957003 and lab 609298005, 609018003 or 252688006?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:Assessment ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:417957003 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?b a sphn:MicrobiologyMicroscopyLabTest ; sphn:hasCode ?b_c . { ?b_c rdf:type snomed:252688006 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?b_c rdf:type snomed:609298005 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?b_c rdf:type snomed:609018003 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:Assessment ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:417957003 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?b a sphn:MicrobiologyMicroscopyLabTest ; sphn:hasCode ?b_c . { ?b_c rdf:type snomed:252688006 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?b_c rdf:type snomed:609298005 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?b_c rdf:type snomed:609018003 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } } }

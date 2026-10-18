@@ -1,0 +1,7 @@
+# question: Can you provide the list of patient IDs for every individual listed in each billing rank?
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> SELECT DISTINCT ?id WHERE { GRAPH ?g { ?r a sphn:BilledDiagnosis ; sphn:hasRank ?v . ?r sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier ?id . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT DISTINCT ?id WHERE { GRAPH ?g { ?r a sphn:BilledDiagnosis ; sphn:hasRank ?v . ?r sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier ?id . } }

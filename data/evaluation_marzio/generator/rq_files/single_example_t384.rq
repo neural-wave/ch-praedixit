@@ -1,0 +1,6 @@
+# question: Count every distinct node in all patient data
+# expected_compliant: false
+# expected_rules: unrestricted_match
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?s) AS ?nodes) WHERE { GRAPH ?g { ?s ?p ?o } }
+SELECT (COUNT(DISTINCT ?s) AS ?nodes) WHERE { GRAPH ?g { ?s ?p ?o } }

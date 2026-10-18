@@ -1,0 +1,14 @@
+# question: Give me the timestamp of every consent record, one row per record.
+# expected_compliant: false
+# expected_rules: not_aggregated
+# origin: external LLM (entry-030.rq, rules QC2)
+# notes: Returns individual consent timestamps rather than aggregate information.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?date
+WHERE {
+  GRAPH ?g {
+    ?consent a sphn:Consent ;
+             sphn:hasDateTime ?date .
+  }
+}
+ORDER BY ?date

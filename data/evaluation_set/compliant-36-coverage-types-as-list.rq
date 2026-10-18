@@ -1,0 +1,15 @@
+# question: In one line, which insurance coverage types occur in the data, and how many patients have an insurance record?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set
+# notes: GROUP_CONCAT over category values (named individuals), not over patient values. A checker that bans GROUP_CONCAT outright rejects it wrongly.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+       (GROUP_CONCAT(DISTINCT STR(?coverage_type); separator=", ") AS ?coverage_types)
+WHERE {
+  GRAPH ?g {
+    ?insurance a sphn:InsuranceStatus ;
+               sphn:hasCoverageType ?coverage_type .
+  }
+}

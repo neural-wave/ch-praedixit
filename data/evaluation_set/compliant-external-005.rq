@@ -1,0 +1,20 @@
+# question: How many patients have a temperature result with a stored numeric value above 38 degrees Celsius?
+# expected_compliant: true
+# expected_rules: none
+# origin: external LLM (entry-005.rq, rules none)
+# notes: Only the number of patients with a qualifying temperature result is returned.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?measurement a sphn:BodyTemperatureMeasurement ;
+                 sphn:hasResult ?result .
+    ?result a sphn:BodyTemperature ;
+            sphn:hasQuantity ?quantity .
+    ?quantity sphn:hasValue ?value ;
+              sphn:hasUnit/sphn:hasCode ?unit_code .
+    ?unit_code a ucum:Cel .
+  }
+  FILTER(?value > 38)
+}

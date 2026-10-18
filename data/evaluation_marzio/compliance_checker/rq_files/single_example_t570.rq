@@ -1,0 +1,16 @@
+# question: How many patients with male administrative sex have an extracorporeal hemodialysis route drug administration?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: test set T3 (worded by the other model)
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> SELECT COUNT(DISTINCT ?g) { GRAPH ?g { ?sex a sphn:AdministrativeSex ; sphn:hasCode snomed:248153007 . ?drug a sphn:DrugAdministrationEvent . ?drug sphn:hasAdministrationRouteCode snomed:766790006 . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+SELECT COUNT(DISTINCT ?g) {
+  GRAPH ?g {
+    ?sex a sphn:AdministrativeSex ;
+         sphn:hasCode snomed:248153007 .
+    
+    ?drug a sphn:DrugAdministrationEvent .
+    ?drug sphn:hasAdministrationRouteCode snomed:766790006 .
+  }
+}

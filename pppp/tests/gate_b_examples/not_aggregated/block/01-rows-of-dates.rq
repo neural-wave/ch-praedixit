@@ -1,0 +1,3 @@
+# why: returns one row per record
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?date WHERE { GRAPH ?g { ?diagnosis a sphn:BilledDiagnosis ; sphn:hasRecordDateTime ?date . } }

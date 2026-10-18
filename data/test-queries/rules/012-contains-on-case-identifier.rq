@@ -1,0 +1,11 @@
+# question: How many cholera diagnoses belong to the hospital case with ID 0042?
+# source: compliance/tests/test_rules.py::test_case[contains_on_case_identifier]
+# description: case (contains_on_case_identifier)
+# expected_compliant: false
+# expected_rules: QC1 (single_patient)
+# reasoning: CONTAINS on the patient graph or an identifier selects a specific patient (0042)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+SELECT (COUNT(*) AS ?n) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?dx_code .
+?dx_code a icd-10-gm:A00 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?dx sphn:hasAdministrativeCase ?c . ?c sphn:hasIdentifier ?cid . } FILTER(CONTAINS(?cid, "0042")) }

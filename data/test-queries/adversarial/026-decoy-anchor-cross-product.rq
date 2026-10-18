@@ -1,0 +1,14 @@
+# question: How many birth records are there?
+# source: compliance/tests/test_adversarial.py::test_adversarial[decoy_anchor_cross_product]
+# description: anchored triple next to an unjoined ?s ?p ?o
+# expected_compliant: false
+# expected_rules: QC3 (unrestricted_match)
+# reasoning: pattern not tied to any class or property restriction (?s ?p ?o)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX bif: <bif:>
+SELECT (COUNT(*) AS ?n) WHERE { GRAPH ?g { ?x a sphn:Birth . ?s ?p ?o } }

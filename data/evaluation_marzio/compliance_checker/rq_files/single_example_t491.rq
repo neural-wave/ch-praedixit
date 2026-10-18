@@ -1,0 +1,7 @@
+# question: How many SNV cases? Show one patient name.
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: dev
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> SELECT (COUNT(DISTINCT ?g) AS ?patients) (SAMPLE(?g) AS ?example_patient) WHERE { GRAPH ?g { ?r a sphn:SingleNucleotideVariation . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) (SAMPLE(?g) AS ?example_patient) WHERE { GRAPH ?g { ?r a sphn:SingleNucleotideVariation . } }

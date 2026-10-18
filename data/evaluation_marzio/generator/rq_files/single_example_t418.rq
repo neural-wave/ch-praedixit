@@ -1,0 +1,7 @@
+# question: Could you identify the individuals who underwent oncological surgical procedures?
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: SELECT DISTINCT ?g WHERE { GRAPH ?g { ?r a sphn:OncologySurgery } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT DISTINCT ?g WHERE { GRAPH ?g { ?r a sphn:OncologySurgery } }

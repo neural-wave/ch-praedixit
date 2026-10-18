@@ -1,0 +1,9 @@
+# question: I am conducting an audit on our hospital's coding practices for respiratory infections and need to understand the frequency of unspecified bacterial pneumonias. Could you please list the 10 most frequent ICD-10 codes associated with Pneumonie, Erreger nicht näher bezeichnet (ICD-10-GM J18) found on billed diagnosis records? For each code, I require the total count of distinct patients and the total number of billing records to assess the prevalence and coding specificity.
+# expected_compliant: true
+# expected_rules: none
+# origin: dev
+# notes: SELECT ?code (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:BilledDiagnosis ; sphn:hasCode ?c . ?c isa icd-10-gm:J18 . ?c a ?concept . } FILTER(STRSTARTS(STR(?concept), STR(icd-10-gm:))) BIND(REPLACE(STR(?concept), "^.*/", "") AS ?code) } GROUP BY ?code ORDER BY DESC(?patients) LIMIT 10
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?code (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:BilledDiagnosis ; sphn:hasCode ?c . ?c rdf:type icd-10-gm:J18 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?c a ?concept . } FILTER(STRSTARTS(STR(?concept), STR(icd-10-gm:))) BIND(REPLACE(STR(?concept), "^.*/", "") AS ?code) } GROUP BY ?code ORDER BY DESC(?patients) LIMIT 10

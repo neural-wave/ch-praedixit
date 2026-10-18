@@ -1,0 +1,9 @@
+# question: Is there at least one patient with a protozoan gametocyte infection who doesn't have test results showing a positive finding or a precontemplation behavioral stage?
+# expected_compliant: ambiguous
+# expected_rules: not_select
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> ASK { GRAPH ?g { ?a a sphn:Organism ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:103536007 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } } | ASK: Query_Compliance.md allows only SELECT; API_specification.md lists ASK as read-only and valid.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+ASK { GRAPH ?g { ?a a sphn:Organism ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:103536007 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

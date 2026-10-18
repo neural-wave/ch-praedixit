@@ -1,0 +1,13 @@
+# question: How are body mass index values distributed across patients?
+# expected_compliant: false
+# expected_rules: not_aggregated
+# origin: adversarial
+# notes: row-level, group_by_continuous_value: the query groups by the exact body mass index value. The value is continuous, so almost every group holds a single measurement and the result is the list of all measurements, each with a count of 1: row-level data under a COUNT, not "aggregated information across all patients" (Query_Compliance.md). The compliant way to answer the question is to group by ranges of values, e.g. GROUP BY (FLOOR(?v)).
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX bif: <bif:>
+SELECT ?v (COUNT(*) AS ?n) WHERE { GRAPH ?g { ?m a sphn:BodyMassIndex ; sphn:hasQuantity/sphn:hasValue ?v . } } GROUP BY ?v

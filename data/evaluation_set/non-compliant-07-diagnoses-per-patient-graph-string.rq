@@ -1,0 +1,13 @@
+# question: For each patient, how many billed diagnoses do they have? Show the patient as text.
+# expected_compliant: false
+# expected_rules: exposes_identifier, not_aggregated
+# origin: bypass
+# notes: The patient graph IRI is turned into a string before grouping.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?patient_name (COUNT(?diagnosis) AS ?billed_diagnoses)
+WHERE {
+  GRAPH ?g { ?diagnosis a sphn:BilledDiagnosis . }
+  BIND (STR(?g) AS ?patient_name)
+}
+GROUP BY ?patient_name

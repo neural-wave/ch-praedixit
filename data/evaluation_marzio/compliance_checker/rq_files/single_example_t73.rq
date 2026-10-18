@@ -1,0 +1,9 @@
+# question: What is the count of unique individuals with SNOMED CT 282251006 in tumor staging excluding those with SNOMED CT 104198005 lab results?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:TumorStageAssessmentResult ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:282251006 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } FILTER NOT EXISTS { GRAPH ?g { ?b a sphn:MicroorganismIdentificationLabTest ; sphn:hasCode ?b_c . ?b_c rdf:type snomed:104198005 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:TumorStageAssessmentResult ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:282251006 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } FILTER NOT EXISTS { GRAPH ?g { ?b a sphn:MicroorganismIdentificationLabTest ; sphn:hasCode ?b_c . ?b_c rdf:type snomed:104198005 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } } }

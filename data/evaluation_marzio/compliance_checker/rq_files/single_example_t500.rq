@@ -1,0 +1,41 @@
+# question: During hospital stays billed for cholera, do drug administrations run shorter or longer than in other stays?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set T1 (official example)
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX bif: <bif:> SELECT ?cohort (COUNT(DISTINCT ?case) AS ?admissions) (COUNT(*) AS ?administrations) (ROUND(AVG(?hours)) AS ?avg_hours) (MIN(?hours) AS ?min_hours) (MAX(?hours) AS ?max_hours) (SUM(IF(?hours <= 72, 1, 0)) AS ?within_3_days) (ROUND(1000.0 * SUM(IF(?hours <= 72, 1, 0)) / COUNT(*)) / 10 AS ?within_3_days_pct) WHERE { { SELECT DISTINCT ?g ?case ?administration ?start ?end WHERE { GRAPH ?g { ?administration a sphn:DrugAdministrationEvent ; sphn:hasAdministrativeCase ?case ; sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } FILTER (?end >= ?start) } } BIND (bif:datediff("hour", ?start, ?end) AS ?hours) BIND (IF(EXISTS { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasAdministrativeCase ?case ; sphn:hasCode ?dx_code . ?dx_code rdf:type icd-10-gm:A00 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }, "billed for cholera", "other admissions") AS ?cohort) } GROUP BY ?cohort
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX bif: <bif:>
+SELECT ?cohort
+       (COUNT(DISTINCT ?case) AS ?admissions)
+       (COUNT(*) AS ?administrations)
+       (ROUND(AVG(?hours)) AS ?avg_hours)
+       (MIN(?hours) AS ?min_hours)
+       (MAX(?hours) AS ?max_hours)
+       (SUM(IF(?hours <= 72, 1, 0)) AS ?within_3_days)
+       (ROUND(1000.0 * SUM(IF(?hours <= 72, 1, 0)) / COUNT(*)) / 10 AS ?within_3_days_pct)
+WHERE {
+  {
+    SELECT DISTINCT ?g ?case ?administration ?start ?end
+    WHERE {
+      GRAPH ?g {
+        ?administration a sphn:DrugAdministrationEvent ;
+                        sphn:hasAdministrativeCase ?case ;
+                        sphn:hasStartDateTime ?start ;
+                        sphn:hasEndDateTime ?end .
+      }
+      FILTER (?end >= ?start)
+    }
+  }
+  BIND (bif:datediff("hour", ?start, ?end) AS ?hours)
+  BIND (IF(EXISTS {
+             GRAPH ?g {
+               ?dx a sphn:BilledDiagnosis ;
+                   sphn:hasAdministrativeCase ?case ;
+                   sphn:hasCode ?dx_code .
+               ?dx_code rdf:type icd-10-gm:A00 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") .
+             }
+           }, "billed for cholera", "other admissions") AS ?cohort)
+}
+GROUP BY ?cohort

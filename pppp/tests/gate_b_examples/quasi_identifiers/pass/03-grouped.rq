@@ -1,0 +1,3 @@
+# why: identifying attributes grouped, not fixed
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?sex ?year (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?sex_record a sphn:AdministrativeSex ; sphn:hasCode ?sex_code . ?sex_code a ?sex . ?birth_date a sphn:BirthDate ; sphn:hasYear ?year . } } GROUP BY ?sex ?year

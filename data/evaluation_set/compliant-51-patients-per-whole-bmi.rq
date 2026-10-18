@@ -1,0 +1,13 @@
+# question: How many patients have each BMI, rounded to a whole number?
+# expected_compliant: true
+# expected_rules: none
+# origin: bypass
+# notes: ROUND of the value itself: a bucket.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?bmi (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g { ?measurement a sphn:BodyMassIndex ; sphn:hasQuantity/sphn:hasValue ?value . }
+  BIND (ROUND(?value) AS ?bmi)
+}
+GROUP BY ?bmi

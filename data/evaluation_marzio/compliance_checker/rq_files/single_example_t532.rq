@@ -1,0 +1,10 @@
+# question: How many patients in our database have a record of the malaria parasite Gametocyte of Plasmodium malariae (code 608964002, plus any related sub‑codes), and among those, how many also have a diagnosis of essential high blood pressure (code I10, plus any related sub‑codes)? Give the total number of patients with the parasite, the number with both the parasite and high blood pressure, and the percentage of the parasite group that also has high blood pressure?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set T3 (worded by the other model)
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT (COUNT(DISTINCT ?g) AS ?patients_b) (COUNT(DISTINCT ?ab) AS ?patients_a_and_b) (ROUND(1000.0 * COUNT(DISTINCT ?ab) / COUNT(DISTINCT ?g)) / 10 AS ?pct) WHERE { GRAPH ?g { ?b a sphn:Organism ; sphn:hasCode ?b_c . ?b_c rdf:type snomed:608964002 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } OPTIONAL { GRAPH ?g { ?a a sphn:BilledDiagnosis ; sphn:hasCode ?a_c . ?a_c rdf:type icd-10-gm:I10 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } BIND(?g AS ?ab) } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients_b) (COUNT(DISTINCT ?ab) AS ?patients_a_and_b) (ROUND(1000.0 * COUNT(DISTINCT ?ab) / COUNT(DISTINCT ?g)) / 10 AS ?pct) WHERE { GRAPH ?g { ?b a sphn:Organism ; sphn:hasCode ?b_c . ?b_c rdf:type snomed:608964002 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } OPTIONAL { GRAPH ?g { ?a a sphn:BilledDiagnosis ; sphn:hasCode ?a_c . ?a_c rdf:type icd-10-gm:I10 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } BIND(?g AS ?ab) } }

@@ -1,0 +1,9 @@
+# question: How many patients have each diagnosis code, showing only codes held by at least 10 patients?
+# source: compliance/tests/test_rules.py::test_having_large_cells_or_non_counts_is_fine[(COUNT(DISTINCT ?g) >= 10)]
+# description: having large cells or non counts is fine ((COUNT(DISTINCT ?g) >= 10))
+# expected_compliant: true
+# expected_rules: none
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+SELECT ?cls (COUNT(DISTINCT ?g) AS ?n) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasRecordDateTime ?d ; sphn:hasCode ?c . ?c a ?cls . OPTIONAL { ?dx sphn:hasValue ?v } } } GROUP BY ?cls HAVING (COUNT(DISTINCT ?g) >= 10)

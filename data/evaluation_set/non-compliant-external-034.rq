@@ -1,0 +1,15 @@
+# question: Show the ten earliest sample collection timestamps as individual rows.
+# expected_compliant: false
+# expected_rules: not_aggregated
+# origin: external LLM (entry-034.rq, rules QC2)
+# notes: ORDER BY and LIMIT restrict the number of individual records but do not aggregate them.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?collected
+WHERE {
+  GRAPH ?g {
+    ?sample a sphn:Sample ;
+            sphn:hasCollectionDateTime ?collected .
+  }
+}
+ORDER BY ?collected
+LIMIT 10

@@ -1,0 +1,9 @@
+# question: When was the most recent admission?
+# expected_compliant: true
+# expected_rules: none
+# origin: bypass
+# notes: Allowed by RULES.md as written: MAX is an aggregate over all patients; the exact-timestamp rule is about filters.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (MAX(?admission) AS ?latest)
+WHERE { GRAPH ?g { ?case a sphn:AdministrativeCase ; sphn:hasAdmissionDateTime ?admission . } }

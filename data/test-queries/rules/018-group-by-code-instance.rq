@@ -1,0 +1,11 @@
+# question: How many patients with cholera are there per sex code record?
+# source: compliance/tests/test_rules.py::test_case[group_by_code_instance]
+# description: case (group_by_code_instance)
+# expected_compliant: false
+# expected_rules: QC5 (exposes_identifier)
+# reasoning: groups by identifier ?sex_code
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+SELECT ?sex_code (COUNT(DISTINCT ?g) AS ?n) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?dx_code .
+?dx_code a icd-10-gm:A00 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?s a sphn:AdministrativeSex ; sphn:hasCode ?sex_code . } } GROUP BY ?sex_code

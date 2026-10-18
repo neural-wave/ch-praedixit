@@ -1,0 +1,9 @@
+# question: Export all CT small intestine scan records as an RDF graph.
+# expected_compliant: false
+# expected_rules: not_select
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> CONSTRUCT { ?r ?p ?o } WHERE { GRAPH ?g { ?r a sphn:ImagingProcedure ; sphn:hasCode ?r_c . ?r_c rdf:type snomed:715970002 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?r sphn:hasEndDateTime ?date . ?r ?p ?o . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+CONSTRUCT { ?r ?p ?o } WHERE { GRAPH ?g { ?r a sphn:ImagingProcedure ; sphn:hasCode ?r_c . ?r_c rdf:type snomed:715970002 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?r sphn:hasEndDateTime ?date . ?r ?p ?o . } }

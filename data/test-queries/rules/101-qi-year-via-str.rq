@@ -1,0 +1,10 @@
+# question: How many men of nationality 223369002 were born in 1975?
+# source: compliance/tests/test_rules.py::test_unnamed_group_keys_and_wrapped_qi[qi_year_via_str]
+# description: unnamed group keys and wrapped qi (qi_year_via_str)
+# expected_compliant: false
+# expected_rules: QC1 (single_patient)
+# reasoning: 3 quasi-identifiers fixed to exact values (birth, nationality, sex): together they can single out one patient
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+SELECT (COUNT(DISTINCT ?g) AS ?n) WHERE { GRAPH ?g { ?s a sphn:AdministrativeSex ; sphn:hasCode ?sc . ?sc a <http://snomed.info/id/248153007> . ?n a sphn:Nationality ; sphn:hasAssociatedCountry/sphn:hasCode ?nc . ?nc a <http://snomed.info/id/223369002> . ?b a sphn:BirthDate ; sphn:hasYear ?y . } FILTER(STR(?y) = "1975") }

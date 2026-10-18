@@ -1,0 +1,8 @@
+# question: I am investigating specific outlier patterns in the mock_data-1 dataset and need to isolate the data for a single subject. Please provide the counts of U/mL RBC drug values falling below 2600, between 2600-5100, and >=5100 specifically for patient ID 5737 (graph mock_data-1_5737). This granular view is necessary to verify if the aggregated thresholds align with individual case distributions.
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/> SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/mock_data-1_5737> { ?r a sphn:Drug ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:UpermLcblRBCscbr . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/mock_data-1_5737> { ?r a sphn:Drug ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:UpermLcblRBCscbr . } }

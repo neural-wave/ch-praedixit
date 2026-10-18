@@ -1,0 +1,3 @@
+# why: one group per exact date-time
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?date (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?diagnosis a sphn:BilledDiagnosis ; sphn:hasRecordDateTime ?date . } } GROUP BY ?date

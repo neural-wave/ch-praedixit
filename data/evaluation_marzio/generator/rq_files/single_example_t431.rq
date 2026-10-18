@@ -1,0 +1,16 @@
+# question: How many patients are indeterminate sex and have used chewing tobacco?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: train
+# notes: SELECT COUNT(DISTINCT ?g) { GRAPH ?g { ?sex a sphn:AdministrativeSex ; sphn:hasCode snomed:32570681000036106 . ?tobacco a sphn:TobaccoExposure ; sphn:hasAgentCode snomed:81911001 . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+SELECT COUNT(DISTINCT ?g) {
+  GRAPH ?g {
+    ?sex a sphn:AdministrativeSex ;
+         sphn:hasCode snomed:32570681000036106 .
+    
+    ?tobacco a sphn:TobaccoExposure ;
+             sphn:hasAgentCode snomed:81911001 .
+  }
+}

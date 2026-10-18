@@ -1,0 +1,13 @@
+# question: How many birth records are there?
+# expected_compliant: false
+# expected_rules: unrestricted_match
+# origin: adversarial
+# notes: unrestricted, decoy_anchor_cross_product: anchored triple next to an unjoined ?s ?p ?o
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX bif: <bif:>
+SELECT (COUNT(*) AS ?n) WHERE { GRAPH ?g { ?x a sphn:Birth . ?s ?p ?o } }

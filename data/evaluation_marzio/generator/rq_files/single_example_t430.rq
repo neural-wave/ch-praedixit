@@ -1,0 +1,26 @@
+# question: How many patients born on 9 March 1960 in Lugano have leukaemia?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: train
+# notes: SELECT COUNT(DISTINCT ?g) { GRAPH ?g { ?a a sphn:AdministrativeCase . ?a sphn:hasAdmissionDateTime ?date . FILTER(YEAR(?date) = 1960 && MONTH(?date) = 3 && DAY(?date) = 9) OPTIONAL { ?r a sphn:TobaccoExposure ; sphn:hasTypeCode ?tc . FILTER(?tc = snomed:702979003) } ?drug a sphn:DrugAdministrationEvent . OPTIONAL { ?drug sphn:hasReasonToStopCode ?rc . FILTER(?rc IN (snomed:31438003, snomed:395009001)) } } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+SELECT COUNT(DISTINCT ?g) {
+  GRAPH ?g {
+    ?a a sphn:AdministrativeCase .
+    ?a sphn:hasAdmissionDateTime ?date .
+    FILTER(YEAR(?date) = 1960 && MONTH(?date) = 3 && DAY(?date) = 9)
+    
+    OPTIONAL {
+      ?r a sphn:TobaccoExposure ;
+         sphn:hasTypeCode ?tc .
+      FILTER(?tc = snomed:702979003)
+    }
+    
+    ?drug a sphn:DrugAdministrationEvent .
+    OPTIONAL {
+      ?drug sphn:hasReasonToStopCode ?rc .
+      FILTER(?rc IN (snomed:31438003, snomed:395009001))
+    }
+  }
+}

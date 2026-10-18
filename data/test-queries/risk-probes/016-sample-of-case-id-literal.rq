@@ -1,0 +1,12 @@
+# question: How many patients have type 2 diabetes? Show one of their case IDs as an example.
+# source: compliance/tests/test_risk_probes.py::test_default_mode[sample_of_case_id_literal]
+# description: SAMPLE over an administrative case identifier
+# expected_compliant: false
+# expected_rules: QC5 (exposes_identifier)
+# reasoning: SAMPLE over identifier ?cid
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX bif: <bif:>
+SELECT (COUNT(DISTINCT ?g) AS ?n) (SAMPLE(?cid) AS ?example) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?c . ?c a icd-10-gm:E11 . ?dx sphn:hasAdministrativeCase ?case . ?case sphn:hasIdentifier ?cid . } }

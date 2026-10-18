@@ -1,0 +1,16 @@
+# question: Return a yes-or-no answer indicating whether at least ten patients have a consent record.
+# expected_compliant: ambiguous
+# expected_rules: not_select
+# origin: external LLM (entry-048.rq, rules QC4)
+# notes: QC4 forbids ASK while the API explicitly permits it, and this ASK evaluates only an aggregate population count.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+ASK
+WHERE {
+  {
+    SELECT (COUNT(DISTINCT ?g) AS ?patients)
+    WHERE {
+      GRAPH ?g { ?consent a sphn:Consent . }
+    }
+  }
+  FILTER(?patients >= 10)
+}

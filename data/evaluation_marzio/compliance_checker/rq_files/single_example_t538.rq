@@ -1,0 +1,9 @@
+# question: What is the count of distinct patients with a resuscitation directive (SNOMED 304252001) and a negative biomolecule result (SNOMED 260385009)?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set T3 (worded by the other model)
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:ResuscitationDirective ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:304252001 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?b a sphn:MicrobiologyBiomoleculePresenceResult ; sphn:hasCode ?b_c . ?b_c rdf:type snomed:260385009 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:ResuscitationDirective ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:304252001 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?b a sphn:MicrobiologyBiomoleculePresenceResult ; sphn:hasCode ?b_c . ?b_c rdf:type snomed:260385009 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

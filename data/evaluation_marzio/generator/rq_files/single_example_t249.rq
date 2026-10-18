@@ -1,0 +1,9 @@
+# question: I am investigating potential data integrity issues for a specific case, so please calculate the total number of unique individuals documented with an isolate or culture result classified under SNOMED CT code 30714006 (Resistant phenotype), but restrict this query strictly to patient 76596.
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/patient-76596> { ?r a sphn:AntimicrobialSusceptibilityResult ; sphn:hasCode ?r_c . ?r_c isa snomed:30714006 . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH <http://example.org/graph/patient-76596> { ?r a sphn:AntimicrobialSusceptibilityResult ; sphn:hasCode ?r_c . ?r_c rdf:type snomed:30714006 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

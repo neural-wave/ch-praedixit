@@ -1,0 +1,18 @@
+# question: How many patients have a BMI record whose stored numeric value is at least 30 kg per square metre?
+# expected_compliant: true
+# expected_rules: none
+# origin: external LLM (entry-004.rq, rules none)
+# notes: Returns an aggregate patient count after restricting both the measurement type and unit.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?bmi a sphn:BodyMassIndex ;
+         sphn:hasQuantity ?quantity .
+    ?quantity sphn:hasValue ?value ;
+              sphn:hasUnit/sphn:hasCode ?unit_code .
+    ?unit_code a ucum:kgperm2 .
+  }
+  FILTER(?value >= 30)
+}

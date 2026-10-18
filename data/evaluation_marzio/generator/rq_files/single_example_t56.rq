@@ -1,0 +1,9 @@
+# question: We are investigating the overlap between specific chromosomal anomalies in our patient population; could you please calculate the percentage of individuals who have either Chromosome pair 3 or 14 that also exhibit either Chromosome pair 9 or the Sex chromosome X? I am trying to understand the co-occurrence rates for these structural markers, and i noticed a small typo in my initial draft where I meant 'structure' not 'structre' but the codes remain SNOMED CT 113355002, 66933007, 13526007, and 72837006.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?patients_b) (COUNT(DISTINCT ?ab) AS ?patients_a_and_b) (ROUND(1000.0 * COUNT(DISTINCT ?ab) / COUNT(DISTINCT ?g)) / 10 AS ?pct) WHERE { GRAPH ?g { ?b a sphn:Chromosome ; sphn:hasCode ?b_c . { ?b_c isa snomed:113355002 } UNION { ?b_c isa snomed:66933007 } } OPTIONAL { GRAPH ?g { ?a a sphn:Chromosome ; sphn:hasCode ?a_c . { ?a_c isa snomed:13526007 } UNION { ?a_c isa snomed:72837006 } } BIND(?g AS ?ab) } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients_b) (COUNT(DISTINCT ?ab) AS ?patients_a_and_b) (ROUND(1000.0 * COUNT(DISTINCT ?ab) / COUNT(DISTINCT ?g)) / 10 AS ?pct) WHERE { GRAPH ?g { ?b a sphn:Chromosome ; sphn:hasCode ?b_c . { ?b_c rdf:type snomed:113355002 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?b_c rdf:type snomed:66933007 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } } OPTIONAL { GRAPH ?g { ?a a sphn:Chromosome ; sphn:hasCode ?a_c . { ?a_c rdf:type snomed:13526007 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?a_c rdf:type snomed:72837006 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } } BIND(?g AS ?ab) } }

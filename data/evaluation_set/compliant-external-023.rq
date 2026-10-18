@@ -1,0 +1,15 @@
+# question: Using diagnosis subclass inference, how many patients have a diagnosis with a linked subject-age record?
+# expected_compliant: true
+# expected_rules: none
+# origin: external LLM (entry-023.rq, rules none)
+# notes: DEFINE and inference are permitted Virtuoso extensions and the query exposes only an aggregate count.
+DEFINE sql:select-option "order"
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?diagnosis a sphn:Diagnosis
+      OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") .
+    ?diagnosis sphn:hasSubjectAge ?age .
+  }
+}

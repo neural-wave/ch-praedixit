@@ -1,0 +1,7 @@
+# question: For every allele origin code present in the variant descriptor records, please provide the aggregate record count and the number of distinct patients associated with each specific code value.
+# expected_compliant: true
+# expected_rules: none
+# origin: test set T2 (held-out concept)
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> SELECT ?value (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:VariantDescriptor ; sphn:hasAlleleOriginCode ?v_c . ?v_c a ?v . } BIND(REPLACE(STR(?v), "^.*/", "") AS ?value) } GROUP BY ?value ORDER BY DESC(?records)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?value (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:VariantDescriptor ; sphn:hasAlleleOriginCode ?v_c . ?v_c a ?v . } BIND(REPLACE(STR(?v), "^.*/", "") AS ?value) } GROUP BY ?value ORDER BY DESC(?records)

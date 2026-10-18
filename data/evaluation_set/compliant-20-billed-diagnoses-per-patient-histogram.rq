@@ -1,0 +1,19 @@
+# question: How many patients have one billed diagnosis, how many have two, and so on?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set
+# notes: The outer GROUP BY key is a per-patient count computed in a subquery; it is a bucket shared by many patients, not a patient value.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?billed_diagnoses (COUNT(*) AS ?patients)
+WHERE {
+  {
+    SELECT ?g (COUNT(?diagnosis) AS ?billed_diagnoses)
+    WHERE {
+      GRAPH ?g { ?diagnosis a sphn:BilledDiagnosis . }
+    }
+    GROUP BY ?g
+  }
+}
+GROUP BY ?billed_diagnoses
+ORDER BY ?billed_diagnoses

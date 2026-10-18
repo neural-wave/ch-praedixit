@@ -1,0 +1,17 @@
+# question: How many Swiss women were born in 1975?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: bypass
+# notes: Sex and nationality fixed by code, birth year by a range whose two ends are equal: 3 identifying attributes fixed to exact values.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?sex a sphn:AdministrativeSex ; sphn:hasCode ?sex_code . ?sex_code a snomed:248152002 .
+    ?nationality a sphn:Nationality ; sphn:hasAssociatedCountry/sphn:hasCode ?country . ?country a snomed:223369002 .
+    ?birth_date a sphn:BirthDate ; sphn:hasYear ?year .
+  }
+  FILTER (?year >= 1975 && ?year <= 1975)
+}

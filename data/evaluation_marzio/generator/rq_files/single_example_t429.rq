@@ -1,0 +1,27 @@
+# question: Count patients where the antimicrobial susceptibility test result was 'Resistant' and the patient has a recorded tumor stage assessment with no associated provider data (checking for null/missing provider to simulate a specific rare dataset anomaly).
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?count) WHERE { GRAPH ?g { ?patient a sphn:Patient . # Resistant Antimicrobial ?suscept a sphn:AntimicrobialSusceptibilityResult . ?suscept sphn:hasSubjectPseudoIdentifier ?patient . ?suscept sphn:hasCode ?resistCode . ?resistCode isa snomed:30714006 # Tumor Stage Assessment exists but has no data provider ?event a sphn:TumorStageAssessmentEvent . ?event sphn:hasSubjectPseudoIdentifier ?patient . FILTER NOT EXISTS { ?event sphn:hasDataProvider ?provider } } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?count)
+WHERE {
+  GRAPH ?g {
+    ?patient a sphn:Patient .
+    
+    # Resistant Antimicrobial
+    ?suscept a sphn:AntimicrobialSusceptibilityResult .
+    ?suscept sphn:hasSubjectPseudoIdentifier ?patient .
+    ?suscept sphn:hasCode ?resistCode .
+    ?resistCode rdf:type snomed:30714006 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global")
+    
+    # Tumor Stage Assessment exists but has no data provider
+    ?event a sphn:TumorStageAssessmentEvent .
+    ?event sphn:hasSubjectPseudoIdentifier ?patient .
+    FILTER NOT EXISTS {
+      ?event sphn:hasDataProvider ?provider
+    }
+  }
+}

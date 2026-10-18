@@ -1,0 +1,7 @@
+# question: count records for patient id 10410430000014 alleles
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: test set T2 (held-out concept)
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:VariantDescriptor ; sphn:hasAlleleOriginCode ?v_c . ?v_c a ?v . ?r sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier "ID-10410430000014" . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:VariantDescriptor ; sphn:hasAlleleOriginCode ?v_c . ?v_c a ?v . ?r sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier "ID-10410430000014" . } }

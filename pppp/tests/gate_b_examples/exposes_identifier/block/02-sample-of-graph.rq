@@ -1,0 +1,4 @@
+# why: SAMPLE returns one patient graph
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+SELECT (SAMPLE(?g) AS ?one) (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?diagnosis a sphn:BilledDiagnosis ; sphn:hasCode ?code . ?code a icd-10-gm:E11 . } }

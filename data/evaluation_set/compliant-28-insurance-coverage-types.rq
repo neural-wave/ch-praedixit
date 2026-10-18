@@ -1,0 +1,15 @@
+# question: What kinds of insurance coverage do our patients have, and how common is each?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?coverage_type (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?insurance a sphn:InsuranceStatus ;
+               sphn:hasCoverageType ?coverage_type .
+  }
+}
+GROUP BY ?coverage_type
+ORDER BY DESC(?patients)

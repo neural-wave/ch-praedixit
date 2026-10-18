@@ -1,0 +1,8 @@
+# question: En tant que responsable des données, je dois vérifier la cohérence de nos registres d'actes médicaux. Pourriez-vous exécuter une requête qui calcule la durée moyenne, minimale et maximale en jours entre le début et la fin de chaque acte médical enregistré ? Je cherche à valider les statistiques brutes sans filtrer par type de code spécifique.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?r) AS ?records) (COUNT(DISTINCT ?g) AS ?patients) (ROUND(AVG(?d)) AS ?avg_days) (MIN(?d) AS ?min_days) (MAX(?d) AS ?max_days) WHERE { GRAPH ?g { ?r a sphn:MedicalProcedure . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } FILTER(?end >= ?start) BIND(bif:datediff("day", ?start, ?end) AS ?d) }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX bif: <bif:>
+SELECT (COUNT(DISTINCT ?r) AS ?records) (COUNT(DISTINCT ?g) AS ?patients) (ROUND(AVG(?d)) AS ?avg_days) (MIN(?d) AS ?min_days) (MAX(?d) AS ?max_days) WHERE { GRAPH ?g { ?r a sphn:MedicalProcedure . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } FILTER(?end >= ?start) BIND(bif:datediff("day", ?start, ?end) AS ?d) }

@@ -1,0 +1,13 @@
+# question: How many type 2 diabetes diagnoses are in patient 1000042's data?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: adversarial
+# notes: single-patient, from_default_dataset: patient graph made the default graph with FROM
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX bif: <bif:>
+SELECT (COUNT(?dx) AS ?n) FROM <http://example.org/graph/gen_mock_data-1_1000042> WHERE { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?c . ?c a icd-10-gm:E11 . }

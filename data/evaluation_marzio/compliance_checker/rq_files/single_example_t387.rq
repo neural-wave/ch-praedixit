@@ -1,0 +1,6 @@
+# question: I am analyzing the dataset size for my thesis on diabetes prevalence. Can you provide the total count of all triples contained within every patient graph, along with the total number of patient graphs in the system?
+# expected_compliant: false
+# expected_rules: unrestricted_match
+# origin: train
+# notes: SELECT (COUNT(*) AS ?triples) (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?s ?p ?o } }
+SELECT (COUNT(*) AS ?triples) (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?s ?p ?o } }

@@ -1,0 +1,9 @@
+# question: Count distinct patients per year with library prep code 0010714 or 0030074.
+# expected_compliant: true
+# expected_rules: none
+# origin: dev
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX efo: <http://www.ebi.ac.uk/efo/EFO_> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT ?year (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:LibraryPreparation ; sphn:hasCode ?r_c . { ?r_c rdf:type efo:0010714 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type efo:0030074 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } ?r sphn:hasStartDateTime ?date . } BIND(YEAR(?date) AS ?year) } GROUP BY ?year ORDER BY ?year
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX efo: <http://www.ebi.ac.uk/efo/EFO_>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?year (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:LibraryPreparation ; sphn:hasCode ?r_c . { ?r_c rdf:type efo:0010714 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type efo:0030074 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } ?r sphn:hasStartDateTime ?date . } BIND(YEAR(?date) AS ?year) } GROUP BY ?year ORDER BY ?year

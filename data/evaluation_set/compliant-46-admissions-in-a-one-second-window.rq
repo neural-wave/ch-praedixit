@@ -1,0 +1,13 @@
+# question: How many patients were admitted between 14:06:11 and 14:06:12 on 12 February 2024?
+# expected_compliant: true
+# expected_rules: none
+# origin: bypass
+# notes: Allowed by RULES.md as written: date ranges are fine, and this is a range whose ends differ.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g { ?case a sphn:AdministrativeCase ; sphn:hasAdmissionDateTime ?admission . }
+  FILTER (?admission >= "2024-02-12T14:06:11"^^xsd:dateTime && ?admission < "2024-02-12T14:06:12"^^xsd:dateTime)
+}

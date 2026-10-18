@@ -1,0 +1,7 @@
+# question: I am investigating the consistency of anthropometric data collection within our electronic health record system to identify potential gaps in monitoring protocols. Could you please execute query C91 to determine the total count of patients with at least one body weight record, along with the mean, minimum, and maximum number of such records per patient? This will help us understand the density of longitudinal weight data available for our cohort analysis.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (COUNT(*) AS ?patients) (ROUND(10 * AVG(?n)) / 10 AS ?avg_per_patient) (MIN(?n) AS ?min_per_patient) (MAX(?n) AS ?max_per_patient) WHERE { { SELECT ?g (COUNT(DISTINCT ?r) AS ?n) WHERE { GRAPH ?g { ?r a sphn:BodyWeightMeasurement . } } GROUP BY ?g } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(*) AS ?patients) (ROUND(10 * AVG(?n)) / 10 AS ?avg_per_patient) (MIN(?n) AS ?min_per_patient) (MAX(?n) AS ?max_per_patient) WHERE { { SELECT ?g (COUNT(DISTINCT ?r) AS ?n) WHERE { GRAPH ?g { ?r a sphn:BodyWeightMeasurement . } } GROUP BY ?g } }

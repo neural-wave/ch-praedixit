@@ -1,0 +1,8 @@
+# question: I am analyzing the distribution of H values for the C91 diagnosis code to understand if there is a clustering effect in specific ranges; can you provide the count of substance values that fall below 3500.0, those between 3500.0 and 6700.0, and those at or above 6700.0?
+# expected_compliant: true
+# expected_rules: none
+# origin: dev
+# notes: SELECT (SUM(IF(?v < 3500.0, 1, 0)) AS ?low) (SUM(IF(?v >= 3500.0 && ?v < 6700.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 6700.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:Substance ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:H . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT (SUM(IF(?v < 3500.0, 1, 0)) AS ?low) (SUM(IF(?v >= 3500.0 && ?v < 6700.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 6700.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:Substance ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:H . } }

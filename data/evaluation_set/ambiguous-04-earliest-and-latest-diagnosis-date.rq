@@ -1,0 +1,14 @@
+# question: When was the earliest billed diagnosis recorded, and when the latest?
+# expected_compliant: ambiguous
+# expected_rules: single_patient
+# origin: test set
+# notes: MIN and MAX are aggregates over all patients, but each returns the exact date of one patient's record.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (MIN(?recorded) AS ?earliest) (MAX(?recorded) AS ?latest)
+WHERE {
+  GRAPH ?g {
+    ?diagnosis a sphn:BilledDiagnosis ;
+               sphn:hasRecordDateTime ?recorded .
+  }
+}

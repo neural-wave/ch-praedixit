@@ -1,0 +1,11 @@
+# question: How many patients have had a type 2 diabetes diagnosis recorded since 2020?
+# source: compliance/tests/test_risk_probes.py::test_default_mode[date_range_filter]
+# description: time-window cohort count
+# expected_compliant: true
+# expected_rules: none
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX bif: <bif:>
+SELECT (COUNT(DISTINCT ?g) AS ?n) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?c . ?c a icd-10-gm:E11 . ?dx sphn:hasRecordDateTime ?d . } FILTER(?d >= "2020-01-01T00:00:00"^^xsd:dateTime) }

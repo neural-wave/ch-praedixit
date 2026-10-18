@@ -1,0 +1,16 @@
+# question: Which lab test codes appear in the data?
+# expected_compliant: ambiguous
+# expected_rules: not_aggregated
+# origin: test set
+# notes: Returns a list of terminology codes, not patient values, without aggregation. Whether 'always aggregated' covers lists of categories is an open question.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT DISTINCT ?lab_test_concept
+WHERE {
+  GRAPH ?g {
+    ?lab_test a sphn:LabTest ;
+              sphn:hasCode ?code .
+    ?code a ?lab_test_concept .
+  }
+  FILTER (STRSTARTS(STR(?lab_test_concept), "http://snomed.info/id/"))
+}

@@ -1,0 +1,7 @@
+# question: give me a list of every patient identifier who has an allergy code of c91
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> SELECT DISTINCT ?id WHERE { GRAPH ?g { ?r a sphn:AllergyEpisode . ?r sphn:hasDateTime ?date . ?r sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier ?id . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT DISTINCT ?id WHERE { GRAPH ?g { ?r a sphn:AllergyEpisode . ?r sphn:hasDateTime ?date . ?r sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier ?id . } }

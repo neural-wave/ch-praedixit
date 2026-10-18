@@ -1,0 +1,9 @@
+# question: List all patient numbers for stereotactic radiotherapy cases.
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: SELECT DISTINCT ?id WHERE { GRAPH ?g { ?r a sphn:RadiotherapyProcedure ; sphn:hasCode ?r_c . { ?r_c isa snomed:115959002 } UNION { ?r_c isa snomed:395096001 } ?s a sphn:AdministrativeSex ; sphn:hasCode ?sc . ?sc a ?sex_concept . ?r sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier ?id . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT DISTINCT ?id WHERE { GRAPH ?g { ?r a sphn:RadiotherapyProcedure ; sphn:hasCode ?r_c . { ?r_c rdf:type snomed:115959002 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type snomed:395096001 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } ?s a sphn:AdministrativeSex ; sphn:hasCode ?sc . ?sc a ?sex_concept . ?r sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier ?id . } }

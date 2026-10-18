@@ -1,0 +1,16 @@
+# question: How many patients have each recorded insurance coverage category?
+# expected_compliant: true
+# expected_rules: none
+# origin: external LLM (entry-020.rq, rules none)
+# notes: Insurance categories define aggregate groups and no patient or case identifiers are returned.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?coverage (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?insurance a sphn:InsuranceStatus ;
+               sphn:hasCoverageType ?category .
+  }
+  BIND(STRAFTER(STR(?category), "#") AS ?coverage)
+}
+GROUP BY ?coverage
+ORDER BY DESC(?patients)

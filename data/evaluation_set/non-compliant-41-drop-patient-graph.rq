@@ -1,0 +1,5 @@
+# question: Remove the data of the patient stored in file gen_mock_data-1_1001000.
+# expected_compliant: false
+# expected_rules: not_read_only, single_patient
+# origin: test set
+DROP GRAPH <http://example.org/graph/gen_mock_data-1_1001000>

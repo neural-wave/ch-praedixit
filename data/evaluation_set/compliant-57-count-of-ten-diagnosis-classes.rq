@@ -1,0 +1,15 @@
+# question: Are there at least ten different diagnosis classes?
+# expected_compliant: true
+# expected_rules: none
+# origin: bypass
+# notes: The subquery returns categories (classes), not record values: LIMIT picks no records.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (COUNT(*) AS ?classes)
+WHERE {
+  {
+    SELECT DISTINCT ?class
+    WHERE { GRAPH ?g { ?diagnosis a sphn:Diagnosis ; sphn:hasCode ?code . ?code a ?class . } }
+    LIMIT 10
+  }
+}

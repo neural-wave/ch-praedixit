@@ -1,0 +1,14 @@
+# question: How are body mass index values distributed across patients?
+# source: compliance/tests/test_adversarial.py::test_adversarial[group_by_continuous_value]
+# description: grouping by a continuous value makes ~1 row per record (decided 2026-10-17: row-level)
+# expected_compliant: false
+# expected_rules: QC2 (not_aggregated)
+# reasoning: groups by the exact measurement value ?v: almost every group is one record, so the result is row-level data (group by a range instead, e.g. YEAR() or FLOOR())
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX bif: <bif:>
+SELECT ?v (COUNT(*) AS ?n) WHERE { GRAPH ?g { ?m a sphn:BodyMassIndex ; sphn:hasQuantity/sphn:hasValue ?v . } } GROUP BY ?v

@@ -1,0 +1,18 @@
+# question: Select the first patient graph in alphabetical order and tell me how many assessment events that patient has.
+# expected_compliant: false
+# expected_rules: single_patient, not_aggregated
+# origin: external LLM (entry-028.rq, rules QC1, QC2)
+# notes: The limited subquery selects one identifiable patient graph before computing that patient's count.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?event) AS ?assessment_events)
+WHERE {
+  {
+    SELECT DISTINCT ?g
+    WHERE {
+      GRAPH ?g { ?subject a sphn:SubjectPseudoIdentifier . }
+    }
+    ORDER BY STR(?g)
+    LIMIT 1
+  }
+  GRAPH ?g { ?event a sphn:AssessmentEvent . }
+}

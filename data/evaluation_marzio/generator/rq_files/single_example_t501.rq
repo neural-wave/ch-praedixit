@@ -1,0 +1,37 @@
+# question: Is cholera on a hospital bill (any diagnosis rank) more common in men, women, or patients of indeterminate sex?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set T1 (official example)
+# notes: SELECT ?sex (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?cholera_patient) AS ?cholera_principal_patients) (ROUND(1000.0 * COUNT(DISTINCT ?cholera_patient) / COUNT(DISTINCT ?g)) / 10 AS ?cholera_pct) WHERE { GRAPH ?g { ?sex_record a sphn:AdministrativeSex ; sphn:hasCode ?sex_code . ?sex_code a ?sex_concept . } VALUES (?sex_concept ?sex) { (snomed:248153007 "male") (snomed:248152002 "female") (snomed:32570681000036106 "indeterminate") } OPTIONAL { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasRank sphn-individual:Principal ; sphn:hasCode ?dx_code . ?dx_code isa icd-10-gm:A00 . } BIND(?g AS ?cholera_patient) } } GROUP BY ?sex ORDER BY DESC(?cholera_pct)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?sex
+       (COUNT(DISTINCT ?g) AS ?patients)
+       (COUNT(DISTINCT ?cholera_patient) AS ?cholera_principal_patients)
+       (ROUND(1000.0 * COUNT(DISTINCT ?cholera_patient) / COUNT(DISTINCT ?g)) / 10 AS ?cholera_pct)
+WHERE {
+  GRAPH ?g {
+    ?sex_record a sphn:AdministrativeSex ;
+                sphn:hasCode ?sex_code .
+    ?sex_code a ?sex_concept .
+  }
+  VALUES (?sex_concept ?sex) {
+    (snomed:248153007         "male")
+    (snomed:248152002         "female")
+    (snomed:32570681000036106 "indeterminate")
+  }
+  OPTIONAL {
+    GRAPH ?g {
+      ?dx a sphn:BilledDiagnosis ;
+          sphn:hasRank sphn-individual:Principal ;
+          sphn:hasCode ?dx_code .
+      ?dx_code rdf:type icd-10-gm:A00 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") .
+    }
+    BIND(?g AS ?cholera_patient)
+  }
+}
+GROUP BY ?sex
+ORDER BY DESC(?cholera_pct)

@@ -1,0 +1,3 @@
+# why: Virtuoso predefines the bif: prefix, so it may be used undeclared
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (AVG(bif:datediff("day", ?admission, ?discharge)) AS ?days) WHERE { GRAPH ?g { ?case a sphn:AdministrativeCase ; sphn:hasAdmissionDateTime ?admission . ?case sphn:hasDischargeDateTime ?discharge . } }

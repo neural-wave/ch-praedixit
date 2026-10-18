@@ -1,0 +1,10 @@
+# question: How many patients were born in each month of each year?
+# source: compliance/tests/test_rules.py::test_month_granularity_stays_compliant[group_year_month]
+# description: month granularity stays compliant (group_year_month)
+# expected_compliant: true
+# expected_rules: none
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?y ?m (COUNT(DISTINCT ?g) AS ?n) WHERE { GRAPH ?g { ?b a sphn:BirthDate ; sphn:hasYear ?y ; sphn:hasMonth ?m } } GROUP BY ?y ?m

@@ -1,0 +1,7 @@
+# question: Retrieve the complete patient graph entities associated with body height measurement codes. The output must list every individual patient record matching these criteria, rather than providing aggregated statistical summaries.
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> SELECT DISTINCT ?g WHERE { GRAPH ?g { ?r a sphn:BodyHeightMeasurement . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT DISTINCT ?g WHERE { GRAPH ?g { ?r a sphn:BodyHeightMeasurement . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } }

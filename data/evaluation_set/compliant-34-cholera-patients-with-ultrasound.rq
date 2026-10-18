@@ -1,0 +1,25 @@
+# question: Of the patients billed for cholera, how many also had a therapeutic ultrasound procedure?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX chop: <https://biomedit.ch/rdf/sphn-resource/chop/>
+
+SELECT (COUNT(DISTINCT ?g) AS ?cholera_patients)
+       (COUNT(DISTINCT ?ultrasound_patient) AS ?cholera_patients_with_ultrasound)
+WHERE {
+  GRAPH ?g {
+    ?diagnosis a sphn:BilledDiagnosis ;
+               sphn:hasCode ?diagnosis_code .
+    ?diagnosis_code a icd-10-gm:A00 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") .
+  }
+  OPTIONAL {
+    GRAPH ?g {
+      ?procedure a sphn:BilledProcedure ;
+                 sphn:hasCode ?procedure_code .
+      ?procedure_code a chop:00.0 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") .
+    }
+    BIND (?g AS ?ultrasound_patient)
+  }
+}

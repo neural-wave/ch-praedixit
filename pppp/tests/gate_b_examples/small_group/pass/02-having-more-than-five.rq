@@ -1,0 +1,3 @@
+# why: groups of 6 or more
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?class (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?diagnosis a sphn:BilledDiagnosis ; sphn:hasCode ?code . ?code a ?class . } } GROUP BY ?class HAVING (COUNT(DISTINCT ?g) > 5)

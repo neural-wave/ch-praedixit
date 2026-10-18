@@ -1,0 +1,8 @@
+# question: I am researching the distribution of blood cancer cases across different severity levels. Could you provide the counts of reference value values recorded in U/g for patients with blood cancer, categorized into three bands: below 3600.0, from 3600.0 to below 6600.0, and 6600.0 or more? This will help me analyze the prevalence of high-level disease markers. The code for blood cancer in our system is C91.
+# expected_compliant: true
+# expected_rules: none
+# origin: test set T3 (worded by the other model)
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/> SELECT (SUM(IF(?v < 3600.0, 1, 0)) AS ?low) (SUM(IF(?v >= 3600.0 && ?v < 6600.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 6600.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:ReferenceValue ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:Uperg . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT (SUM(IF(?v < 3600.0, 1, 0)) AS ?low) (SUM(IF(?v >= 3600.0 && ?v < 6600.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 6600.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:ReferenceValue ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:Uperg . } }

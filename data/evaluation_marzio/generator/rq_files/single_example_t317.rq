@@ -1,0 +1,8 @@
+# question: Can you export all the records matching those L/s/s2 counts as a complete RDF graph file so I can download the full raw data?
+# expected_compliant: false
+# expected_rules: not_select
+# origin: train
+# notes: CONSTRUCT { ?r ?p ?o } WHERE { GRAPH ?g { ?r a sphn:Substance ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:Lperspers2 . ?r ?p ?o . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+CONSTRUCT { ?r ?p ?o } WHERE { GRAPH ?g { ?r a sphn:Substance ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:Lperspers2 . ?r ?p ?o . } }

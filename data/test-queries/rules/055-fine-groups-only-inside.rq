@@ -1,0 +1,9 @@
+# question: On average, how many measurements share the same body mass index value?
+# source: compliance/tests/test_rules.py::test_binned_or_aggregated_values_stay_compliant[fine_groups_only_inside]
+# description: binned or aggregated values stay compliant (fine_groups_only_inside)
+# expected_compliant: true
+# expected_rules: none
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+SELECT (AVG(?n) AS ?mean) WHERE { { SELECT ?v (COUNT(*) AS ?n) WHERE { GRAPH ?g { ?m a sphn:BodyMassIndex ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v . } } GROUP BY ?v } }

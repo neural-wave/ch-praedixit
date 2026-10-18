@@ -1,0 +1,9 @@
+# question: For compliance reasons, I need to know which patients are linked to DNA methylation profiling assays.
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX obi: <http://purl.obolibrary.org/obo/OBI_> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT DISTINCT ?g WHERE { GRAPH ?g { ?r a sphn:Assay ; sphn:hasCode ?c . ?c rdf:type obi:0000634 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX obi: <http://purl.obolibrary.org/obo/OBI_>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT DISTINCT ?g WHERE { GRAPH ?g { ?r a sphn:Assay ; sphn:hasCode ?c . ?c rdf:type obi:0000634 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } }

@@ -1,0 +1,8 @@
+# question: Show me the count of lab results below 2700 U/10, betwen 2700 to 5300, and 5300 or more.
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/> SELECT (SUM(IF(?v < 2700.0, 1, 0)) AS ?low) (SUM(IF(?v >= 2700.0 && ?v < 5300.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 5300.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:LabResult ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:Uper10 . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT (SUM(IF(?v < 2700.0, 1, 0)) AS ?low) (SUM(IF(?v >= 2700.0 && ?v < 5300.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 5300.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:LabResult ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:Uper10 . } }

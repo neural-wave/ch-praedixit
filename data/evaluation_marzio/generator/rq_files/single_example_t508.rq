@@ -1,0 +1,30 @@
+# question: How many babies are born early, and does that depend on how they were delivered?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set T1 (official example)
+# notes: SELECT ?delivery_mode_concept (COUNT(DISTINCT ?g) AS ?births) (SUM(IF(?ga_days < 196, 1, 0)) AS ?extremely_preterm) (SUM(IF(?ga_days >= 196 && ?ga_days < 224, 1, 0)) AS ?very_preterm) (SUM(IF(?ga_days >= 224 && ?ga_days < 259, 1, 0)) AS ?moderate_to_late_preterm) (SUM(IF(?ga_days >= 259, 1, 0)) AS ?term_or_later) (ROUND(AVG(?ga_days) / 7) AS ?avg_gestational_age_weeks) WHERE { GRAPH ?g { ?birth a sphn:Birth ; sphn:hasDeliveryModeCode ?mode_code ; sphn:hasGestationalAge ?ga . ?mode_code a ?delivery_mode_concept . ?ga a sphn:GestationalAgeAtBirth ; sphn:hasQuantity ?ga_q . ?ga_q sphn:hasValue ?ga_days ; sphn:hasUnit/sphn:hasCode ?unit_code . ?unit_code a ucum:d . } FILTER (STRSTARTS(STR(?delivery_mode_concept), "http://snomed.info/id/")) } GROUP BY ?delivery_mode_concept ORDER BY DESC(?births)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT ?delivery_mode_concept
+       (COUNT(DISTINCT ?g) AS ?births)
+       (SUM(IF(?ga_days < 196, 1, 0)) AS ?extremely_preterm)
+       (SUM(IF(?ga_days >= 196 && ?ga_days < 224, 1, 0)) AS ?very_preterm)
+       (SUM(IF(?ga_days >= 224 && ?ga_days < 259, 1, 0)) AS ?moderate_to_late_preterm)
+       (SUM(IF(?ga_days >= 259, 1, 0)) AS ?term_or_later)
+       (ROUND(AVG(?ga_days) / 7) AS ?avg_gestational_age_weeks)
+WHERE {
+  GRAPH ?g {
+    ?birth a sphn:Birth ;
+           sphn:hasDeliveryModeCode ?mode_code ;
+           sphn:hasGestationalAge ?ga .
+    ?mode_code a ?delivery_mode_concept .
+    ?ga a sphn:GestationalAgeAtBirth ;
+        sphn:hasQuantity ?ga_q .
+    ?ga_q sphn:hasValue ?ga_days ;
+          sphn:hasUnit/sphn:hasCode ?unit_code .
+    ?unit_code a ucum:d .
+  }
+  FILTER (STRSTARTS(STR(?delivery_mode_concept), "http://snomed.info/id/"))
+}
+GROUP BY ?delivery_mode_concept
+ORDER BY DESC(?births)

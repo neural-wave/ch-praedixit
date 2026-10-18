@@ -1,0 +1,20 @@
+# question: How many patients have at least two distinct quality-control metrics linked across their library preparations?
+# expected_compliant: true
+# expected_rules: none
+# origin: external LLM (entry-011.rq, rules none)
+# notes: HAVING filters internal patient groups and the outer query returns only their total.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(*) AS ?patients)
+WHERE {
+  {
+    SELECT ?g
+    WHERE {
+      GRAPH ?g {
+        ?preparation a sphn:LibraryPreparation ;
+                     sphn:hasQualityControlMetric ?metric .
+      }
+    }
+    GROUP BY ?g
+    HAVING(COUNT(DISTINCT ?metric) >= 2)
+  }
+}

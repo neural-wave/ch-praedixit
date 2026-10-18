@@ -1,0 +1,9 @@
+# question: Dans le cadre de l’évaluation de la sécurité des patients, je souhaite obtenir le nombre de patients distincts qui présentent simultanément au moins un code d’intervenant paternal half brother (SNOMED CT 719762005, incluant les sous‑codes) et au moins un allergène codé pounds sterling par jour (qualificateur valeur) (SNOMED CT 224918003, incluant les sous‑codes) ou SNOMED RT+CTV3 (SNOMED CT 138875005, incluant les sous‑codes)
+# expected_compliant: true
+# expected_rules: none
+# origin: test set T3 (worded by the other model)
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:Performer ; sphn:hasCode ?a_c . ?a_c isa snomed:719762005 . ?b a sphn:Allergen ; sphn:hasCode ?b_c . { ?b_c isa snomed:224918003 } UNION { ?b_c isa snomed:138875005 } } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?a a sphn:Performer ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:719762005 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?b a sphn:Allergen ; sphn:hasCode ?b_c . { ?b_c rdf:type snomed:224918003 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?b_c rdf:type snomed:138875005 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } } }

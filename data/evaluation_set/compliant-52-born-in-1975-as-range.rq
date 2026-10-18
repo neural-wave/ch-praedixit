@@ -1,0 +1,12 @@
+# question: How many patients were born in 1975?
+# expected_compliant: true
+# expected_rules: none
+# origin: bypass
+# notes: A year given as a range whose two ends are equal fixes the year only: years are fine.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g { ?birth_date a sphn:BirthDate ; sphn:hasYear ?year . }
+  FILTER (?year >= 1975 && ?year <= 1975)
+}

@@ -1,0 +1,13 @@
+# question: What is the average length of stay in days?
+# expected_compliant: true
+# expected_rules: none
+# origin: adversarial
+# notes: decoy, decoy_bif_undeclared: bif: used without PREFIX (Virtuoso predefines it; review §13)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX bif: <bif:>
+SELECT (AVG(bif:datediff("day", ?a, ?b)) AS ?los) WHERE { GRAPH ?g { ?c a sphn:AdministrativeCase ; sphn:hasAdmissionDateTime ?a ; sphn:hasDischargeDateTime ?b } }

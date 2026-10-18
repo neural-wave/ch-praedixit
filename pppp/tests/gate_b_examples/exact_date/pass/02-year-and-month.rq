@@ -1,0 +1,3 @@
+# why: a year and a month, no day
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?birth_date a sphn:BirthDate ; sphn:hasYear ?year ; sphn:hasMonth ?month . } FILTER (?year = 1975 && ?month = 3) }

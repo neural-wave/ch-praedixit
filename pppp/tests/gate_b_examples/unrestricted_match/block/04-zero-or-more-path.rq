@@ -1,0 +1,3 @@
+# why: (p|^p)* relates every node to itself
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(*) AS ?pairs) WHERE { GRAPH ?g { ?s (sphn:hasCode|^sphn:hasCode)* ?o } }

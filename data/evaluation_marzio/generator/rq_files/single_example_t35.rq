@@ -1,0 +1,9 @@
+# question: how many men and women have a record of their body position as an anatomical finding?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT ?sex (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?r a sphn:BodyPosition ; sphn:hasCode ?r_c . ?r_c isa snomed:51845000 . ?s a sphn:AdministrativeSex ; sphn:hasCode ?sc . ?sc a ?sex_concept . } VALUES (?sex_concept ?sex) { (snomed:248153007 "male") (snomed:248152002 "female") (snomed:32570681000036106 "indeterminate") } } GROUP BY ?sex ORDER BY DESC(?patients)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?sex (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?r a sphn:BodyPosition ; sphn:hasCode ?r_c . ?r_c rdf:type snomed:51845000 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?s a sphn:AdministrativeSex ; sphn:hasCode ?sc . ?sc a ?sex_concept . } VALUES (?sex_concept ?sex) { (snomed:248153007 "male") (snomed:248152002 "female") (snomed:32570681000036106 "indeterminate") } } GROUP BY ?sex ORDER BY DESC(?patients)

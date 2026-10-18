@@ -1,0 +1,8 @@
+# question: i am investigating the distribution of white blood cell counts in our patient population to identify potential outliers and need the number of records falling below 3400 per microliter, between 3400 and 6600 per microliter, and at or above 6600 per microliter
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (SUM(IF(?v < 3400.0, 1, 0)) AS ?low) (SUM(IF(?v >= 3400.0 && ?v < 6600.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 6600.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:QualityControlMetric ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:10exp6peruL . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT (SUM(IF(?v < 3400.0, 1, 0)) AS ?low) (SUM(IF(?v >= 3400.0 && ?v < 6600.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 6600.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:QualityControlMetric ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:10exp6peruL . } }

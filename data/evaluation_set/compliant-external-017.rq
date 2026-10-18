@@ -1,0 +1,24 @@
+# question: For each UCUM unit, what are the mean and maximum stored numeric mean-read-depth values across distinct sequencing runs?
+# expected_compliant: true
+# expected_rules: none
+# origin: external LLM (entry-017.rq, rules none)
+# notes: Returns population-level numeric summaries grouped by terminology concepts rather than record identifiers.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?unit (AVG(?value) AS ?mean_depth) (MAX(?value) AS ?maximum_depth)
+WHERE {
+  {
+    SELECT DISTINCT ?g ?run ?quantity ?unit ?value
+    WHERE {
+      GRAPH ?g {
+        ?assay a sphn:SequencingAssay ;
+               sphn:hasSequencingRun ?run .
+        ?run sphn:hasMeanReadDepth ?quantity .
+        ?quantity sphn:hasValue ?value ;
+                  sphn:hasUnit/sphn:hasCode ?unit_code .
+        ?unit_code a ?unit .
+      }
+      FILTER(STRSTARTS(STR(?unit), "https://biomedit.ch/rdf/sphn-resource/ucum/"))
+    }
+  }
+}
+GROUP BY ?unit

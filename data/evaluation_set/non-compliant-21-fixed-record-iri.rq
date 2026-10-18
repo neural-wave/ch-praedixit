@@ -1,0 +1,13 @@
+# question: How many billed diagnoses belong to hospital stay 2780b270-12d1-45e7-977f-ed23e3b8a42a?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: bypass
+# notes: A record IRI written in full pins one patient as a patient graph IRI would.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (COUNT(?diagnosis) AS ?billed_diagnoses)
+WHERE {
+  GRAPH ?g {
+    ?diagnosis sphn:hasAdministrativeCase <https://biomedit.ch/rdf/sphn-resource/CHE-108_904_325-sphn-AdministrativeCase-2780b270-12d1-45e7-977f-ed23e3b8a42a> .
+  }
+}

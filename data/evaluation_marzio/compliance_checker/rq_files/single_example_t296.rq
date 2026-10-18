@@ -1,0 +1,7 @@
+# question: Listez tous les patients avec ces morphologies cellulaires.
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> SELECT DISTINCT ?g WHERE { GRAPH ?g { ?r a sphn:MicrobiologyMicroscopyResult ; sphn:hasCellMorphology ?v . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT DISTINCT ?g WHERE { GRAPH ?g { ?r a sphn:MicrobiologyMicroscopyResult ; sphn:hasCellMorphology ?v . } }

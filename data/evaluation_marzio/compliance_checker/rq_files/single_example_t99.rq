@@ -1,0 +1,7 @@
+# question: How many distinct patients and records correspond to each specific code value for cell morphology found in the microbiology microscopy result tables?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> SELECT ?value (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:MicrobiologyMicroscopyResult ; sphn:hasCellMorphology ?v . } BIND(STRAFTER(STR(?v), "#") AS ?value) } GROUP BY ?value ORDER BY DESC(?records)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?value (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?r) AS ?records) WHERE { GRAPH ?g { ?r a sphn:MicrobiologyMicroscopyResult ; sphn:hasCellMorphology ?v . } BIND(STRAFTER(STR(?v), "#") AS ?value) } GROUP BY ?value ORDER BY DESC(?records)

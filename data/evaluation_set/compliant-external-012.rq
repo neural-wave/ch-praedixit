@@ -1,0 +1,16 @@
+# question: For each calendar year, how many patients had a consent record dated in that year?
+# expected_compliant: true
+# expected_rules: none
+# origin: external LLM (entry-012.rq, rules none)
+# notes: Returns counts grouped by calendar year rather than individual consent records.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?year (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?consent a sphn:Consent ;
+             sphn:hasDateTime ?date .
+  }
+  BIND(YEAR(?date) AS ?year)
+}
+GROUP BY ?year
+ORDER BY ?year

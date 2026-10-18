@@ -1,0 +1,3 @@
+# why: excludes one patient's code identifier
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?article a sphn:DrugArticle ; sphn:hasCode ?article_code . ?article_code sphn:hasIdentifier ?code_id . } FILTER (?code_id != "ID-10000540000003") }

@@ -1,0 +1,15 @@
+# question: How many billed diagnoses were recorded at each moment?
+# expected_compliant: false
+# expected_rules: not_aggregated
+# origin: bypass
+# notes: Record date-times have microseconds, so every group is a single record. Compare compliant-25, which groups by year.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?recorded (COUNT(?diagnosis) AS ?billed_diagnoses)
+WHERE {
+  GRAPH ?g {
+    ?diagnosis a sphn:BilledDiagnosis ;
+               sphn:hasRecordDateTime ?recorded .
+  }
+}
+GROUP BY ?recorded

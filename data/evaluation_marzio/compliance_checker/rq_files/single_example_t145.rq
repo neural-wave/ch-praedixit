@@ -1,0 +1,8 @@
+# question: as an epidemiologist studying hematologic malignancies i need to stratify the distribution of platelet counts for patients associated with code c91 into three specific bands: below 4000, between 4000 and 6900, and above 6900 to assess potential diagnostic criteria anomalies in our cohort
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/> SELECT (SUM(IF(?v < 4000.0, 1, 0)) AS ?low) (SUM(IF(?v >= 4000.0 && ?v < 6900.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 6900.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:QualityControlMetric ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:10exp3permL . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT (SUM(IF(?v < 4000.0, 1, 0)) AS ?low) (SUM(IF(?v >= 4000.0 && ?v < 6900.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 6900.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:QualityControlMetric ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:10exp3permL . } }

@@ -1,0 +1,10 @@
+# question: How many patients have a billed diagnosis of cholera, per diagnosis rank?
+# source: compliance/tests/test_rules.py::test_case[group_by_individual]
+# description: case (group_by_individual)
+# expected_compliant: true
+# expected_rules: none
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+SELECT ?rank (COUNT(DISTINCT ?g) AS ?n) WHERE { GRAPH ?g { ?dx a sphn:BilledDiagnosis ; sphn:hasCode ?dx_code .
+?dx_code a icd-10-gm:A00 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . ?dx sphn:hasRank ?rank . } } GROUP BY ?rank

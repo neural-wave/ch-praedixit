@@ -1,0 +1,16 @@
+# question: For each recorded sample fixation method, how many patients have a sample preserved that way?
+# expected_compliant: true
+# expected_rules: none
+# origin: external LLM (entry-008.rq, rules none)
+# notes: Groups population counts by a fixation category without returning sample or patient identifiers.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?fixation_method (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?sample a sphn:Sample ;
+            sphn:hasFixationType ?fixation .
+  }
+  BIND(STRAFTER(STR(?fixation), "#") AS ?fixation_method)
+}
+GROUP BY ?fixation_method
+ORDER BY DESC(?patients)

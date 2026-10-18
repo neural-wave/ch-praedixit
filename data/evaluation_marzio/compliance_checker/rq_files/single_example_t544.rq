@@ -1,0 +1,10 @@
+# question: Retrieve avg, min, max duration (hrs) for SNOMED 138875005 and 74964007 records.
+# expected_compliant: true
+# expected_rules: none
+# origin: test set T3 (worded by the other model)
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX bif: <bif:> SELECT (COUNT(DISTINCT ?r) AS ?records) (COUNT(DISTINCT ?g) AS ?patients) (ROUND(AVG(?d)) AS ?avg_hours) (MIN(?d) AS ?min_hours) (MAX(?d) AS ?max_hours) WHERE { GRAPH ?g { ?r a sphn:RadiotherapyProcedure ; sphn:hasCode ?r_c . { ?r_c rdf:type snomed:138875005 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type snomed:74964007 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } FILTER(?end >= ?start) BIND(bif:datediff("hour", ?start, ?end) AS ?d) }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX bif: <bif:>
+SELECT (COUNT(DISTINCT ?r) AS ?records) (COUNT(DISTINCT ?g) AS ?patients) (ROUND(AVG(?d)) AS ?avg_hours) (MIN(?d) AS ?min_hours) (MAX(?d) AS ?max_hours) WHERE { GRAPH ?g { ?r a sphn:RadiotherapyProcedure ; sphn:hasCode ?r_c . { ?r_c rdf:type snomed:138875005 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } UNION { ?r_c rdf:type snomed:74964007 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") } ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } FILTER(?end >= ?start) BIND(bif:datediff("hour", ?start, ?end) AS ?d) }

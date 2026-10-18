@@ -1,0 +1,18 @@
+# question: How many women born in 1975 have Orphanet disease 558?
+# expected_compliant: true
+# expected_rules: none
+# origin: bypass
+# notes: Allowed by RULES.md as written: two identifying attributes (sex, birth year); a diagnosis is not one.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ordo: <https://biomedit.ch/rdf/sphn-resource/ordo/>
+PREFIX snomed: <http://snomed.info/id/>
+
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?diagnosis a sphn:Diagnosis ; sphn:hasCode ?code . ?code a ordo:Orphanet_558 .
+    ?sex a sphn:AdministrativeSex ; sphn:hasCode ?sex_code . ?sex_code a snomed:248152002 .
+    ?birth_date a sphn:BirthDate ; sphn:hasYear ?year .
+  }
+  FILTER (?year = 1975)
+}

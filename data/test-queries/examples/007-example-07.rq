@@ -1,0 +1,31 @@
+# question: What are the most common ways we give drugs, how long do those treatments last, and how many start while the patient is still in hospital?
+# source: compliance/tests/test_rules.py::test_seed[example-07]
+# expected_compliant: true
+# expected_rules: none
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX bif: <bif:>
+
+SELECT ?route_concept
+       (COUNT(DISTINCT ?g) AS ?patients)
+       (COUNT(DISTINCT ?administration) AS ?administrations)
+       (ROUND(1000.0 * SUM(?during_stay) / COUNT(?administration)) / 10 AS ?started_during_hospital_stay_pct)
+       (ROUND(AVG(?treatment_hours)) AS ?avg_treatment_hours)
+WHERE {
+  GRAPH ?g {
+    ?administration a sphn:DrugAdministrationEvent ;
+                    sphn:hasAdministrativeCase ?case ;
+                    sphn:hasAdministrationRouteCode ?route_code ;
+                    sphn:hasStartDateTime ?start ;
+                    sphn:hasEndDateTime ?end .
+    ?route_code a ?route_concept .
+    ?case a sphn:AdministrativeCase ;
+          sphn:hasAdmissionDateTime ?admission ;
+          sphn:hasDischargeDateTime ?discharge .
+  }
+  FILTER (STRSTARTS(STR(?route_concept), "http://snomed.info/id/"))
+  FILTER (?end >= ?start)
+  BIND (IF(?start >= ?admission && ?start <= ?discharge, 1, 0) AS ?during_stay)
+  BIND (bif:datediff("hour", ?start, ?end) AS ?treatment_hours)
+}
+GROUP BY ?route_concept
+ORDER BY DESC(?patients)

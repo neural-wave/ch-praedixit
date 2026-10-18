@@ -1,0 +1,13 @@
+# question: In the graph gen_mock_data-1_1001921, how many height-measurement events are recorded?
+# expected_compliant: false
+# expected_rules: single_patient, not_aggregated
+# origin: external LLM (entry-027.rq, rules QC1, QC2)
+# notes: Hiding the fixed patient graph behind a variable and FILTER does not make the query population-wide.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?measurement) AS ?height_measurements)
+WHERE {
+  GRAPH ?g {
+    ?measurement a sphn:BodyHeightMeasurement .
+  }
+  FILTER(STR(?g) = "http://example.org/graph/gen_mock_data-1_1001921")
+}

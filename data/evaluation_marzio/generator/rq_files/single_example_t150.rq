@@ -1,0 +1,8 @@
+# question: how long do blood pressure checks take on average min and max
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?r) AS ?records) (COUNT(DISTINCT ?g) AS ?patients) (ROUND(AVG(?d)) AS ?avg_hours) (MIN(?d) AS ?min_hours) (MAX(?d) AS ?max_hours) WHERE { GRAPH ?g { ?r a sphn:BloodPressureMeasurement . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } FILTER(?end >= ?start) BIND(bif:datediff("hour", ?start, ?end) AS ?d) }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX bif: <bif:>
+SELECT (COUNT(DISTINCT ?r) AS ?records) (COUNT(DISTINCT ?g) AS ?patients) (ROUND(AVG(?d)) AS ?avg_hours) (MIN(?d) AS ?min_hours) (MAX(?d) AS ?max_hours) WHERE { GRAPH ?g { ?r a sphn:BloodPressureMeasurement . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } FILTER(?end >= ?start) BIND(bif:datediff("hour", ?start, ?end) AS ?d) }

@@ -1,0 +1,6 @@
+# question: Ich arbeite derzeit an einem Audit zur Datenqualität unserer elektronischen Patientenakten und muss verstehen, wie häufig spezifische ICD-10-CM-Codes im gesamten System vorkommen, ohne mich auf bestimmte Diagnosegruppen oder Patientensegmente zu beschränken. Könnten Sie mir bitte eine vollständige Aufschlüsselung geben, die zählt, wie oft jeder einzelne Code-Eintrag in allen vorhandenen Datensätzen verwendet wird? Ich benötige diese allgemeine Häufigkeitsverteilung aller kodierten Eigenschaften, um systemweite Muster zu identifizieren.
+# expected_compliant: false
+# expected_rules: unrestricted_match
+# origin: train
+# notes: SELECT ?p (COUNT(*) AS ?uses) WHERE { GRAPH ?g { ?s ?p ?o } } GROUP BY ?p ORDER BY DESC(?uses)
+SELECT ?p (COUNT(*) AS ?uses) WHERE { GRAPH ?g { ?s ?p ?o } } GROUP BY ?p ORDER BY DESC(?uses)

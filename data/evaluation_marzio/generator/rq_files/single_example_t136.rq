@@ -1,0 +1,8 @@
+# question: calculate the distribution of c91 values within the 24 hour window into bands less than 4400 4400 to less than 7000 and greater than or equal to 7000
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (SUM(IF(?v < 4400.0, 1, 0)) AS ?low) (SUM(IF(?v >= 4400.0 && ?v < 7000.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 7000.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:Drug ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:24doth . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX ucum: <https://biomedit.ch/rdf/sphn-resource/ucum/>
+SELECT (SUM(IF(?v < 4400.0, 1, 0)) AS ?low) (SUM(IF(?v >= 4400.0 && ?v < 7000.0, 1, 0)) AS ?middle) (SUM(IF(?v >= 7000.0, 1, 0)) AS ?high) WHERE { GRAPH ?g { ?r a sphn:Drug ; sphn:hasQuantity ?q . ?q sphn:hasValue ?v ; sphn:hasUnit/sphn:hasCode ?u . ?u a ucum:24doth . } }

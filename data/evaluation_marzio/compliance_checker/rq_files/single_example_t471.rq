@@ -1,0 +1,9 @@
+# question: Können Sie für den einzelnen Patienten mit der ID 5257 die Anzahl der Datensätze ermitteln, bei denen das Lupus-Antikörper-SNOMED-CT-Codes 259748006 und der Mikrobiologie-Test-Finanzierungsqualifikator 282566008 auftritt?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: dev
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT (COUNT(DISTINCT ?b) AS ?records) WHERE { GRAPH <http://example.org/graph/mock_data-1_5257> { ?b a sphn:Substance ; sphn:hasCode ?b_c . ?b_c rdf:type snomed:259748006 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?b) AS ?records) WHERE { GRAPH <http://example.org/graph/mock_data-1_5257> { ?b a sphn:Substance ; sphn:hasCode ?b_c . ?b_c rdf:type snomed:259748006 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

@@ -1,0 +1,3 @@
+# why: code identifiers with the coding system restricted to ICD-10-GM are shared codes
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?code_id (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?article a sphn:DrugArticle ; sphn:hasCode ?article_code . ?article_code sphn:hasIdentifier ?code_id . ?article_code sphn:hasCodingSystemAndVersion ?system . } FILTER (STRSTARTS(?system, "ICD-10-GM")) } GROUP BY ?code_id

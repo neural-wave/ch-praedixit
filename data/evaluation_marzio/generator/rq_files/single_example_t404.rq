@@ -1,0 +1,14 @@
+# question: How many patients had an excision of a skin lesion for histology performed?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?g) AS ?count) WHERE { GRAPH ?g { ?r a sphn:BodyHeightMeasurement . ?r sphn:hasMethodCode ?c . FILTER(?c = snomed:287539003) } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+SELECT (COUNT(DISTINCT ?g) AS ?count) WHERE {
+  GRAPH ?g {
+    ?r a sphn:BodyHeightMeasurement .
+    ?r sphn:hasMethodCode ?c .
+    FILTER(?c = snomed:287539003)
+  }
+}

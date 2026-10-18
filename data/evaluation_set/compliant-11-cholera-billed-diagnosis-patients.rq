@@ -1,0 +1,16 @@
+# question: How many patients have a billed diagnosis of cholera?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set
+# notes: The data types diagnosis codes with versioned ICD-10-GM classes, so the unversioned icd-10-gm:A00 matches only through inference.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?diagnosis a sphn:BilledDiagnosis ;
+               sphn:hasCode ?code .
+    ?code a icd-10-gm:A00 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") .
+  }
+}

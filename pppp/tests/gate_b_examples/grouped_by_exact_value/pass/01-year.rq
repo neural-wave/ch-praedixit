@@ -1,0 +1,3 @@
+# why: YEAR of a date-time is a bucket
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?y (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?diagnosis a sphn:BilledDiagnosis ; sphn:hasRecordDateTime ?date . } } GROUP BY (YEAR(?date) AS ?y)

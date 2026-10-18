@@ -1,0 +1,12 @@
+# question: How many patients have a drug article whose code contains 10000540000003?
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: bypass
+# notes: The code node's coding system is not restricted, so its identifier is the per-patient ID-<patient><sequence>; a digit run of 7 or more is a part of it.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g { ?article a sphn:DrugArticle ; sphn:hasCode ?code . ?code sphn:hasIdentifier ?code_id . }
+  FILTER (CONTAINS(?code_id, "10000540000003"))
+}

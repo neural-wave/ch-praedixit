@@ -1,0 +1,11 @@
+# question: How many patients are children (under 18) and how many are adults?
+# source: compliance/tests/test_risk_probes.py::test_default_mode[age_bucket_if]
+# description: BIND/IF bucketing then group
+# expected_compliant: true
+# expected_rules: none
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX icd-10-gm: <https://biomedit.ch/rdf/sphn-resource/icd-10-gm/>
+PREFIX bif: <bif:>
+SELECT ?bucket (COUNT(DISTINCT ?g) AS ?n) WHERE { GRAPH ?g { ?a a sphn:Age ; sphn:hasQuantity/sphn:hasValue ?v . } BIND(IF(?v < 18, "child", "adult") AS ?bucket) } GROUP BY ?bucket

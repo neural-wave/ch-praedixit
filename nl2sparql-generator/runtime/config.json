@@ -1,0 +1,20 @@
+{
+  "backend": "ollama",
+  "model": "qwen3.8:27b",
+  "llm_url": "http://localhost:11434",
+  "endpoint": "http://localhost:8890/sparql",
+  "use_endpoint": false,
+  "num_ctx": 8192,
+  "analysis": true,
+  "n_examples": 6,
+  "max_repairs": 0,
+  "repair_temperature": 0.3,
+  "repair_on_warnings": ["no_graph", "fanout", "cross_patient", "code_label", "empty"],
+  "check_code_meaning": true,
+  "example_bank": "resources/examples.jsonl",
+  "schema": "resources/schema.json",
+  "terminology": "resources/terminology.sqlite",
+  "max_schema_classes": 7,
+  "max_codes": 10,
+  "execution_timeout": 20
+}

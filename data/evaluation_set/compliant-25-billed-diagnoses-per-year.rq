@@ -1,0 +1,17 @@
+# question: How many billed diagnoses were recorded each year?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set
+# notes: Groups by the year of a date-time literal. A checker that only allows class or constant group keys rejects it wrongly.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?year (COUNT(?diagnosis) AS ?billed_diagnoses) (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?diagnosis a sphn:BilledDiagnosis ;
+               sphn:hasRecordDateTime ?recorded .
+  }
+  BIND (YEAR(?recorded) AS ?year)
+}
+GROUP BY ?year
+ORDER BY ?year

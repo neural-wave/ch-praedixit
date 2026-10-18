@@ -1,0 +1,15 @@
+# question: List the admission and discharge timestamps for every hospital stay, leaving out case identifiers.
+# expected_compliant: false
+# expected_rules: not_aggregated
+# origin: external LLM (entry-032.rq, rules QC2)
+# notes: Each returned row describes an individual hospital stay rather than a population aggregate.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT ?admission ?discharge
+WHERE {
+  GRAPH ?g {
+    ?case a sphn:AdministrativeCase ;
+          sphn:hasAdmissionDateTime ?admission ;
+          sphn:hasDischargeDateTime ?discharge .
+  }
+}
+ORDER BY ?admission

@@ -1,0 +1,7 @@
+# question: List patient identifiers associated with each specific cell count estimate code.
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: dev
+# notes: SELECT DISTINCT ?id WHERE { GRAPH ?g { ?r a sphn:MicrobiologyMicroscopyResult ; sphn:hasCellCountEstimateCode ?v_c . ?v_c a ?v . ?r sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier ?id . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT DISTINCT ?id WHERE { GRAPH ?g { ?r a sphn:MicrobiologyMicroscopyResult ; sphn:hasCellCountEstimateCode ?v_c . ?v_c a ?v . ?r sphn:hasSubjectPseudoIdentifier ?p . ?p sphn:hasIdentifier ?id . } }

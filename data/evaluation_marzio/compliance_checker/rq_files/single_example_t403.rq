@@ -1,0 +1,14 @@
+# question: How many patients have a documented 'Not for resuscitation' status?
+# expected_compliant: true
+# expected_rules: none
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> SELECT (COUNT(DISTINCT ?g) AS ?count) WHERE { GRAPH ?g { ?r a sphn:ResuscitationDirective . ?r sphn:hasCode ?c . FILTER(?c = snomed:304253006) } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+SELECT (COUNT(DISTINCT ?g) AS ?count) WHERE {
+  GRAPH ?g {
+    ?r a sphn:ResuscitationDirective .
+    ?r sphn:hasCode ?c .
+    FILTER(?c = snomed:304253006)
+  }
+}

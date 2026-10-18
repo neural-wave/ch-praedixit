@@ -1,0 +1,54 @@
+# question: When a doctor prescribes a drug to be given a certain way (by mouth, IV and so on), how often is it actually given that way during the same stay?
+# expected_compliant: true
+# expected_rules: none
+# origin: queries-example.md section 5
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?route_agreement (COUNT(*) AS ?prescriptions) (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  {
+    SELECT ?g ?prescription (MAX(?administered) AS ?was_given) (MAX(?same_route) AS ?any_match)
+    WHERE {
+      GRAPH ?g {
+        ?prescription a sphn:DrugPrescription ;
+                      sphn:hasAdministrativeCase ?case ;
+                      sphn:hasDrug ?prescribed_drug ;
+                      sphn:hasAdministrationRouteCode ?prescribed_code .
+        ?prescribed_code a ?prescribed_route .
+        FILTER (STRSTARTS(STR(?prescribed_route), "http://snomed.info/id/"))
+        OPTIONAL {
+          ?administration a sphn:DrugAdministrationEvent ;
+                          sphn:hasAdministrativeCase ?case ;
+                          sphn:hasDrug ?given_drug ;
+                          sphn:hasAdministrationRouteCode ?given_code .
+          ?given_code a ?given_route .
+          FILTER (STRSTARTS(STR(?given_route), "http://snomed.info/id/"))
+          {
+            ?prescribed_drug sphn:hasActiveIngredient/sphn:hasCode ?prescribed_ingredient_code .
+            ?prescribed_ingredient_code a ?ingredient .
+            ?given_drug sphn:hasActiveIngredient/sphn:hasCode ?given_ingredient_code .
+            ?given_ingredient_code a ?ingredient .
+            FILTER (STRSTARTS(STR(?ingredient), "http://snomed.info/id/"))
+          }
+          UNION
+          {
+            ?prescribed_drug sphn:hasArticle/sphn:hasCode ?prescribed_article .
+            ?prescribed_article sphn:hasIdentifier ?article_id ;
+                                sphn:hasCodingSystemAndVersion ?article_system .
+            ?given_drug sphn:hasArticle/sphn:hasCode ?given_article .
+            ?given_article sphn:hasIdentifier ?article_id ;
+                           sphn:hasCodingSystemAndVersion ?article_system .
+          }
+        }
+      }
+      BIND (IF(BOUND(?administration), 1, 0) AS ?administered)
+      BIND (IF(BOUND(?administration) && ?prescribed_route = ?given_route, 1, 0) AS ?same_route)
+    }
+    GROUP BY ?g ?prescription
+  }
+  BIND (IF(?any_match = 1, "1: given by the prescribed route",
+        IF(?was_given = 1, "2: given only by a different route",
+                           "3: drug not given during the same stay")) AS ?route_agreement)
+}
+GROUP BY ?route_agreement
+ORDER BY ?route_agreement

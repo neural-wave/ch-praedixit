@@ -1,0 +1,22 @@
+# question: How many cancer patients are there for each ICD-10-GM code, sex and year of birth?
+# expected_compliant: ambiguous
+# expected_rules: single_patient
+# origin: test set
+# notes: Aggregated and without identifiers, but with about 4,000 cancer patients most groups contain one patient. Depends on whether a minimum group size applies.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?icd_concept ?sex ?birth_year (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?diagnosis a sphn:OncologyDiagnosis ;
+               sphn:hasCode ?code .
+    ?code a ?icd_concept .
+    ?sex_record a sphn:AdministrativeSex ;
+                sphn:hasCode ?sex_code .
+    ?sex_code a ?sex .
+    ?birth_date a sphn:BirthDate ;
+                sphn:hasYear ?birth_year .
+  }
+}
+GROUP BY ?icd_concept ?sex ?birth_year
+ORDER BY ?patients

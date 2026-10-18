@@ -1,0 +1,39 @@
+# question: Which kinds of therapeutic ultrasound do we bill most, how often is it the main procedure of the stay, and how long does it usually take?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set T1 (official example)
+# notes: SELECT ?chop_code (SAMPLE(?label) AS ?procedure) (COUNT(DISTINCT ?g) AS ?patients) (COUNT(DISTINCT ?principal_patient) AS ?patients_as_principal_procedure) (ROUND(AVG(?duration_hours)) AS ?avg_duration_hours) WHERE { GRAPH ?g { ?proc a sphn:BilledProcedure ; sphn:hasRank ?rank ; sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end ; sphn:hasCode ?code . ?code isa chop:00.0 . ?code a ?concept . } FILTER (STRSTARTS(STR(?concept), STR(chop:))) BIND (REPLACE(STR(?concept), "^.*/", "") AS ?chop_code) FILTER (REGEX(?chop_code, "^00\\.0[0-9]$")) OPTIONAL { GRAPH <https://biomedit.ch/rdf/sphn-resource/global> { ?concept rdfs:label ?label . } FILTER (LANGMATCHES(LANG(?label), "de")) } OPTIONAL { GRAPH ?principal_patient { ?proc sphn:hasRank sphn-individual:Principal . } } BIND (bif:datediff("hour", ?start, ?end) AS ?duration_hours) } GROUP BY ?chop_code ORDER BY DESC(?patients)
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX sphn-individual: <https://biomedit.ch/rdf/sphn-schema/sphn/individual#>
+PREFIX chop: <https://biomedit.ch/rdf/sphn-resource/chop/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX bif: <bif:>
+SELECT ?chop_code (SAMPLE(?label) AS ?procedure)
+       (COUNT(DISTINCT ?g) AS ?patients)
+       (COUNT(DISTINCT ?principal_patient) AS ?patients_as_principal_procedure)
+       (ROUND(AVG(?duration_hours)) AS ?avg_duration_hours)
+WHERE {
+  GRAPH ?g {
+    ?proc a sphn:BilledProcedure ;
+          sphn:hasRank ?rank ;
+          sphn:hasStartDateTime ?start ;
+          sphn:hasEndDateTime ?end ;
+          sphn:hasCode ?code .
+    ?code rdf:type chop:00.0 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") .
+    ?code a ?concept .
+  }
+  FILTER (STRSTARTS(STR(?concept), STR(chop:)))
+  BIND (REPLACE(STR(?concept), "^.*/", "") AS ?chop_code)
+  FILTER (REGEX(?chop_code, "^00\\.0[0-9]$"))
+  OPTIONAL {
+    GRAPH <https://biomedit.ch/rdf/sphn-resource/global> { ?concept rdfs:label ?label . }
+    FILTER (LANGMATCHES(LANG(?label), "de"))
+  }
+  OPTIONAL {
+    GRAPH ?principal_patient { ?proc sphn:hasRank sphn-individual:Principal . }
+  }
+  BIND (bif:datediff("hour", ?start, ?end) AS ?duration_hours)
+}
+GROUP BY ?chop_code
+ORDER BY DESC(?patients)

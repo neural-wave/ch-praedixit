@@ -1,0 +1,12 @@
+# question: How many patients have either a height measurement or a weight measurement?
+# expected_compliant: true
+# expected_rules: none
+# origin: external LLM (entry-007.rq, rules none)
+# notes: UNION combines two restricted cohorts and DISTINCT prevents counting patients twice.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+SELECT (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  { GRAPH ?g { ?measurement a sphn:BodyHeightMeasurement . } }
+  UNION
+  { GRAPH ?g { ?measurement a sphn:BodyWeightMeasurement . } }
+}

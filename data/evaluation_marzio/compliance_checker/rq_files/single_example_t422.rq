@@ -1,0 +1,16 @@
+# question: Could you tell me which patients were seen at a location classified as a gymnasium?
+# expected_compliant: false
+# expected_rules: exposes_identifier
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> PREFIX snomed: <http://snomed.info/id/> SELECT DISTINCT ?patientId WHERE { GRAPH ?g { ?patientId a sphn:Patient . ?location a sphn:Location ; sphn:hasTypeCode snomed:216364003 . OPTIONAL { ?location sphn:hasDataProvider ?provider } } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+SELECT DISTINCT ?patientId
+WHERE {
+  GRAPH ?g {
+    ?patientId a sphn:Patient .
+    ?location a sphn:Location ;
+              sphn:hasTypeCode snomed:216364003 .
+    OPTIONAL { ?location sphn:hasDataProvider ?provider }
+  }
+}

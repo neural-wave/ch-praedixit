@@ -1,0 +1,9 @@
+# question: Query count for patient-49290, C91 codes only.
+# expected_compliant: false
+# expected_rules: single_patient
+# origin: train
+# notes: SELECT (COUNT(DISTINCT ?a) AS ?records) WHERE { GRAPH <http://example.org/graph/patient-49290> { ?a a sphn:Intent ; sphn:hasCode ?a_c . ?a_c isa snomed:421974008 . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT (COUNT(DISTINCT ?a) AS ?records) WHERE { GRAPH <http://example.org/graph/patient-49290> { ?a a sphn:Intent ; sphn:hasCode ?a_c . ?a_c rdf:type snomed:421974008 OPTION (inference "https://biomedit.ch/rdf/sphn-resource/global") . } }

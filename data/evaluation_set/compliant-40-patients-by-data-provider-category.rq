@@ -1,0 +1,17 @@
+# question: What kinds of institutions provide our data, and for how many patients each?
+# expected_compliant: true
+# expected_rules: none
+# origin: test set
+# notes: Groups by the category of the data provider (a named individual), not by the provider record itself.
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+
+SELECT ?provider_category (COUNT(DISTINCT ?g) AS ?patients)
+WHERE {
+  GRAPH ?g {
+    ?case a sphn:AdministrativeCase ;
+          sphn:hasDataProvider ?provider .
+    ?provider sphn:hasCategory ?provider_category .
+  }
+}
+GROUP BY ?provider_category
+ORDER BY DESC(?patients)

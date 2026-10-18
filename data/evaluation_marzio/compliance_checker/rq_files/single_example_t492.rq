@@ -1,0 +1,6 @@
+# question: Count all triples and graphs for C91 patients
+# expected_compliant: false
+# expected_rules: unrestricted_match
+# origin: dev
+# notes: SELECT (COUNT(*) AS ?triples) (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?s ?p ?o } }
+SELECT (COUNT(*) AS ?triples) (COUNT(DISTINCT ?g) AS ?patients) WHERE { GRAPH ?g { ?s ?p ?o } }

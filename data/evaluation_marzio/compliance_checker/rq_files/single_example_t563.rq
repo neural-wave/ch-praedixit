@@ -1,0 +1,7 @@
+# question: show full details for blood cancer records
+# expected_compliant: false
+# expected_rules: not_select
+# origin: test set T3 (worded by the other model)
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> DESCRIBE ?r WHERE { GRAPH ?g { ?r a sphn:InsuranceStatus . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+DESCRIBE ?r WHERE { GRAPH ?g { ?r a sphn:InsuranceStatus . ?r sphn:hasStartDateTime ?start ; sphn:hasEndDateTime ?end . } }

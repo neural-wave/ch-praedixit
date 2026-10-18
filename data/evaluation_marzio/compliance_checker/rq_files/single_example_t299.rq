@@ -1,0 +1,7 @@
+# question: export all civil status codes with full patient records as rdf graph
+# expected_compliant: false
+# expected_rules: not_select
+# origin: train
+# notes: PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#> CONSTRUCT { ?r ?p ?o } WHERE { GRAPH ?g { ?r a sphn:CivilStatus ; sphn:hasCode ?v_c . ?v_c a ?v . ?r ?p ?o . } }
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+CONSTRUCT { ?r ?p ?o } WHERE { GRAPH ?g { ?r a sphn:CivilStatus ; sphn:hasCode ?v_c . ?v_c a ?v . ?r ?p ?o . } }
